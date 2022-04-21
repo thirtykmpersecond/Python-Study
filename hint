@@ -6,4 +6,4 @@ hint:   git config --global init.defaultBranch <name>
 hint:
 hint: 'development'. The just-created branch can be renamed via this command:
 hint:   git branch -m <name>
-aa
+a a
