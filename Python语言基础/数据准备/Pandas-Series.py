@@ -44,7 +44,7 @@ print(x['second']) #按索引名访问
 x = x.append(Series(['2']))
 print(x)
 
-#判断值是否存在，数字型和布尔型时不需要加引号的
+#判断值是否存在，数字型和布尔型时不需要加引号
 print(2 in x.values)
 print('2' in x.values)
 #切片，python中区间为左开右闭，[1,3)
@@ -52,7 +52,7 @@ print(x[1:3])
 print('--------------')
 #按定位获取,经常用于随机抽样
 print(x[[0,'third','first']])
-print('----------')
+print('-----here-----')
 
 #根据index名称删除，返回一个除x[index]外的序列，真正删除需要一个赋值动作
 print(x.drop(0))
