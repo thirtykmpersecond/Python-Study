@@ -29,5 +29,39 @@ D = df.at[0,'name'];print(D)
 ## DataFrame的index
 DataFrame的index可以是任意的，不会像Series报错，也可以自己加序列信息
 ```python
+df1 = DataFrame({'age':[21,22,23], 'name':['Ken','John','Jimi']})
+df2 = DataFrame(data = {'age':[21,22,23],'name':['Ken','John','Jimi']},
+                index=['first','second','third'])
+```
 
+## 访问部分行时，不能仅用index访问
+```python
+#访问1-99行的数据
+df[1:100]
+#显示为空
+print(df1[2:2])
+print(df1[4:1])
+print('-----')
+```
+## 按索引名访问某一行/多行
+```python
+df2['third':'third']
+df2['first':'second']
+```
+
+## 访问列
+```python
+df1['age']
+df1[df1.colmns[0:1]]
+```
+
+## 访问块
+```python
+df1.iloc[0:1,0:1]
+```
+
+## 访问位置
+```python
+df1.at[1,'name']
+df2.at['second','name']
 ```
