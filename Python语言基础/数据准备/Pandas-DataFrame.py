@@ -72,14 +72,14 @@ df1['newColumn'] = [2,4,6]
 print(df1)
 #增加行，但此方法效率太低
 print(len(df2))
-df1.loc[len(df1)] = [24,'Keno']
-print(df1)
+df2.loc[len(df2)] = [24,'Keno']
+print(df2)
 print('----')
 df3 = DataFrame([[1,2],[3,4]], columns=list('AB'))
 df4 = DataFrame([[5,6],[7,8]], columns=list('AB'))
 print(df3,"\n",df4)
 #方法一，合并只是简单地"叠加"成新的数据框，不修改index
 print('----')
-print(df3.append(df4))
+print(pandas.concat([df3,df4]))
 #方法二，合并生成一个新的数据框，产生新的index
-print(df3.append(df4,ignore_index=True))
+print(pandas.concat([df3,df4],ignore_index=True))

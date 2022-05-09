@@ -65,3 +65,47 @@ df1.iloc[0:1,0:1]
 df1.at[1,'name']
 df2.at['second','name']
 ```
++ 有索引名时再用索引号就会报错
+
+## 修改列名
+```python
+df1.columns=['age2','name2']
+```
+
+## 修改行索引
+```python
+df1.index = range(1,4)
+```
+
+## 根据行索引删除
+```python
+df1.drop(1,axis=0)
+```
++ axis=0表示行轴，可以省略
+
+## 根据列名删除
+```python
+df1.drop('age2',axis = 1)
+#第二种删除列的方法
+del df1['name2']
+print(df1)
+```
++ axis=1表示列轴，不可省略
+
+## 增加列
+```python
+df1['newColumn'] = [2,4,6]
+```
+
+## 增加行
+```python
+#此方法效率太低
+print(len(df2))
+df2.loc[len(df2)] = [24,'Keno']
+print(df2)
+#方法一，合并只是简单地"叠加"成新的数据框，不修改index
+print('----')
+print(pandas.concat([df3,df4]))
+#方法二，合并生成一个新的数据框，产生新的index
+print(pandas.concat([df3,df4],ignore_index=True))
+```

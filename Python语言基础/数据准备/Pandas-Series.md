@@ -49,7 +49,7 @@ pd.concat([x,Series(['2'])],ignore_index=True)
 **FutureWarning: The `series.append` method is deprecated and will be removed from pandas in a future version. Use `pandas.concat` instead.
   x = x.append(Series(['2']))**
 ```python
-concat([objs], axis=0, join='outer', join_axes=None, ignore_index=False, 
+concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False, 
        keys=None, levels=None, names=None, verify_integrity=False, copy=True)
 ```
 + objs：需要连接的对象集合，一般是列表或字典；
