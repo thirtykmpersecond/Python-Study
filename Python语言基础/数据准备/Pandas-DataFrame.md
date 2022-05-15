@@ -27,7 +27,8 @@ C = df.iloc[0:2,0:2];print(C)
 D = df.at[0,'name'];print(D)
 ```
 ## DataFrame的index
-DataFrame的index可以是任意的，不会像Series报错，也可以自己加序列信息
++ DataFrame的index可以是任意的，不会像Series报错，也可以自己加序列信息
++ key值作为列名[clomuns]
 ```python
 df1 = DataFrame({'age':[21,22,23], 'name':['Ken','John','Jimi']})
 df2 = DataFrame(data = {'age':[21,22,23],'name':['Ken','John','Jimi']},
@@ -105,6 +106,9 @@ df2.loc[len(df2)] = [24,'Keno']
 print(df2)
 #方法一，合并只是简单地"叠加"成新的数据框，不修改index
 print('----')
+#此处构造dataframe按照行填入
+df3 = DataFrame([[1,2],[3,4]], columns=list('AB'))
+df4 = DataFrame([[5,6],[7,8]], columns=list('AB'))
 print(pandas.concat([df3,df4]))
 #方法二，合并生成一个新的数据框，产生新的index
 print(pandas.concat([df3,df4],ignore_index=True))

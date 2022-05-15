@@ -75,6 +75,7 @@ print(len(df2))
 df2.loc[len(df2)] = [24,'Keno']
 print(df2)
 print('----')
+#此处构造dataframe按照行填入
 df3 = DataFrame([[1,2],[3,4]], columns=list('AB'))
 df4 = DataFrame([[5,6],[7,8]], columns=list('AB'))
 print(df3,"\n",df4)
