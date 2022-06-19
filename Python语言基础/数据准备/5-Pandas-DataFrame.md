@@ -31,6 +31,7 @@ D = df.at[0,'name'];print(D)
 + key值作为列名[clomuns]
 ```python
 df1 = DataFrame({'age':[21,22,23], 'name':['Ken','John','Jimi']})
+#这里对数组不能用Series
 df2 = DataFrame(data = {'age':[21,22,23],'name':['Ken','John','Jimi']},
                 index=['first','second','third'])
 ```
@@ -46,6 +47,7 @@ print('-----')
 ```
 ## 按索引名访问某一行/多行
 ```python
+#左右闭区间
 df2['third':'third']
 df2['first':'second']
 ```
@@ -53,11 +55,13 @@ df2['first':'second']
 ## 访问列
 ```python
 df1['age']
+#df1.columns[0:1] = Index(['age'], dtype='object')
 df1[df1.colmns[0:1]]
 ```
 
 ## 访问块
 ```python
+#左闭右开
 df1.iloc[0:1,0:1]
 ```
 
