@@ -12,7 +12,9 @@ Series有索引，把索引当作数据的标签Key看待，类似于字典，�
 ***Python常用的3种数据类型为Logical、Numeric、Character***
 
 ## Series
-Series用于存储一行或一列数据，以及与之相关的索引集合,如果为指定索引，则默认从0开始
+Series用于存储一行或一列数据，以及与之相关的索引集合,如果为指定索引，则默认从0开始。
+
+***访问数据可以根据`索引名`访问也可以根据`索引号`访问***
 ```python
 from pandas import Series
 X = Series(['a',2,'螃蟹'], index = [1,2,3])
@@ -44,6 +46,7 @@ x = x.append(Series(['2']))
 print(x)
 
 pd.concat([x,Series(['2'])],ignore_index=True)
+pandas.concat([x,Series(['2'],index=[4])])
 ```
 
 **FutureWarning: The `series.append` method is deprecated and will be removed from pandas in a future version. Use `pandas.concat` instead.
@@ -69,15 +72,15 @@ print('2' in x.values)
 ```python
 print(x[1:3])
 #按定位获取,经常用于随机抽样
-print(x[['third','first']])
+print(x[['third','first']]) //需要对多个索引名加中括号，认为是数组
 print(x[[0,1]])
 ```
 
 ## 根据index名称删除
 ```python
-print(x.drop(0))
+print(x.drop('second'))
 print(x)
-x = x.drop(0)
+x = x.drop('second')
 print(x)
 #print(x.index[0])
 #x.index[1]能返回index顺序为1的序列名
@@ -86,7 +89,9 @@ print(x.drop(x.index[3]))
 
 ## 根据值删除
 ```python
+#2!=x.values = array([True, False, True])
 print(x[2!=x.values])
+#x[2!=x.values] = x[[True, False, True]]
 ```
 
 ## 通过值访问访问系列index
@@ -99,7 +104,7 @@ print(x.index[x.values == 'a'])
 x.index = [0,1,2,3]
 print(x)
 ```
-+ 可以通过赋值更改，也可以通过reindex的方法,个数一定要和值的个数对应
++ **可以通过赋值更改，也可以通过reindex的方法,个数一定要和值的个数对应**
 
 ## 将字典转换为Series
 ```python
