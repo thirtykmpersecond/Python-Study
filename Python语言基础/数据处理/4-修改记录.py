@@ -1,6 +1,6 @@
 import pandas as pd
 from pandas import read_excel
-df = pd.read_excel(r'~/DesktopPython数据及相关的资料.nosync/i_nuc.xls',sheet_name=)
+df = pd.read_excel(r'~/Desktop/Python数据及相关的资料.nosync/i_nuc.xls',sheet_name='Sheet3')
 
 #单值替换
 df.replace('作弊',0)
