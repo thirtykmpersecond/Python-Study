@@ -160,6 +160,36 @@ print('bind:\n', bins)
 
 + `hist()`函数格式如下
 ```python
-n, bins, patches = plt.hist(arr, bins=10, density=1,stacked=True, facecolor='black', edgecolor='black' )
+import matplotlib.pyplot as plt
+n, bins, patches = plt.hist(arr, bins=10, density=True,stacked=True, facecolor='black', edgecolor='black', alpha=1 )
 ```
-+ 
+***计算并绘制x的直方图。如果输入包含多个数据，则返回值为元组（n，bins，补丁）或（[n0，n1，...]，bins，[patches0，patches1，...]）。***
++ arr: 直方图的一维数组`x`
++ bins: 直方图的柱数，默认为10
++ density: 是否将得到的直方图向量归一化
++ facecolor: 直方图颜色
++ edgecolor: 直方图边框颜色
++ alpha: 透明度
++ histtype: 直方图类型,有`bar`,`barstacked`,`step`,`stepfilled`几种类型
+返回值：
++ n:直方图向量，是否归一化由参数density决定
++ bins:返回各个bin的区间范围
++ patches:返回每个bin里面包含的数据，是一个list
+
+## 等线值图
+又称为等量线图，是以相等数值点的连线表示连续分布且逐渐变化的数量特征的一种图型，是用数值相等各点连成的曲线（即等值线）在平面上的投影来表示被摄物体的外形和大小的图
+
+使用`contour()`函数将三维图像在二维空间上表示，并且使用`clabel()`在每条线上显示数据值的大小。
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
+
+# 生成数据
+delta = 0.2
+x = np.arange(-3, 3, delta) #np.arange()返回给定区间内均匀的值
+y = np.arange(-3, 3, delta)
+X, Y = np.meshgrid(x,y)     #从坐标向量返回坐标矩阵
+
+```
