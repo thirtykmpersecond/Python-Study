@@ -44,7 +44,7 @@ font = FontProperties(fname='/System/Library/Fonts/PingFang.ttc', size=14)
 matplotlib.rcParams['font.sans-serif']=['SimHei']   # 用黑体显示中文
 matplotlib.rcParams['axes.unicode_minus']=False     # 正常显示负号
 
-t =  np.arange(1,10,0.05)
+t = np.arange(1,10,0.05)
 x = np.sin(t)
 y = np.cos(t)
 
@@ -191,5 +191,33 @@ delta = 0.2
 x = np.arange(-3, 3, delta) #np.arange()返回给定区间内均匀的值
 y = np.arange(-3, 3, delta)
 X, Y = np.meshgrid(x,y)     #从坐标向量返回坐标矩阵
+Z = X**2 + Y**2
+x = X.flatten()     #返回一维的数组，但该函数只能适用于numpy对象（array或mat）
+y = Y.flatten()
+z = Z.flatten()
 
+# 定义一个图像窗口
+fig = plt.figure(figsize=(12,6))
+ax1 = fig.add_subplot(121,projection='3d')
+# cmap指颜色，默认绘制为RGB(A)颜色空间，jet表示“蓝-青-黄-红”颜色
+ax1.plot_trisurf(x,y,z, cmap=cm.jet, linewidth=0.01)
+plt.title("3D")
+ax2 = fig.add_subplot(122)
+# 大写的XYZ。 15代表的是显示等高线的密集程度，数值越大，画的等高线数就越多。
+#`contour()`函数将三维图像在二维空间上表示
+cs = ax2.contour(X,Y,Z, 15,cmap='jet', )    
+# clabel()在每条线上显示数据值的大小。
+ax2.clabel(cs, inline=True, fontsize=10, fmt='%1.1f')
+plt.title("Contour")
+plt.show()
+```
+
+## 三维曲面图
+通常用来描绘三维空间的数值分布和形状。可以通过`plot_surface()`函数来得到想要的图像。
+```python
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from matplotlib import cm
+
+fig = plt.figure
 ```
