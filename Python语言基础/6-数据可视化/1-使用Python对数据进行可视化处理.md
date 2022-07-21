@@ -199,7 +199,7 @@ z = Z.flatten()
 # 定义一个图像窗口
 fig = plt.figure(figsize=(12,6))
 ax1 = fig.add_subplot(121,projection='3d')
-# cmap指颜色，默认绘制为RGB(A)颜色空间，jet表示“蓝-青-黄-红”颜色
+# 绘制三角形曲面，cmap指颜色，默认绘制为RGB(A)颜色空间，jet表示“蓝-青-黄-红”颜色
 ax1.plot_trisurf(x,y,z, cmap=cm.jet, linewidth=0.01)
 plt.title("3D")
 ax2 = fig.add_subplot(122)
@@ -215,9 +215,25 @@ plt.show()
 ## 三维曲面图
 通常用来描绘三维空间的数值分布和形状。可以通过`plot_surface()`函数来得到想要的图像。
 ```python
-from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
-fig = plt.figure
+# 三维图像+各个轴的投影等高线
+fig = plt.figure(figsize=(8,6))
+ax = fig.gca(projection='3d')
+
+# 生成三维测试数据
+X,Y,Z = axes3D.get_test_data(0.05)
+ax.plot_surface(X,Y,Z, rstride=8, cstride=8, alpha=0.3)
+cset = ax.contour(X,Y,Z, zdir='z', offset=-100, cmap=cm.coolwarm)
+cset = ax.contour(X,Y,Z, zdir='x', offset=-40, cmap=cm.coolwarm)
+cset = ax.contour(X,Y,Z, zdir='y', offset=40, cmap=cm.coolwarm)
+ax.set_xlabel('X')
+ax.set_xlim(-40,40)
+ax.set_ylabel('Y')
+ax.set_ylim(-40,40)
+ax.set_zlabel('Z')
+ax.set_zlim(-100,100)
+plt.show()
 ```
