@@ -224,7 +224,7 @@ fig = plt.figure(figsize=(8,6))
 ax = fig.gca(projection='3d')
 
 # 生成三维测试数据
-X,Y,Z = axes3D.get_test_data(0.05)
+X,Y,Z = axes3d.get_test_data(0.05)
 ax.plot_surface(X,Y,Z, rstride=8, cstride=8, alpha=0.3)
 cset = ax.contour(X,Y,Z, zdir='z', offset=-100, cmap=cm.coolwarm)
 cset = ax.contour(X,Y,Z, zdir='x', offset=-40, cmap=cm.coolwarm)
@@ -235,5 +235,46 @@ ax.set_ylabel('Y')
 ax.set_ylim(-40,40)
 ax.set_zlabel('Z')
 ax.set_zlim(-100,100)
+plt.show()
+```
+
+## 条形图
+条形图(Bar Chart)是一种以长方形为变量的统计图表。**用来比较两个或两个以上的数值（不同时间按或不同条件），只有一个变量，通常利用较小的数据集分析**。
+
+亦可横向排列或多维表达。
+```python
+"""
+Bar chart demo with pairs of bars grouped for easy comparison.
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 生成数据
+n_groups = 5 # 组数
+# 平均分和标准差
+means_men = (20, 35, 30, 35, 37)
+std_men = (2, 3, 4, 1, 2)
+
+means_women = (25, 32, 34, 20 ,25)
+std_women = (3, 5, 2, 3, 3)
+# 条形图
+fig, ax = plt.subplots()
+# 生成0， 1， 2， 3，……
+index = np.arange(n_groups)
+bar_width = 0.35 #条的宽度
+
+opacity = 0.4
+error_config = {'ecolor': '0.3'}
+# 图形中的第一类条
+rects1 = plt.bar(index, means_men, bar_width, alpha=opacity, color='b', yerr=std_men, error_kw = error_config, label='Men')
+# 图形中的第二类条
+rects2 = plt.bar(index+bar_width, means_women, bar_width, alpha = opacity, color='r', yerr=std_women, error_kw=error_config, label='Women')
+plt.xlabel('Group')
+plt.ylabel('Scores')
+plt.title('Scores by group and gender')
+plt.xticks(index + bar_width, tuple(list('ABCDE')))
+plt.legend()
+## 自动调整subplot参数给指定填充区
+plt.tight_layout()
 plt.show()
 ```
