@@ -278,3 +278,17 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 ```
+
+## 饼图
+可以使用`pie()`函数绘制饼图.
+```python
+import matplotlib.pyplot as plt
+## 切片按照顺时针方向排列并绘制
+labels = 'Forgs', 'Hogs', 'Dogs', 'Logs'
+size = [15, 30, 45, 10]
+colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+explode = {0, 0.1, 0, 0}
+plt.pie(size, explode=explode, labels=labels, colors=colors,autopct = '%1,1f%%', shadow=True, startangle=90)
+plt.axis('equal')
+plt.show()
+```
