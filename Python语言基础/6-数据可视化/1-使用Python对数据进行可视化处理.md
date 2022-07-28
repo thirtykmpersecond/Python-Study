@@ -284,11 +284,20 @@ plt.show()
 ```python
 import matplotlib.pyplot as plt
 ## 切片按照顺时针方向排列并绘制
+
+# 每块饼的标签
 labels = 'Forgs', 'Hogs', 'Dogs', 'Logs'
+# 每块饼的大小
 size = [15, 30, 45, 10]
+# 颜色
 colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
-explode = {0, 0.1, 0, 0}
-plt.pie(size, explode=explode, labels=labels, colors=colors,autopct = '%1,1f%%', shadow=True, startangle=90)
+#偏移值
+explode = (0, 0.1, 0, 0)
+# autopct: 保留小数值
+# startangle: 图型起始点偏移量
+plt.pie(size, explode=explode, labels=labels, colors=colors, autopct = '%1.1f%%', shadow=True, startangle=90)
 plt.axis('equal')
 plt.show()
 ```
+
+## 气泡图/散点图
