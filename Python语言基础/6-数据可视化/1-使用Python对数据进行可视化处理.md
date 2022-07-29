@@ -301,3 +301,19 @@ plt.show()
 ```
 
 ## 气泡图/散点图
+通过每个点面积大小，反映第三维数。气泡图可以表示多维数据。
+
+`scatter()`函数绘制散点图
+```python
+import matplotlib.pyplot as plt
+import pandas as pd
+df_data = pd.read_csv('https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv')
+
+# 作图
+fig, ax = plt.subplots()
+# 设置气泡图颜色
+color = ['#99CC01','#FFFF01','#0000FE','#FE0000','#A6A6A6','#D9E021','#FFF16E','#0D8ECF','#FA4D3D','#D2D2D2','#FFDE445','#9b59b6']
+# 创建气泡图 sepal.length 为x， sepal.width为y ,同时设置petal.length为气泡大小，并设置颜色透明度
+ax.scatter(df_data['sepal.length'], df_data['sepal.width'], s=df_data['petal.length']*100, c=color, alpha=0.6)
+
+```
