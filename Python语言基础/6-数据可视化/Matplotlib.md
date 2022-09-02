@@ -1,3 +1,4 @@
+***对于`matplotlib`版本在`2.0.0`以上，只需将代码关键字参数`axis_bgcolor`和`axisbg`更换为`facecolor`。
 # 1 使用函数绘制`matplotlib`的图标组成元素
 
 ## 1.1 绘制matplotlib图标组成元素的主要函数
@@ -40,7 +41,8 @@ x = np.linspace(0.05,10,1000)
 y = np.cos(x)
 
 plt.plot(x,y,ls='-',lw=2,label='plot figure')
-plt.legend()
+plt.legend()    # 右上角加标签
 
 plt.show()
 ```
+### 1.3.2 `scatter()` 寻找变量间的关系
