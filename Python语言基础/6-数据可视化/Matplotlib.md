@@ -24,7 +24,7 @@ y1 = np.random.randn(100)       #在正态分布中随机取100个数
 ### 1.3.1 `plot()`  展现变量的趋势变化
 函数功能：展现变量的趋势变化。
 ```python
-plt.plot(x,y,ls="-",lw=2,label="plot figure")
+plt.plot(x, y, ls="-", lw=2, label="plot figure")
 ```
 参数：
 + x:x轴上的数值。 
@@ -46,3 +46,8 @@ plt.legend()    # 右上角加标签
 plt.show()
 ```
 ### 1.3.2 `scatter()` 寻找变量间的关系
+函数功能：寻找变量间的关系
+
+```python
+plt.scatter(x ,y1 ,)
+```
