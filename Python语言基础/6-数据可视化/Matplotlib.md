@@ -27,8 +27,8 @@ y1 = np.random.randn(100)       #在正态分布中随机取100个数
 plt.plot(x, y, ls="-", lw=2, label="plot figure")
 ```
 参数：
-+ x:x轴上的数值。 
-+ y:y轴上的数值。 
++ x：x轴上的数值。 
++ y：y轴上的数值。 
 + ls：折线图的线条风格。 
 + lw：折线图的线条宽度。 
 + label：标记图形内容的标签文本。
@@ -49,5 +49,11 @@ plt.show()
 函数功能：寻找变量间的关系
 
 ```python
-plt.scatter(x ,y1 ,)
+plt.scatter(x ,y1 ,c="b", label='scatter figure')
 ```
+参数：
++ x：x轴上的数值
++ y：y轴上的数值
++ c/color：散点图中的标记颜色
++ label：标记图形内容的标签文本
+
