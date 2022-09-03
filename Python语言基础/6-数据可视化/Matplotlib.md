@@ -22,7 +22,6 @@ y1 = np.random.randn(100)       #在正态分布中随机取100个数
 ## 1.3 绘制matplotlib图表组成元素的函数用法
 
 ### 1.3.1 `plot()`  展现变量的趋势变化
-函数功能：展现变量的趋势变化。
 ```python
 plt.plot(x, y, ls="-", lw=2, label="plot figure")
 ```
@@ -32,7 +31,7 @@ plt.plot(x, y, ls="-", lw=2, label="plot figure")
 + ls：折线图的线条风格。 
 + lw：折线图的线条宽度。 
 + label：标记图形内容的标签文本。
-调用：
+
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -41,13 +40,12 @@ x = np.linspace(0.05,10,1000)
 y = np.cos(x)
 
 plt.plot(x,y,ls='-',lw=2,label='plot figure')
-plt.legend()    # 右上角加标签
+plt.legend()    # 显示标签
 
 plt.show()
 ```
-### 1.3.2 `scatter()` 寻找变量间的关系
-函数功能：寻找变量间的关系
 
+### 1.3.2 `scatter()` 寻找变量间的关系
 ```python
 plt.scatter(x ,y1 ,c="b", label='scatter figure')
 ```
@@ -57,3 +55,40 @@ plt.scatter(x ,y1 ,c="b", label='scatter figure')
 + c/color：散点图中的标记颜色
 + label：标记图形内容的标签文本
 
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05,10,1000) 
+y = np.random.rand(1000)    
+
+plt.scatter(x,y,label="scatter figure") 
+plt.legend() 
+
+plt.show()
+```
+
+### 1.3.3 `xlim()` 设置x轴数值显示范围
+```python
+plt.xlim(xmin, xmax)
+```
+参数：
++ xlim：x轴上的最小值
++ xmax：x轴上的最大值
++ 平移性：`ylim()`函数用法与此相同
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.random.rand(1000)
+
+plt.scatter(x, y, label='scatter figure')
+plt.legend()
+
+plt.xlim(0.05,10)
+plt.ylim(0,1)
+
+plt.show()
+```
