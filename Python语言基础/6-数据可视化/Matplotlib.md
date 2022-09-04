@@ -92,3 +92,9 @@ plt.ylim(0,1)
 
 plt.show()
 ```
+
+### 1.3.4 `xlabel()`设置x轴的标签文本
+
+```python
+plt.xlabel()
+```
