@@ -96,5 +96,88 @@ plt.show()
 ### 1.3.4 `xlabel()`设置x轴的标签文本
 
 ```python
-plt.xlabel()
+plt.xlabel("string")
 ```
+参数：
++ string：标签文本内容
++ 同样可作用于`plt.ylabel()`
+
+调用：
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.sin(x)
+
+plt.plot(x, y, ls='-',c='c', label='plot figure')
+plt.legend()
+plt.xlabel('x-axis')
+plt.ylabel('y-axis')
+
+plt.show()
+```
+
+### 1.3.5 `grid()` 绘制刻度线的网格线
+
+```python
+plt.grid(linestyle=":",color='r')
+```
+
+参数：
+
++ linestyle：网格线的线条风格
++ color：网格线线条颜色
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.sin(x)
+
+plt.plot(x, y, linestyle='-',linewidth=2, c='c', label='plot figure')
+plt.legend()
+
+plt.grid(linestyle=':', color='r')
+plt.show()
+```
+
+### 1.3.6 `axhline()` 绘制平行于x轴的水平参考线
+
+***水平：horizontal，垂直：vertical***
+
+```python
+plt.axhline(y=0.0, c='r', ls='--', lw=2)
+```
+
+参数：
+
++ y：水平参考线的出发点
++ c：参考线的颜色
++ ls/linestyle：参考线的风格
++ lw/linewidth：参考线的宽度
++ 同样可用于`axvline()`上
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.sin(x)
+
+plt.plot(x, y, linestyle='-',linewidth=2, c='c', label='plot figure')
+plt.legend()
+
+plt.axhline(y=0.0, c='r', ls='--', lw=2)
+plt.axvline(x=0.0, color='r', ls='--', lw=2)
+
+plt.show()
+```
+
+### 1.3.7 `axvspan()` 绘制垂直于x轴的参考区域
+
+```python
+plt
+```
+
