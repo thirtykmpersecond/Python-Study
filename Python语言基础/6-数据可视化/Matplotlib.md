@@ -1,4 +1,5 @@
 ***对于`matplotlib`版本在`2.0.0`以上，只需将代码关键字参数`axis_bgcolor`和`axisbg`更换为`facecolor`。
+
 # 1 使用函数绘制`matplotlib`的图标组成元素
 
 ## 1.1 绘制matplotlib图标组成元素的主要函数
@@ -45,7 +46,7 @@ plt.legend()    # 显示标签
 plt.show()
 ```
 
-### 1.3.2 `scatter()` 寻找变量间的关系
+### 1.3.2 `scatter()` 散点图寻找变量间的关系
 ```python
 plt.scatter(x ,y1 ,c="b", label='scatter figure')
 ```
@@ -178,6 +179,204 @@ plt.show()
 ### 1.3.7 `axvspan()` 绘制垂直于x轴的参考区域
 
 ```python
-plt
+plt.axvspan(xmin=1.0, xmax=2.0, facecolor='y', alpha=0.3)
+```
+
+参数：
+
++ xmin：参考区域的起始位置
++ xmax：参考区域的种植位置
++ facecolor：参考区域的填充颜色
++ alpha：参考区域的填充颜色透明度
++ 可平移到`axhspan()`
+
+```python
+import matplotlib.pyplot as plt 
+import numpy as np 
+
+x = np.linspace(0.05,10,1000) 
+y = np.sin(x)
+
+plt.plot(x, y, ls='-.', lw=2, c='c', label='plot figure')
+
+plt.axvspan(xmin=4.0, xmax=6.0, facecolor='y', alpha=0.3)
+plt.axhspan(ymin=0.0, ymax=0.5, facecolor='y', alpha=0.3)
+
+plt.legend() 
+plt.show()
+```
+
+### 1.3.8 `annotate()`添加图形内容细节的指向性注释文本
+
+```python
+plt.annotate("string", xy=(np.pi/2, 1.0), xytext=((np.pi/2)+0.15, 1.5), weight='bold', color='b', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
+```
+
+参数：
+
++ string：图形内容的注释文本
++ xy：被注释图形内容的位置坐标。 
++ xytext：注释文本的位置坐标。 
++ weight：注释文本的字体粗细风格。 
++ color：注释文本的字体颜色。 
++ arrowprops：指示被注释内容的箭头的属性字典。
+
+```python
+import matplotlib.pyplot as plt 
+import numpy as np 
+
+x = np.linspace(0.05,10,1000) 
+y = np.sin(x)
+
+plt.plot(x, y, ls='-.', lw=2, c='c', label='plot figure')
+plt.legend() 
+
+plt.annotate("maximum", xy=(np.pi/2, 1.0), xytext=((np.pi/2)+1.0, 0.8), weight='bold', color='b', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
+
+plt.show()
+```
+
+### 1.3.9 `text()`添加图形内容细节的无指向型注释文本
+
+```python
+plt.text(x, y, "string", weight='bold', color='b')
+```
+
+参数：
+
++ x：注释文本内容所在位置的横坐标。 
++ y：注释文本内容所在位置的纵坐标。 
++ string：注释文本内容。 
++ weight：注释文本内容的粗细风格。 
++ color：注释文本内容的字体颜色。 
+
+```python
+import matplotlib.pyplot as plt 
+import numpy as np 
+
+x = np.linspace(0.05,10,1000) 
+y = np.sin(x)
+
+plt.plot(x, y, ls='-.', lw=2, c='c', label='plot figure')
+plt.legend() 
+
+plt.text(3.10, 0.09, "y=sin(x)", weight='bold', color='b')
+
+plt.show()
+```
+
+### 1.3.10 `title()`添加图形内容的标题
+
+```python
+plt.title('string')
+```
+
+参数：
+
++ string：图形内容文本
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.sin(x)
+
+plt.plot(x, y, linestyle='-',linewidth=2, c='c', label='plot figure')
+plt.legend()
+
+plt.axhline(y=0.0, c='r', ls='--', lw=2)
+plt.axvline(x=0.0, color='r', ls='--', lw=2)
+
+plt.title('y=sin(x)')
+
+plt.show()
+```
+
+### 1.3.11 `legend()` 标示不同图形的文本标签图例
+
+```python
+plt.legend(loc='lower left')
+```
+
+参数：
+
++ loc：图例在图中的地理位置
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.05, 10, 1000)
+y = np.sin(x)
+
+plt.plot(x, y, linestyle='-',linewidth=2, c='c', label='plot figure')
+plt.legend(loc='higher right')
+
+plt.axhline(y=0.0, c='r', ls='--', lw=2)
+plt.axvline(x=0.0, color='r', ls='--', lw=2)
+
+plt.title('y=sin(x)')
+
+plt.show()
+```
+
+位置：`best upper right upper left lower left lower right right center left center right lower center upper center center`
+
+## 1.4 综合应用
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+from matplotlib import cm as cm
+
+# 定义数据
+x = np.linspace(0.5, 3.5, 100)
+y = np.sin(x)
+y1 = np.random.randn(100)
+
+# 散点图
+plt.scatter(x, y1, c='0.25', label='scatter figure')
+plt.plot(x, y, ls='--', lw=2, label='plot figure')
+
+####
+# some clean up(remove chartjunk)
+# turn the top spine and the right spine off
+for spine in plt.gca().spines.keys() :
+  if spine == 'top' or spine == 'right' :
+    plt.gca().spines[spine].set_color('none')
+
+# turn bottom tick for x-axis on
+plt.gca().xaxis.set_ticks_position('bottom')
+#set tick_line position of bottom
+
+# leave left ticks for y-axis on
+plt.gca().yaxis.set_ticks_position("left")
+#set tick_line position of left
+####
+
+# 设定xy坐标范围
+plt.xlim(0.0, 4.0)
+plt.ylim(-3, 3.0)
+
+# 设置坐标轴标签
+plt.xlabel('x_axis')
+plt.ylabel('y_axis')
+
+# 设定xy网格
+plt.grid(True, ls=':', color='r')
+
+# 添加水平参考线
+plt.axhline(y=0, c='r', ls='--', lw=2)
+
+# 绘制垂直参考区域
+plt.axvspan(xmin=1.0, xmax=2.0, facecolor='y', alpha=.3)
+
+# 添加注释信息
+plt.annotate('maxmium', xy=(np.pi/2, 1.0), xytext=((np.pi/2)+0.15, 1.5), weight='bold', c='r', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='r'))
+
+# 画图
+plt.plot(x, y, ls='--', lw=2, label='plot figure')
 ```
 
