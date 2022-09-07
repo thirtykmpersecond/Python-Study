@@ -380,3 +380,42 @@ plt.annotate('maxmium', xy=(np.pi/2, 1.0), xytext=((np.pi/2)+0.15, 1.5), weight=
 plt.plot(x, y, ls='--', lw=2, label='plot figure')
 ```
 
+# 2 使用统计函数绘制简单图形
+
+## 2.1 `bar()` 用于绘制柱状图
+
+在x轴上绘制定型数据的分布特征
+
+```python
+plt.bar(x,y)
+```
+
+参数：
+
++ x：标示在x轴上的定型数据的类别
++ y：每种定型数据的类别的数量
+
+```python
+# -*- coding:utf-8 -*-
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+# 设定使能显示中文
+mpl.rcParams['font.sans-serif']=['Arial Unicode MS'] 
+# 用来正常显示负号
+mpl.rcParams['axes.unicode_minus']=False
+
+# 数据
+x = [1,2,3,4,5,6,7,8]
+y = [3,1,4,5,8,9,7,2]
+
+# 画图
+plt.bar(x, y, align='center', color='c', tick_label=['q','a','c','e','r','j','b','p'], hatch='/') #tick_label 刻度标签
+
+# 设定x、y轴标签
+plt.xlabel('箱子编号')
+plt.ylabel('箱子重量(kg)')
+
+plt.show()
+```
+
