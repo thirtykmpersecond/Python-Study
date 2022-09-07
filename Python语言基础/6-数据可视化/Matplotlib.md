@@ -326,6 +326,7 @@ plt.show()
 ## 1.4 综合应用
 
 ```python
+from matplotlib.patches import ConnectionStyle
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -375,14 +376,26 @@ plt.axvspan(xmin=1.0, xmax=2.0, facecolor='y', alpha=.3)
 
 # 添加注释信息
 plt.annotate('maxmium', xy=(np.pi/2, 1.0), xytext=((np.pi/2)+0.15, 1.5), weight='bold', c='r', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='r'))
+plt.annotate('spines', xy=(0.75, -3), xytext=(0.35, -2.25), weight='bold', c='b', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
+plt.annotate('', xy=(0,-2.78), xytext=(0.4, -2.32),arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
+plt.annotate('', xy=(3.5,-2.98), xytext=(3.6, -2.7), arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
 
-# 画图
-plt.plot(x, y, ls='--', lw=2, label='plot figure')
+# 设置文本信息
+plt.text(3.6,-2.7, "'|' is tickline", weight='bold', color='b')
+plt.text(3.6, -2.95, "3.5 is ticklabel", weight='bold', color='b')
+
+# 设置标题
+plt.title('structure of matploblib')
+
+# legend
+plt.legend(loc='best')
+
+plt.show()
 ```
 
 # 2 使用统计函数绘制简单图形
 
-## 2.1 `bar()` 用于绘制柱状图
+## 2.1 `bar()` 于绘制柱状图
 
 在x轴上绘制定型数据的分布特征
 
@@ -419,3 +432,21 @@ plt.ylabel('箱子重量(kg)')
 plt.show()
 ```
 
+## 2.2 `barh()` 绘制条形图
+在y轴上绘制定性数据的分布特征。
+```python
+plt.barh(x,y)
+```
+参数：
++ x：表示在y轴上的定性数据的类别
++ y：每种定性数据的类别数量
+```python
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = [1,2,3,4,5,6,7,8]
+y = [3,1,4,5,8,9,7,2]
+```
