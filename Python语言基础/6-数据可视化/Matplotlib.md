@@ -449,4 +449,35 @@ mpl.rcParams['axes.unicode_minus'] = False
 
 x = [1,2,3,4,5,6,7,8]
 y = [3,1,4,5,8,9,7,2]
+
+plt.barh(x, y, align='center', color='c', tick_label=['q','a','c','e','r','j','b','p'], hatch='/')
+plt.ylabel('箱子编号')
+plt.xlabel('箱子重量(kg)')
+
+plt.show()
+```
+## 2.3 `hist()` 绘制直方图
+```python
+plt.hist(x)
+```
+参数：
++ x：在x轴上绘制箱体的定量数据输入值
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+boxWeight = np.random.randint(0, 10, 100)
+x = boxWeight
+
+bins = range(0, 11, 1)
+
+plt.hist(x, bins=bins, histtype='bar', rwidth=1, alpha=.6)
+plt.xlabel('箱子重量(kg)')
+plt.ylabel('销售数量')
+
+plt.show()
 ```
