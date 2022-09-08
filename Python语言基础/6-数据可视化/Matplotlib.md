@@ -1,4 +1,4 @@
-***对于`matplotlib`版本在`2.0.0`以上，只需将代码关键字参数`axis_bgcolor`和`axisbg`更换为`facecolor`。
+***对于`matplotlib`版本在`2.0.0`以上，只需将代码关键字参数`axis_bgcolor`和`axisbg`更换为`facecolor`。***
 
 # 1 使用函数绘制`matplotlib`的图标组成元素
 
