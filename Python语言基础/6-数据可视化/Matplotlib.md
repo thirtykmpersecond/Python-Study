@@ -481,3 +481,53 @@ plt.ylabel('销售数量')
 
 plt.show()
 ```
+
+## 2.3 `hist()` 绘制直方图
+在x轴上绘制定量数据的分布特征
+
+```python
+plt.hist(x)
+```
+参数：
++ x：在x轴上绘制箱体的定量数据输入值
+```python
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+boxWeight = np.random.randint(0, 10, 100)
+x = boxWeight
+
+bins = range(0,11,1)
+plt.hist(x, bins=bins, color='g', histtype='bar', rwidth=1, alpha=.6)
+
+plt.xlabel('箱子重量(kg)')
+plt.ylabel('销售数量')
+plt.show()
+```
+## 2.4 `pie()` 绘制饼图
+绘制定型数据的不同类别百分比
+```python
+plt.pie(x)
+```
+参数：
++ x：定型数据的不同类别的百分比
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+kinds = "简易",'保温','行李','密封'
+colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3']
+soldNums = [0.05, 0.45, 0.15, 0.35]
+
+plt.pie(soldNums, labels=kinds, autopct="%3.1f%%", startangle=60, colors=colors)
+
+plt.title('不同类型箱子的销售数量占比')
+plt.show()
+```
