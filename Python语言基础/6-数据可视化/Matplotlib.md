@@ -531,3 +531,23 @@ plt.pie(soldNums, labels=kinds, autopct="%3.1f%%", startangle=60, colors=colors)
 plt.title('不同类型箱子的销售数量占比')
 plt.show()
 ```
+
+## 2.5 `polar()` 绘制极线图
+```python
+plt.polar(theta, r)
+```
+参数：
++ theta：每个标记所在的射线与极径的夹角
++ r：每个标记到原点的距离
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+barSlices = 12
+theta = np.linspace(0.0, 2*np.pi, barSlices, endpoint=False)
+r = 30*np.random.rand(barSlices)
+
+plt.polar(theta, r, color='chartreuse', lw=2, marker='*', mfc='b', ms=10)
+
+plt.show()
+```
