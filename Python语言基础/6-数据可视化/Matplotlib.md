@@ -29,15 +29,15 @@ plt.plot(x, y, ls="-", lw=2, label="plot figure")
 参数：
 + x：x轴上的数值。 
 + y：y轴上的数值。 
-+ ls：折线图的线条风格。 
-+ lw：折线图的线条宽度。 
++ ls/linestyle：折线图的线条风格。 
++ lw/lineweight：折线图的线条宽度。 
 + label：标记图形内容的标签文本。
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = np.linspace(0.05,10,1000)
+x = np.linspace(0.05,10,1000)   #在指定间隔内返回均匀间隔的数字
 y = np.cos(x)
 
 plt.plot(x,y,ls='-',lw=2,label='plot figure')
@@ -61,7 +61,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 x = np.linspace(0.05,10,1000) 
-y = np.random.rand(1000)    
+y = np.random.rand(1000)    #可以返回一个或一组服从“0~1”均匀分布的随机样本值。随机样本取值范围是[0,1)，不包括1。
 
 plt.scatter(x,y,label="scatter figure") 
 plt.legend() 
@@ -596,5 +596,31 @@ x = np.linspace(0.5, 2*np.pi, 20)
 y = np.random.randn(20)
 
 plt.stem(x, y, linefmt='-.', markerfmt='o', basefmt='-')
+plt.show()
+```
+
+## 2.8 `boxplot()` 绘制箱线图
+绘制箱线图。
+```python
+plt.boxplot(x)
+```
+参数：
++ x：绘制箱线图的输入数据
+```python
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.random.randn(1000)
+plt.boxplot(x)
+
+plt.xticks([1], ["随机数生成器AlphaRM"])
+plt.ylabel('随机数值')
+
+plt.title('随机数生成器抗干扰能力的稳定性')
+plt.grid(axis='y', ls=':', lw=1, c='gray', alpha=.4)
 plt.show()
 ```
