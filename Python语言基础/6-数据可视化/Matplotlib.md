@@ -551,3 +551,50 @@ plt.polar(theta, r, color='chartreuse', lw=2, marker='*', mfc='b', ms=10)
 
 plt.show()
 ```
+
+## 2.6 `scatter()` 绘制气泡图
+而为数据借助气泡大小展示三维数据
+```python
+plt.scatter(x,y)
+```
+参数：
++ x：x轴上的数值
++ y：y轴上的数值
++ s：散点标记的大小
++ c：散点标记的颜色
++ cmap：将浮点数映射成颜色的颜色映射表
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+
+a = np.random.randn(100)
+b = np.random.randn(100)
+
+# colormap:RdYlBu
+plt.scatter(a, b, s=np.power(10*a+20*b, 2), c=np.random.rand(100), cmap=mpl.cm.RdYlBu, marker='o')
+plt.show()
+```
+
+## 2.7 `stem()` 绘制棉棒图
+绘制离散有序数据
+```python
+plt.stem(x,y)
+```
+参数：
++ x：指定棉棒x轴基线上的位置
++ y：绘制棉棒的长度
++ linefmt：棉棒的样式
++ markerfmt：棉棒末端的样式
++ basefmt：指定基线的样式
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.5, 2*np.pi, 20)
+y = np.random.randn(20)
+
+plt.stem(x, y, linefmt='-.', markerfmt='o', basefmt='-')
+plt.show()
+```
