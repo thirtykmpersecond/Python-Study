@@ -624,3 +624,26 @@ plt.title('随机数生成器抗干扰能力的稳定性')
 plt.grid(axis='y', ls=':', lw=1, c='gray', alpha=.4)
 plt.show()
 ```
+
+## 2.9 `errorbar` 绘制误差棒图
+绘制y轴方向或是x轴方向的误差范围
+```python
+plt.errorbar(x, y, yerr=a, xerr=b)
+```
+参数：
++ x：数据点的水平位置
++ y：数据点的垂直位置
++ yerr：y轴方向的数据点的误差计算方法
++ xerr：x轴方向的数据点的误差计算方法
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.1, 0.6, 6)
+y = np.exp(x)
+
+plt.errorbar(x, y, fmt='bo:', yerr=0.2, xerr=0.02)
+plt.xlim(0,0.7)
+
+plt.show()
+```
