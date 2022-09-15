@@ -647,3 +647,36 @@ plt.xlim(0,0.7)
 
 plt.show()
 ```
+
+# 3 绘制统计图形
+
+## 3.1 柱状图
+是描述统计中使用频率非常高的一种统计图形。它有**垂直样式**和**水平样式**两种效果。
+### 3.1.1 应用场景：定型数据的分布展示
+柱状图主要是应用在定性数据的可视化场景中，或者是离散型数据的分布展示。
+例如，一个本科班级的学生的籍贯分布，出国旅游人士的职业分布以及下载一款App产品的操作系统的分布。
+### 3.1.2 绘制原理
+重点讲解`bar()`的用法。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# Simple data
+x = [1, 2, 3, 4, 5]
+y = [6, 10, 4, 5, 1]
+
+# Create bar
+plt.bar(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)
+
+# Set x,y axis label
+plt.xlabel('测试难度')
+plt.ylabel('试卷份数')
+
+# Set yaxis grid
+plt.grid(True, axis='y', ls=':', c='r', alpha=0.3)
+
+plt.show()
+```
