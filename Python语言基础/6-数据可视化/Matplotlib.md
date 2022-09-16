@@ -409,6 +409,7 @@ plt.bar(x,y)
 
 + x：标示在x轴上的定型数据的类别
 + y：每种定型数据的类别的数量
++ tick_label：刻度线上的标注
 
 ```python
 # -*- coding:utf-8 -*-
