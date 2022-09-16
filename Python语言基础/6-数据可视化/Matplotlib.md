@@ -29,7 +29,7 @@ plt.plot(x, y, ls="-", lw=2, label="plot figure")
 参数：
 + x：x轴上的数值。 
 + y：y轴上的数值。 
-+ ls/linestyle：折线图的线条风格。 
++ ls/linestyle：折线图的线条风格。 **线条风格：`'-/solid', '--/dashed', '-./dashdot', ':/dotted', 'None', ' ', ''`**
 + lw/lineweight：折线图的线条宽度。 
 + label：标记图形内容的标签文本。
 
@@ -37,7 +37,7 @@ plt.plot(x, y, ls="-", lw=2, label="plot figure")
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = np.linspace(0.05,10,1000)   #在指定间隔内返回均匀间隔的数字
+x = np.linspace(0.05,10,1000)   #在指定间隔[0.05,10)内返回均匀间隔的1000个数字，
 y = np.cos(x)
 
 plt.plot(x,y,ls='-',lw=2,label='plot figure')
@@ -83,7 +83,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 x = np.linspace(0.05, 10, 1000)
-y = np.random.rand(1000)
+y = np.random.rand(1000)    #从[0,1)中返回1000个随机值
 
 plt.scatter(x, y, label='scatter figure')
 plt.legend()
@@ -217,7 +217,8 @@ plt.annotate("string", xy=(np.pi/2, 1.0), xytext=((np.pi/2)+0.15, 1.5), weight='
 + string：图形内容的注释文本
 + xy：被注释图形内容的位置坐标。 
 + xytext：注释文本的位置坐标。 
-+ weight：注释文本的字体粗细风格。 
++ style：注释文本的字体风格 `styles=[normal, italic, oblique]`
++ weight：注释文本的字体粗细风格。 `weights=['ultralight', 'light', 'normal', 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi', 'bold', 'heavy', 'extra bold', 'black']`
 + color：注释文本的字体颜色。 
 + arrowprops：指示被注释内容的箭头的属性字典。
 
@@ -231,7 +232,8 @@ y = np.sin(x)
 plt.plot(x, y, ls='-.', lw=2, c='c', label='plot figure')
 plt.legend() 
 
-plt.annotate("maximum", xy=(np.pi/2, 1.0), xytext=((np.pi/2)+1.0, 0.8), weight='bold', color='b', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
+# connectionstyle = angle , angle3, arc, arc3, bar
+plt.annotate("maximum", xy=(np.pi/2, 1.0), xytext=((np.pi/2)+1.0, 0.8),style='italic', weight='bold', color='b', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='b'))
 
 plt.show()
 ```
