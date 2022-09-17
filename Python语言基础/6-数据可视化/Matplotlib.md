@@ -409,7 +409,10 @@ plt.bar(x,y)
 
 + x：标示在x轴上的定型数据的类别
 + y：每种定型数据的类别的数量
-+ tick_label：刻度线上的标注
++ tick_label：横坐标刻度线上的标注
++ hatch：柱状图上的标记
++ bottom：设置y坐标的起点
++ align：bar与刻度对其的方式 `aligns = ['center', 'edge']`
 
 ```python
 # -*- coding:utf-8 -*-
@@ -465,6 +468,9 @@ plt.hist(x)
 ```
 参数：
 + x：在x轴上绘制箱体的定量数据输入值
++ histtype：要绘制的直方图类型 `histtypes = ['bar', 'barstacked', 'step', 'stepfilled']`
++ align：控制直方图的绘制方式 `aligns = ['left', 'mid', 'right']`
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
