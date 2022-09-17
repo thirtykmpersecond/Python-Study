@@ -670,7 +670,9 @@ plt.show()
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+# 配置字体为 Arial Unicode MS
 mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+# 不实用默认的"Unicode minus"模式来处理坐标轴轴线的刻度标签是负数的情况
 mpl.rcParams['axes.unicode_minus'] = False
 
 # Simple data
@@ -679,6 +681,9 @@ y = [6, 10, 4, 5, 1]
 
 # Create bar
 plt.bar(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)
+# 水平方向
+#plt.barh(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)
+
 
 # Set x,y axis label
 plt.xlabel('测试难度')
@@ -687,5 +692,46 @@ plt.ylabel('试卷份数')
 # Set yaxis grid
 plt.grid(True, axis='y', ls=':', c='r', alpha=0.3)
 
+plt.show()
+```
+`plt.bar(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)`
+中各个语句含义：
++ x：柱状图中柱体的标签值
++ y：柱状图中柱体的高度
++ align：柱体对其方式，其中`aligns = ['center', 'edge']`
++ color：柱体颜色
++ tick_label：刻度标签值
++ alpha：柱体透明度
+
+## 3.2 条形图
+`plt.bar(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)`
+
+## 堆积图
+将若干统计图形堆叠起来的统计图形。
+
+### 3.3.1 堆积柱状图
+如果将函数`bar()`中的参数`bottom`的取值设定为列表y，列表y1=[2,6,3,8,5]代表另一套试卷的份数，函数`bar(x,y1,bottom=y,color="r")`就会输出堆积柱状图。
+```python
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple date
+x = [1, 2, 3, 4, 5]
+y = [6, 10, 4, 5, 1]
+y1 = [2, 6, 3, 8, 5]
+tick_label = ['A', 'B', 'C', 'D', 'E']
+
+# create bar
+plt.bar(x, y, align='center', color='#66c2a5', tick_label=tick_label, label='Class A')
+plt.bar(x, y1, align='center', color='#8da0cb', bottom=y, label='Class B')
+
+# set x,y_axis label
+plt.xlabel('测试难度')
+plt.ylabel('试卷份数')
+
+plt.legend()
 plt.show()
 ```
