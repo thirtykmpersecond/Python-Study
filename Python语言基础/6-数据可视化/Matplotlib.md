@@ -702,6 +702,7 @@ plt.show()
 + color：柱体颜色
 + tick_label：刻度标签值
 + alpha：柱体透明度
++ bottom:柱体在y轴上的起始点，可以是一个数或一组数
 
 ## 3.2 条形图
 `plt.bar(x, y, align='center', color='b',tick_label=['A', 'B', 'C', 'D', 'E'], alpha=.6)`
@@ -732,6 +733,66 @@ plt.bar(x, y1, align='center', color='#8da0cb', bottom=y, label='Class B')
 plt.xlabel('测试难度')
 plt.ylabel('试卷份数')
 
+plt.legend()
+plt.show()
+```
+
+### 3.3.2 堆积条形图
+如果将函数`barh()`中的参数`left`的取值设定为列表y，列表y1=[2,6,3,8,5]代表另一套试卷的份数，函数`barh(x,y1,left=y,color="r")`就会输出堆积条形图。
+```python
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple date
+x = [1, 2, 3, 4, 5]
+y = [6, 10, 4, 5, 1]
+y1 = [2, 6, 3, 8, 5]
+tick_label = ['A', 'B', 'C', 'D', 'E']
+
+# create bar
+plt.barh(x, y, align='center', color='#66c2a5', tick_label=tick_label, label='Class A')
+plt.barh(x, y1, align='center', color='#8da0cb', left=y, label='Class B')
+
+# set x,y_axis label
+plt.xlabel('测试难度')
+plt.ylabel('试卷份数')
+
+plt.legend()
+plt.show()
+```
+
+## 3.4 分块图
+如果我们不将多数据以堆积图的形式进行可视化展示，那么就需要借助分块图来对比多数据的分布差异。
+同样，分块图可以分为多数据并列柱状图和多数据平行条形图。接下来，我们就结合前面讲过的柱状图和条形图的绘制原理，阐述多数据并列柱状图和多数据平行条形图的绘制方法。
+
+### 3.4.1 多数据并列柱状图
+对于堆积柱状图而言，我们也可以选择多数据并列柱状图来改变堆积柱状图的可视化效果。当然，堆积条形图也可以改变可视化效果，呈现多数据平行条形图的图形样式。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple data
+x = np.arange(5)
+y = [6, 10, 4, 5, 1]
+y1 = [2, 6, 3, 8, 5]
+
+bar_width = 0.35
+tick_label = ['A','B','C','D','E']
+
+# create bar
+# 可以将"width="省略
+plt.bar(x, y, width=bar_width, color='c', align='center', label='Class A', alpha = 0.5)
+plt.bar(x+bar_width, y1, width=bar_width, color='b', align='center', label='Class B', alpha=0.5)
+
+# set x,y_axis label
+plt.xticks(x+bar_width/2, tick_label)
 plt.legend()
 plt.show()
 ```
