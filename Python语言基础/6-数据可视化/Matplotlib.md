@@ -792,7 +792,69 @@ plt.bar(x, y, width=bar_width, color='c', align='center', label='Class A', alpha
 plt.bar(x+bar_width, y1, width=bar_width, color='b', align='center', label='Class B', alpha=0.5)
 
 # set x,y_axis label
+plt.xlabel('测试难度')
+plt.ylabel('试卷份数')
+
+# set xaxis ticks and ticklabels
 plt.xticks(x+bar_width/2, tick_label)
 plt.legend()
 plt.show()
 ```
+
+## 3.4.2 多数据平行条形图
+对于堆积条形图而言，我们也同样可以选择多数据平行条形图来改变堆积条形图的可视化效果。多数据平行条形图与多数据并列柱状图的实现方法是类似的，只是调用函数由`bar()`变成`barh()`。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple data
+x = np.arange(5)
+y = [6, 10, 4, 5, 1]
+y1 = [2, 6, 3, 8, 5]
+
+bar_width = 0.35
+tick_label = ['A','B','C','D','E']
+
+# create bar
+# 可以将"width="省略
+plt.barh(x, y, height=bar_width, color='c', align='center', label='Class A', alpha = 0.5)
+plt.barh(x+bar_width, y1, height=bar_width, color='b', align='center', label='Class B', alpha=0.5)
+
+# set x,y_axis label
+plt.xlabel('试卷份数')
+plt.ylabel('测试难度')
+
+# set xaxis ticks and ticklabels
+plt.yticks(x+bar_width/2, tick_label)
+plt.legend()
+plt.show()
+```
+
+## 3.5 参数探索
+ 如果想在柱体上绘制装饰线或装饰图，也就是说，设置柱体的填充样式。 我们可以使用关键字参数`hatch`，关键字参数hatch可以有很多取值，例如，`"/","\\","|","-"`等，每种符号字符串都是一种填充柱体的几何样式。而且，符号字符串的符号数量越多，柱体的几何图形的密集程度越高。下面，我们就通过案例进行实现方法的演示。
+ ```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple data
+x = [1,2,3,4,5]
+y = [6, 10, 4, 5, 1]
+
+# create bar
+plt.bar(x, y, align='center', color='c', tick_label=['A','B','C','D','E'], hatch='///')
+
+# set x,y_axis label
+plt.xlabel('试卷难度')
+plt.ylabel('试卷份数')
+
+plt.show()
+```
+
+## 3.6 直线堆积图、间断条形图和阶梯图
+### 3.6.1 `stackplot()`绘制堆积折线图
