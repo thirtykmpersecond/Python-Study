@@ -858,3 +858,22 @@ plt.show()
 
 ## 3.6 直线堆积图、间断条形图和阶梯图
 ### 3.6.1 `stackplot()`绘制堆积折线图
+“堆积折线图是通过绘制不同数据集的折线图而生成的。堆积折线图是按照垂直方向上彼此堆叠且又不相互覆盖的排列顺序，绘制若干条折线图而形成的组合图形。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.arange(1,6,1)
+y = [0,4,3,5,6]
+y1 = [1,3,4,2,7]
+y2 = [3,4,1,6,5]
+
+labels = ['BluePlanet', 'BrownPlanet', 'GreenPlanet']
+colors = ['#8da0cb', '#fc8d62', '#66c2a5']
+
+plt.legend(loc='upper left')
+plt.show()
+```
++ 本质是将若干条折线放在同一个坐标轴上，以每条折线下部和下方折线作为填充边界线，用一种颜色填充代表此条折线的数值区域。
+
+### 3.6.2 
