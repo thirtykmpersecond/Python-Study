@@ -923,3 +923,44 @@ plt.ylim(-1.2,1.2)
 
 plt.show()
 ```
+
+通过语句`plt.step(x,y,color="#8dd3c7",lw=2)`就可以绘制出阶梯图，其中参数的含义和用法与函数`plot()`完全相同。
+对于`step()`而言，`where`的默认参数值`pre`，标示x轴上的每个数据点对应的y轴数值向左侧绘制水平线指导x轴上的此数据点的左侧相邻数据点位置。
+也就是说**x轴上的相邻数据点的取之是按照左开右闭区间进行数据点选取的**。关键字参数还可以选取`post`，表示示左闭右开。
+
+## 3.7 直方图
+直方图是用来展现连续型数据分布特征的统计图形。利用直方图我们可以直观地分析出数据的集中趋势和波动情况。本节我们介绍直方图的应用场景和绘制原理。
+
+### 3.7.1 应用场景：定量数据的分布展示
+直方图主要是应用在定量数据的可视化场景中，或者是用来进行连续型数据的可视化展示。比如，公共英语考试分数的区间分布、抽样调查中的人均寿命的分布特征以及居民可支配收入的分布特征。
+
+### 3.7.2 绘制原理
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# set test scores
+scoresT = np.random.randint(0,100,100)
+x = scoresT
+
+# plot histogram
+bins = range(0,101,10)
+plt.hist(x, bins=bins, color='#377eb8', histtype='bar', rwidth=10)
+
+# set x,y_axis label
+plt.xlabel('测试成绩')
+plt.ylabel('学生人数')
+
+plt.show()
+```
+`plt.hist(x, bins=bins, color='#377eb8', histtype='bar', rwidth=10)`的含义：
++ x：连续性数据输入值
++ bins：用于确定主题的个数或是柱体边缘范围
++ color：柱体颜色
++ hitstype：柱体类型
++ label：图例内容
++ rwidth：柱体宽度
