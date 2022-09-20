@@ -876,4 +876,28 @@ plt.show()
 ```
 + 本质是将若干条折线放在同一个坐标轴上，以每条折线下部和下方折线作为填充边界线，用一种颜色填充代表此条折线的数值区域。
 
-### 3.6.2 
+### 3.6.2 `broken_barh()` 绘制间断条形图
+间断条形图是在条形图的基础上绘制而成的，**主要用来可视化定型数据的相同指标在时间维度上的指标的变化情况。实现定型数据的相同指标的变化情况的有效直观比较。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+plt.broken_barh([(30,100), (180,50), (260,70)], (20,8), facecolors = '#1f78b4')
+plt.broken_barh([(60,90), (190,20), (230,30)], (10,8), facecolors = ('#7fc97f', '#beaed4', '#fdc086', '#ffff99'))
+
+plt.xlim(0,360)
+plt.ylim(5,35)
+plt.xlabel('演出时间')
+
+plt.xticks(np.arange(0,361,60))
+plt.yticks([15,25], ['歌剧院A','歌剧院B'])
+
+plt.grid(ls='-', lw=1, color='gray')
+plt.title('不同地区的歌剧院的演出时间比较')
+
+plt.show()
+```
