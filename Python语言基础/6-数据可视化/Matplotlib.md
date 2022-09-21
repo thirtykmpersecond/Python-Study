@@ -983,6 +983,22 @@ mpl.rcParams['axes.unicode_minus'] = False
 
 # set test scores
 scoresT1 = np.random.randint(0,100,100) #返回[0,100)中的100个随机数
+scoresT2 = np.random.randint(0,100,100)
+x = [scoresT1, scoresT2]
 
+colors = ['#8dd3c7', '#bebada']
+labels = ['Class A', 'Class B']
 
+# plot histogram
+bins = range(0,101,10)
+
+plt.hist(x,bins=bins, color=colors, histtype='bar', rwidth=1, stacked=True, label=labels)
+
+#set x,y_axis label
+plt.xlabel('测试成绩（分）')
+plt.ylabel('学生人数')
+plt.title('不同班级的测试成绩直方图')
+
+plt.legend(loc='upper left')
+plt.show()
 ```
