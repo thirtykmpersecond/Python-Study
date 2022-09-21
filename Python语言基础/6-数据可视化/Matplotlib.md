@@ -961,9 +961,10 @@ plt.show()
 + x：连续性数据输入值
 + bins：用于确定主题的个数或是柱体边缘范围
 + color：柱体颜色
-+ hitstype：柱体类型
++ hitstype：柱体类型 `histtypes = ['bar', 'barstacked', 'step', 'stepfilled']`
 + label：图例内容
 + rwidth：柱体宽度
++ edgecolor='black': 柱体边缘的填充颜色
 
 代码中`scoresT`代表人数是100人的班级考试成绩，`bins`用来确定每个柱体包含的数据范围。**除了最后一个柱体的范围是闭区间，其他柱体的数据范围都是左闭右开区间**。
 例如第一个柱体的数据范围是[0,10)，最后一个柱体的范围是[90,100]。直方图的颜色是蓝色，直方图类型是柱状类型。
@@ -986,13 +987,14 @@ scoresT1 = np.random.randint(0,100,100) #返回[0,100)中的100个随机数
 scoresT2 = np.random.randint(0,100,100)
 x = [scoresT1, scoresT2]
 
+edgecolors =['#ff0000', '#bebaae']
 colors = ['#8dd3c7', '#bebada']
 labels = ['Class A', 'Class B']
 
 # plot histogram
 bins = range(0,101,10)
 
-plt.hist(x,bins=bins, color=colors, histtype='bar', rwidth=1, stacked=True, label=labels)
+plt.hist(x,bins=bins, color=colors, histtype='bar', rwidth=1, edgecolor=edgecolors, stacked=True, label=labels)
 
 #set x,y_axis label
 plt.xlabel('测试成绩（分）')
@@ -1000,5 +1002,89 @@ plt.ylabel('学生人数')
 plt.title('不同班级的测试成绩直方图')
 
 plt.legend(loc='upper left')
+plt.show()
+```
+通过像函数`hist()`传递关键字参数`stacked`来实现堆积直方图的绘制任务。如果不绘制堆积直方图，可以绘制并排放置的直方图，即`stacked=False`。
+
+### 3.7.5 直方图不同形状
+将直方图和阶梯图的特点结合起来即可绘制阶梯形直方图。当然也可以绘制堆积阶梯形直方图。我们只需要向函数`hist()`传递关键参数`histtype`就可以绘制阶梯形直方图。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# set test scores
+scoresT1 = np.random.randint(0,100,100)
+scoresT2 = np.random.randint(0,100,100)
+x = [scoresT1, scoresT2]
+colors = ['#8dd3c7','#bebada']
+labels = ['class A', 'class b']
+bins = range(0,101,10)
+
+# plot histogram
+plt.hist(x, edgecolor='black', bins=bins, color=colors, label=labels, histtype='stepfilled', rwidth=10, stacked=True)
+
+# set x,y_axis label
+plt.xlabel('测试成绩')
+plt.ylabel('学生人数')
+plt.title('不同班级的测试成绩直方图')
+plt.legend()
+
+plt.show()
+```
+
+## 3.8 饼图
+展示定性数据比例分布特征的统计图形。
+### 3.8.1 应用场景：定性数据的比例展示
+饼图主要应用在定性数据的可视化场景中，或者是用来进行离散型数据的比例展示。如果需要展示参加硕士研究生考试的性别比例、某市一年中四季使用天然气用量的比重以及家庭生活开支用途的比例分布，这些场景都是使用饼图进行数据可视化的不二之选，通过绘制饼图，就可以直观地反映研究对象定性数据的比例分布情况。
+### 绘制原理
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+labels = ['A难度水平', 'B难度水平', 'C难度水平', 'D难度水平']
+students = [0.35, 0.15, 0.20, 0.30]
+colors = ['#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
+explode = [0.1, 0.1, 0.1, 0.1]
+
+# exploded pie chart
+plt.pie(students, explode=explode, labels=labels, autopct='%3.1f%%', startangle=45, shadow=True, colors=colors)
+plt.title('选择难度不同测试试卷的学生百分比')
+
+plt.show()
+```
+`plt.pie(students, explode=explode, labels=labels, autopct='#%3.1f%%', startangle=45, shadow=True, colors=colors)`中：
++ students：各部分百分比
++ explode：饼片边缘偏离半径的百分比
++ labels：标记每份冰片的文本标签内容
++ autopct：饼片文本标签内容对应的数值百分比样式
++ startangle：从x轴作为其实位置，第一个饼片逆时针旋转的角度
++ shadow：是否绘制阴影
++ colors：饼片的颜色
+
+变量`labels`分别存储四份不同难度的试卷，变量`students`存储选择每套试卷的学生百分比，元组`explode`存储每份饼片边缘偏离相邻饼片边缘的半径长度比例值，关键字参数`autopct`规定百分比保留一位有效数字，关键字参数`startangle`规定第一个饼片的起始角度是以x轴为起点逆时针旋转45°的，关键字参数`shadow`设定饼图中的每份饼片的投影，关键字参数`colors`设定每份饼片的颜色。
+
+### 3.8.3 非分裂式饼图
+只需去掉`explode`参数即可，还可设定参数`pctdistance`和`labeldistance`的具体取值，分别控制百分比数值标签和标签值的显示位置，都以半径长度比例值作为显示位置的依据。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+labels = ['A难度水平', 'B难度水平', 'C难度水平', 'D难度水平']
+students = [0.35, 0.15, 0.20, 0.30]
+colors = ['#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
+
+# exploded pie chart
+plt.pie(students, labels=labels, autopct='%3.1f%%', startangle=45, colors=colors, pctdistance=0.7, labeldistance=1.2)
+plt.title('选择难度不同测试试卷的学生百分比')
+
 plt.show()
 ```
