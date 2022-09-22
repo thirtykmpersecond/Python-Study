@@ -1088,3 +1088,35 @@ plt.title('选择难度不同测试试卷的学生百分比')
 
 plt.show()
 ```
+
+### 3.8.4 案例：绘制内嵌环形饼图
+饼图不仅可以用来描述定型数据的比例分布，还可以将多个饼图进行嵌套，从而实现内嵌环形饼图的可视化效果。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+elements = ['面粉','砂糖','奶油','草莓酱','坚果']
+weight1 = [40, 15, 20,  10,15]
+weight2 = [30, 25, 15, 20, 10]
+
+colormapList = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
+inner_colors = colormapList
+outer_colors = colormapList
+
+wedges1, texts1, autotexts1 = plt.pie(weight1, autopct='%3.1f%%', radius=1, pctdistance=0.85, colors=outer_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
+wedges2, texts2, autotexts2 = plt.pie(weight2, autopct='%3.1f%%', radius=0.7, pctdistance=0.75, colors=inner_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
+
+plt.legend(wedges1, elements, fontsize=2, title='配料表', loc='center left', bbox_to_anchor=(0.91,0,0.3,1))
+
+plt.step(autotexts1, size=15, weight='bold')
+plt.step(autotexts2, size=15, weight='bold')
+#plt.step(texts1, size=12)
+
+plt.title('不同果酱面包配料比例表')
+plt.show()
+
+```
