@@ -1110,13 +1110,25 @@ outer_colors = colormapList
 wedges1, texts1, autotexts1 = plt.pie(weight1, autopct='%3.1f%%', radius=1, pctdistance=0.85, colors=outer_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
 wedges2, texts2, autotexts2 = plt.pie(weight2, autopct='%3.1f%%', radius=0.7, pctdistance=0.75, colors=inner_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
 
-plt.legend(wedges1, elements, fontsize=2, title='配料表', loc='center left', bbox_to_anchor=(0.91,0,0.3,1))
+plt.legend(wedges1, elements, fontsize=12, title='配料表', loc='center left', bbox_to_anchor=(0.91,0,0.3,1))
 
 plt.step(autotexts1, size=15, weight='bold')
 plt.step(autotexts2, size=15, weight='bold')
-#plt.step(texts1, size=12)
+plt.step(texts1, size=12)
 
 plt.title('不同果酱面包配料比例表')
 plt.show()
+```
+
+## 3.9 箱线图
+箱线图是由一个箱体和一对箱须所组成的统计图形。箱体是由第一四分位数、中位数（第二四分位数）和第三四分位数所组成的。在箱须的末端之外的数值可以理解成离群值，因此，箱须是对一组数据范围的大致直观描述。
+### 3.9.1 应用场景：多组定量数据的分布式比较
+箱线图主要应用在一系列测量或观测数据的比较场景中，例如学校间或班级间测试成绩的比较，球队中的队员体能对比，产品优化前后的测试数据比较以及同类产品的各项性能的比较，等等，都可以借助箱线图来完成相关分析或研究任务。因此，箱线图的应用范围非常广泛，而且实现起来也非常简单。
+### 3.9.2 绘制原理
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 ```
