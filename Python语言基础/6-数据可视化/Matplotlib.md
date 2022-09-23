@@ -1095,29 +1095,20 @@ plt.show()
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-
 mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
 mpl.rcParams['axes.unicode_minus'] = False
-
 elements = ['面粉','砂糖','奶油','草莓酱','坚果']
 weight1 = [40, 15, 20,  10,15]
 weight2 = [30, 25, 15, 20, 10]
-
 colormapList = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
 inner_colors = colormapList
 outer_colors = colormapList
-
-wedges1, texts1, autotexts1 = plt.pie(weight1, autopct='%3.1f%%', radius=1, pctdistance=0.85, colors=outer_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
-wedges2, texts2, autotexts2 = plt.pie(weight2, autopct='%3.1f%%', radius=0.7, pctdistance=0.75, colors=inner_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
-
-plt.legend(wedges1, elements, fontsize=12, title='配料表', loc='center left', bbox_to_anchor=(0.91,0,0.3,1))
-
-plt.step(autotexts1, size=15, weight='bold')
-plt.step(autotexts2, size=15, weight='bold')
-plt.step(texts1, size=12)
-
+plt.pie(weight1, autopct='%3.1f%%', radius=1, pctdistance=0.85, colors=outer_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
+plt.pie(weight2, autopct='%3.1f%%', radius=0.7, pctdistance=0.75, colors=inner_colors, textprops=dict(color='w'), wedgeprops=dict(width=0.3, edgecolor='w'))
+plt.legend(elements, fontsize=12, title='配料表', loc='center left', bbox_to_anchor=(0.91,0,0.3,1))
 plt.title('不同果酱面包配料比例表')
 plt.show()
+
 ```
 
 ## 3.9 箱线图
@@ -1126,9 +1117,64 @@ plt.show()
 箱线图主要应用在一系列测量或观测数据的比较场景中，例如学校间或班级间测试成绩的比较，球队中的队员体能对比，产品优化前后的测试数据比较以及同类产品的各项性能的比较，等等，都可以借助箱线图来完成相关分析或研究任务。因此，箱线图的应用范围非常广泛，而且实现起来也非常简单。
 ### 3.9.2 绘制原理
 ```python
+plt.boxplot(x, notch=None, sym=None, vert=None, whis=None, 
+positions=None, widths=None, patch_artist=None, meanline=None,
+ showmeans=None, showcaps=None, showbox=None, showfliers=None, 
+ boxprops=None, labels=None, flierprops=None, medianprops=None, 
+ meanprops=None, capprops=None, whiskerprops=None)
+```
++ x：指定要绘制箱线图的数据；
++ notch：是否是凹口的形式展现箱线图，默认非凹口；
++ sym：指定异常点的形状，默认为+号显示；
++ vert：是否需要将箱线图垂直摆放，默认垂直摆放；
++ whis：指定上下须与上下四分位的距离，默认为1.5倍的四分位差；
++ positions：指定箱线图的位置，默认为[0,1,2…] ；
++ widths：指定箱线图的宽度，默认为0.5；
++ patch_artist：是否填充箱体的颜色（True/False）；
++ meanline：是否用线的形式表示均值，默认用点来表示；
++ showmeans：是否显示均值，默认不显示；
++ showcaps：是否显示箱线图顶端和末端的两条线，默认显示；
++ showbox：是否显示箱线图的箱体，默认显示；
++ showfliers：是否显示异常值，默认显示；
++ boxprops：设置箱体的属性，如边框色，填充色等；
++ labels：为箱线图添加标签，类似于图例的作用；
++ filerprops：设置异常值的属性，如异常点的形状、大小、填充色等；
++ medianprops：设置中位数的属性，如线的类型、粗细等；
++ meanprops：设置均值的属性，如点的大小、颜色等；
++ capprops：设置箱线图顶端和末端线条的属性，如颜色、粗细等；
++ whiskerprops：设置须的属性，如颜色、粗细、线的类型等；
+```python
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
 
+testA = np.random.randn(5000)
+testB = np.random.randn(5000)
+
+testList = [testA,testB]
+labels = ['随机数生成器AlphaRM','随机数生成器BetaRM']
+colors = ['#1b9e77', '#d95f02']
+
+whis = 1.6
+width = 0.35
+
+bplot = plt.boxplot(testList, whis=whis, widths=width, sym='o', labels=labels, patch_artist=True)
+for patch,color in zip(bplot['boxes'],colors) :
+    patch.set_facecolor(color)
+
+plt.ylabel('随机数值')
+plt.title('生成器抗干扰能力稳定性比较')
+
+plt.grid(axis='y', ls=':', lw=1, color='gray', alpha=.4)
+plt.show()
 ```
+代码`plt.boxplot(testList, whis=whis, widths=width, sym='o', labels=labels, patch_artist=True)`中：
++ testList：绘制箱线图的输入数据
++ whis：四分位间距的倍数
++ widths：设置箱体宽度
++ sym：离群值的标记样式
++ labels：绘制每一个数据集的刻度标签
++ patch_artist：是否给箱体添加颜色
