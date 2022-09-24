@@ -1190,3 +1190,44 @@ plt.show()
 
 
 ### 3.9.4 水平方向的箱线图
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.random.randn(1000)
+plt.boxplot(x,vert=False,sym='+')
+
+plt.xlabel('随机数值')
+plt.yticks([1], ['随机数生成器AlphaRM'], rotation=90)
+plt.title('随机数生成器抗干扰能力的稳定性')
+
+plt.grid(axis='x', ls=':', lw=1, color='gray', alpha=.4)
+plt.show()
+```
+
+### 3.9.5 不绘制离群之的水平放置的箱线图
+也有很多时候，我们只需要绘制数据集的分布结构，也就是说，只需要标记出箱须的长度、上四分位数、下四分位数，中位数的位置，即可满足描绘数据集的分布特征的目标。离群之不是重点要考虑的描述统计对象。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.random.randn(1000)
+plt.boxplot(x, vert=False, showfliers=False)
+
+plt.xlabel('随机数值')
+plt.yticks([1], ["随机数生成器AlphaRM"],rotation=90)
+
+plt.title('随机数生成器抗干扰能力的稳定性')
+plt.grid(axis='x', ls=':', lw=1, color='gray', alpha=0.4)
+plt.show()
+```
+
+## 3.10 误差棒图
