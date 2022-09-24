@@ -1163,7 +1163,7 @@ width = 0.35
 
 bplot = plt.boxplot(testList, whis=whis, widths=width, sym='o', labels=labels, patch_artist=True)
 for patch,color in zip(bplot['boxes'],colors) :
-    patch.set_facecolor(color)
+    patch.set_facecolor(color)  #bplot含有多个对象，bplot['boxes']可以
 
 plt.ylabel('随机数值')
 plt.title('生成器抗干扰能力稳定性比较')
@@ -1178,3 +1178,15 @@ plt.show()
 + sym：离群值的标记样式
 + labels：绘制每一个数据集的刻度标签
 + patch_artist：是否给箱体添加颜色
+
+使用`mpl.rcParams["axes.unicode_minus"]=False`语句放弃`unicode_minus`的使用，这样图形中的刻度标签值是负数的情况就可以得到合理解决，即负数可以正确显示。
+将需要比较的数据放在列表`testList`中，同时作为函数`boxplot()`的参数进行输入。将关键字参数`whis、widths、sym和labels`传入函数`boxplot()`里，完成箱线图的基本绘制工作。
+接下来，我们要对箱线图的返回值进行操作，这个返回值是一个字典数据结构，由于需要对箱体添加颜色，所以使用键`boxes`”`来调出键值`“`bplot["boxes"]`。
+最后，使用内置函数`zip()`生成元组列表`zip(bplot["boxes"],colors)`，使用for循环对每个箱体进行颜色填充，从而完成整个箱线图的绘制工作。
+如果我们将关键字参数`notch`的参数值设置为`True`，同时其他语句保持不变，那么箱体就变成有V型凹痕的箱体了。
+箱线图也可以实现水平方向的可视化效果，箱线图中的离群值也可以不显示，这些视图效果分别通过关键字参数`vert`和`showfliers`实现。
+
+### 3.9.3 箱体、箱须、离群值的含义和计算方法
+
+
+### 3.9.4 水平方向的箱线图
