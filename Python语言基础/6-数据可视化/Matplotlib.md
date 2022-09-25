@@ -1231,3 +1231,30 @@ plt.show()
 ```
 
 ## 3.10 误差棒图
+在很多科学实验中都存在测量误差或是试验误差，这是无法控制的客观因素。这样，在可视化试验结果的时候，最好可以给试验结果增加观测结果的误差以表示客观存在的测量偏差。误差棒图就是可以运用在这一场景中的很理想的统计图形。
+
+### 3.10.1 应用场景：定量数据的误差范围
+通过抽样获得样本，对总体参数进行估计会由于样本的随机性导致参数估计值出现波动，因此需要用误差置信区间来表示对总体参数估计的可靠范围。
+误差棒就可以很好地实现充当总体参数估计的置信区间的角色。误差棒的计算方法可以有很多种：单一数值、置信区间、标准差和标准误等。
+误差棒的可视化展示效果也有很多种样式：水平误差棒、垂直误差棒、对称误差棒和非对称误差棒等。
+
+### 3.10.2 绘制原理
+主要讲解函数`errorbar()`的使用方法和参数使用细节。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.1, 0.6, 10)
+y = np.exp(x)
+
+error = 0.05 + 0.15*x
+
+lower_error = error
+upper_error = 0.3*error
+error_limit = [lower_error, upper_error]
+
+plt.errorbar(x, y, yerr=error_limit, fmt='o', ecolor='y', elinewidth=4, ms=5, mfc='c', mec='r', capthick=1, capsize=2)
+plt.xlim(0,0.7)
+
+plt.show()
+```
