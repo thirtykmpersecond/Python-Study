@@ -1258,3 +1258,47 @@ plt.xlim(0,0.7)
 
 plt.show()
 ```
+参数：
++ x，y：数据点的位置
++ yerr：单一数值的非对称形式误差范围
++ fmt：数据点的标记样式和数据点标记的连接线样式。 
++ ecolor：误差棒的线条颜色。 
++ elinewidth：误差棒的线条粗细。 
++ ms：数据点的大小。 
++ mfc：数据点的标记颜色。 
++ mec：数据点的标记边缘颜色。 
++ capthick：误差棒边界横杠的厚度。 
++ capsize：误差棒边界横杠的大小。
+
+函数`errorbar()`里的关键字参数`yerr`使用了误差范围的非对称形式，而且是数据点下方的误差范围大于数据点上方的误差范围。关键字参数`xerr`也可以使用类似的误差范围，关键字参数`fmt`如果取`none`值时，数据点的连线、数据点的标记样式和颜色都不显示。”
+
+### 3.10.3 案例1：带误差棒的柱状图
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some sample data
+x = np.arange(5)
+y = [100, 68, 79, 91, 82]
+
+std_err = [7, 2, 6, 10, 5]
+error_attri = dict(elinewidth=2, ecolor='black', capsize=3)
+
+# create bar with errorbar
+plt.bar(x, y, color='c', align='center', yerr=std_err, error_kw=error_attri, tick_label=['园区1', '园区2','园区3', '园区4', '园区5'])
+
+# set x,y_axis label
+plt.xlabel('芒果种植区')
+plt.ylabel('收割量')
+
+# set title of axes
+plt.title('不同芒果种植区的单词收割量')
+
+# set yaxis grid
+plt.grid(True, axis='y', ls=':', color='gray', alpha=.2)
+plt.show()
+```
