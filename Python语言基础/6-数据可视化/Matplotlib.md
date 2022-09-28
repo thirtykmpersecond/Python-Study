@@ -1302,3 +1302,38 @@ plt.title('不同芒果种植区的单词收割量')
 plt.grid(True, axis='y', ls=':', color='gray', alpha=.2)
 plt.show()
 ```
+绘制带误差棒的柱状图的关键要点，就是函数`bar()`中关键字参数yerr的使用。同时，误差棒的属性和属性值的控制都由关键字参数`error_kw`实现。
+这里我们对误差棒的线宽、颜色和误差横帽的粗细进行了进一步的设置。关于函数bar()中的其他关键字参数含义和用法，我们在前面已经讲过，这里就不再详细阐述了。
+
+### 3.10.4 代误差棒的条形图
+如果试图反应定型数据的分布特征，同时还要反应分布的波动特征，那么这种统计图形就是合适选择。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some sample data
+x = np.arange(5)
+y = [1200, 2400, 1800, 2200, 1600]
+std_err = [150, 100, 180, 130, 80]
+
+bar_width = 0.6
+colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
+
+# create horizontal bar
+plt.barh(x,y, bar_width, color=colors, align='center', xerr=std_err, tick_label=['家庭','小说','心理','科技','儿童'])
+# set x,y_axis lebel
+plt.xlabel('订购数量')
+plt.ylabel('图书种类')
+
+# set title
+plt.title('大型图书展销会的不同图书种类的采购情况')
+# set xaxis grid
+plt.grid(True, axis='x', ls=':', color='gray', alpha=.2)
+
+plt.xlim(0, 2600)
+plt.show()
+```
