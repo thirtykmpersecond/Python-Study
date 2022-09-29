@@ -1305,7 +1305,7 @@ plt.show()
 绘制带误差棒的柱状图的关键要点，就是函数`bar()`中关键字参数yerr的使用。同时，误差棒的属性和属性值的控制都由关键字参数`error_kw`实现。
 这里我们对误差棒的线宽、颜色和误差横帽的粗细进行了进一步的设置。关于函数bar()中的其他关键字参数含义和用法，我们在前面已经讲过，这里就不再详细阐述了。
 
-### 3.10.4 代误差棒的条形图
+### 3.10.4 案例2：代误差棒的条形图
 如果试图反应定型数据的分布特征，同时还要反应分布的波动特征，那么这种统计图形就是合适选择。
 ```python
 import matplotlib as mpl
@@ -1335,5 +1335,48 @@ plt.title('大型图书展销会的不同图书种类的采购情况')
 plt.grid(True, axis='x', ls=':', color='gray', alpha=.2)
 
 plt.xlim(0, 2600)
+plt.show()
+```
+带误差棒的条形图的绘制是通过使用函数`barh()`中的关键字参数`xerr`实现的。
+
+### 3.10.5 案例3：带误差棒的多数据并列柱状图。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# some simple data
+x = np.arange(5)
+y1 = [100, 68, 79, 91, 82]
+y2 = [120, 75, 70, 78, 85]
+
+std_err1 = [7, 2, 6, 10, 5]
+std_err2 = [5, 1, 4, 8, 9]
+
+error_attri = dict(elinewidth=2, ecolor='black', capsize=3)
+bar_width = 0.4
+tick_label=['园区1', '园区2', '园区3', '园区4', '园区5']
+
+# create bar with errorbar
+plt.bar(x, y1, color='#87c33b', align='center', yerr=std_err1, error_kw=error_attri, label='2010')
+plt.bar(x+bar_width/2, y2, color='#cd5c5c', align='center', yerr=std_err2, error_kw=error_attri, label='2013')
+
+# set x,y_axis label
+plt.xlabel('芒果种植区')
+plt.ylabel('收割量')
+
+# set xaxis tick_label
+plt.xticks(x+bar_width/2, tick_label)
+
+# set title of axes
+plt.title('不同年份的芒果种植区的单次收割量')
+
+#set yaxis grid
+plt.grid(True, axis='y', ls=':', color='gray', alpha=0.2)
+
+plt.legend()
 plt.show()
 ```
