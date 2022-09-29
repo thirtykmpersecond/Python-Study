@@ -1361,8 +1361,8 @@ bar_width = 0.4
 tick_label=['园区1', '园区2', '园区3', '园区4', '园区5']
 
 # create bar with errorbar
-plt.bar(x, y1, color='#87c33b', align='center', yerr=std_err1, error_kw=error_attri, label='2010')
-plt.bar(x+bar_width/2, y2, color='#cd5c5c', align='center', yerr=std_err2, error_kw=error_attri, label='2013')
+plt.bar(x, y1,width=bar_width, color='#87c33b', align='center', yerr=std_err1, error_kw=error_attri, label='2010')
+plt.bar(x+bar_width, y2, bar_width,color='#cd5c5c', align='center', yerr=std_err2, error_kw=error_attri, label='2013')
 
 # set x,y_axis label
 plt.xlabel('芒果种植区')
