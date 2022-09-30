@@ -1380,3 +1380,37 @@ plt.grid(True, axis='y', ls=':', color='gray', alpha=0.2)
 plt.legend()
 plt.show()
 ```
+
+# 4 完善统计图形
+
+## 4.1 添加图例和标题
+在绘图区域中可能会出现多个图形，而这些图形如果不加以说明，观察者则很难识别出这些图形的主要内容。因此，我们需要给这些图形添加标签说明，用以标记每个图形所代表的内容，方便观察者辨识，这个标签说明就是图例。同样，观察者如果想要清楚地了解绘图区域中的内容，就需要给绘图区域添加文本内容用以说明绘图区域的主要内容，标题就可以让观察者清楚地知道绘图区域的核心信息和图表内容。 
+
+我们通过绘制正弦、余弦曲线来说明添加图例和标题的操作方法。为了让读者充分掌握图例和标题的设置方法和操作细节，分别列举调整图例和标题样式展示效果的应用案例，以供读者练习使用。最后结合前面讲过的饼图，用图例的展示形式来代替饼图中饼片的文本标签，从而使读者理解饼图的多种展现形式和图例的多样化用途。
+
+### 4.1.1 图例和标题的设置方法
+讲解`legend()`和`title()`的用法。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.linspace(-2*np.pi, 2*np.pi, 200)
+y = np.sin(x)
+y1 = np.cos(x)
+
+plt.plot(x, y, label=r'$\sin(x)$')
+plt.plot(x, y1, label=r'$\cos(x)$')
+
+plt.legend(loc='lower left')
+plt.title('正弦函数和余弦函数的折线图')
+
+plt.show()
+```
+
+首先，另一条是余弦曲线，为了添加图例，我们需要在函数`plot()`中添加关键字参数`label`，以使图例可以清楚地显示两条曲线分别代表的图形含义。 
+
+然后，通过函数`legend()`添加图例，同时将图例的展示位置放在左下角。为了更加清晰地说明绘图区域的主要内容，我们又添加了标题，通过调用函数`title()`加以实现。
+
