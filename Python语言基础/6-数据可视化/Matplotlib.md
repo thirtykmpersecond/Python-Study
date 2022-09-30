@@ -1414,3 +1414,27 @@ plt.show()
 
 然后，通过函数`legend()`添加图例，同时将图例的展示位置放在左下角。为了更加清晰地说明绘图区域的主要内容，我们又添加了标题，通过调用函数`title()`加以实现。
 
+值得注意的是，这里我们是使用matplotlib自带的`TeX`功能来实现对数学表达式支持的。
+
+用TeX对文本内容进行渲染，通过使用`r"$$"`模式，将表达式`\sin`和`\cos`嵌入一对美元符号之间。一般而言，对于在`r"$text1\text2$"`中的非数学表达式文本text1会以斜体形式输出，并且最终输出时就会呈现印刷级别的文档效果。
+
+需要说明的是，在字符串`r"$text1\text2$"`的开始之处有一个标记“r”，表示该字符串是`raw strings`，字符串按照TeX规范进行解析。
+
+### 4.1.2 案例1：图例的展示样式的调整
+说到图例的展示样式，就不得不提到图例的外边框、图例中的文本标签的排列位置和图例的投影效果等方面。这些图例的展示样式都是通过图例函数legend()的关键字参数实现的。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.arange(0, 2.1, 0.1)
+y = np.power(x,3)
+y1 = np.power(x, 2)
+y2 = np.power(x, 1)
+
+plt.plot(x, y, ls='-', lw=2, label='$x^{3}$')
+plt.plot(x, y1, ls=':', lw=2, label='$x^{2}$')
+plt.plot(x, y2, ls='-.', lw=2, label='$x^{1}$')
+
+plt.legend(loc='upper left', bbox_to_anchor=(0.05, 0.95), ncol=3, title='power function', shadow=True, fancybox=True)
+plt.show()
+```
