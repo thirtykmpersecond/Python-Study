@@ -1456,3 +1456,19 @@ plt.title('Right Demo', loc='right',family='Comic Sans MS', size=20, style='obli
 
 plt.show()
 ```
+标题函数`title()`的关键字参数主要集中在标题位置参数和标题文本格式参数，标题位置参数值有`left`、`center`和`right`。
+标题文本格式参数主要是字体类别`family`、字体大小`size`、字体颜色`color`、字体风格`style`等.
+这些文本格式参数可以放在关键字参数`fontdict`的字典中存储，也可以分别作为标题函数`title()`的关键字参数。
+
+### 4.1.4 案例3：带图例的饼图
+通过前面对饼图的绘制原理和实例的讲解，我们对饼图的组成元素和函数`pie()`的参数含义也有了一个透彻掌握。
+现在，我们就结合本节讲过的图例的相关内容，讲解为饼图添加图例的方法，从而实现绘图区域的清爽布局。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+mpl.rcParams['sans.font-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+
+```
