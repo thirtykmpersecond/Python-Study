@@ -1438,3 +1438,21 @@ plt.plot(x, y2, ls='-.', lw=2, label='$x^{1}$')
 plt.legend(loc='upper left', bbox_to_anchor=(0.05, 0.95), ncol=3, title='power function', shadow=True, fancybox=True)
 plt.show()
 ```
+图例函数`legend()`关键字参数主要有位置参数`loc`，线框位置参数`bbox_to_anchor`，图例标签内容的标题参数`title`和线框阴影`shadow`、线框圆角处理参数`fancybox`等。
+
+### 4.1.3 案例2：标题的展示样式的调整
+通过标题函数`title()`关键字参数得以实现。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-2, 2, 1000)
+y = np.exp(x)
+
+plt.plot(x, y, ls='-', lw=2, color='g')
+plt.title('center demo')
+plt.title('Left Demo', loc='left', fontdict={'size':'xx-large', 'color':'r', 'family':'Times New Roman'})
+plt.title('Right Demo', loc='right',family='Comic Sans MS', size=20, style='oblique', color='c')
+
+plt.show()
+```
