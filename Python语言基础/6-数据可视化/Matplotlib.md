@@ -1467,8 +1467,69 @@ plt.show()
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
-mpl.rcParams['sans.font-serif'] = ['Arial Unicode MS']
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
 mpl.rcParams['axes.unicode_minus'] = False
+
+elements = ['面粉', '砂糖', '奶油', '草莓酱', '坚果']
+weight = [40, 15, 20, 10, 15]
+
+colors = ["#1b9e77","#d95f02","#7570b3","#66a61e","#e6ab02"]
+
+wedges, texts, autotexts = plt.pie(weight, autopct='%3.1f%%', textprops=dict(color='w'), colors=colors)
+
+plt.legend(wedges, elements, fontsize=12, title='配料表', loc='center left', bbox_to_anchor=(0.91, 0, 0.3, 1))
+plt.setp(autotexts, size=15, weight='bold')
+plt.setp(texts, size=12)
+
+plt.title('果酱面包配料比例表')
+plt.show()
+```
+通过调用图例函数`plt.legend(wedges,elements)`，我们就可以将**饼片外部的文本标签放在图例中**，而饼片的数值标签仍然放在饼片内部。
+函数legend()的参数`wedges`和`elements`分别表示`饼片实例列表`和`文本标签列表`，而且**这两个参数要一起配合使用才可以将饼片外部的文本标签放置在图例内部的任务中。**
+
+`plt.pie()`的返回值是`patches`、`texts`、`autotexts`，都为列表，分别是：
+1. `matplotlib.patches.Wedge`实例序列
+2. 标签文本实例的列表
+3. 数字标签的文本实例列表。只有当参数`autopct`不是`None`时，才会返回。
+
+## 4.2 调整刻度范围和刻度标签
+刻度范围是绘图区域中坐标轴的取值区间，包括x轴和y轴的取值区间。刻度范围是否合适直接决定绘图区域中图形展示效果的优劣。
+
+因此，调整刻度范围对可视化效果的影响非常明显。同理，刻度标签的样式也同样影响可视化效果的优劣。 如果我们可以根据具体的数据结构和数据形式采用合适的刻度标签样式，那么不仅可以将数据本身的特点很好地展示出来，也可以让可视化效果变得更加理想。 
+
+通过观察图4.1，细心的读者可能会发现两个可以改进的地方：
+1. x轴范围可以缩小，因为图中左右两侧各有一部分空白区域
+2. x轴上的刻度标签可以改成以圆周率为单位的刻度标签，这就是本节要探讨的刻度范围和刻度标签的内容。
+
+### 4.2.1 调整刻度范围和刻度标签的方法
+通过函数`xlim()`和函数`xticks()`
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-2*np.pi, 2*np.pi, 200)
+y = np.sin(x)
+
+# set subplot(211)
+plt.subplot(211)
+
+# plot figure
+plt.plot(x, y)
+
+# set subplot(212)
+plt.subplot(212)
+
+# set xlimit
+plt.xlim(-2*np.pi, 2*np.pi)
+
+# set xticks
+plt.xticks([-2*np.pi, -3*np.pi/2, -1*np.pi, -1*(np.pi)/2, 0, (np.pi)/2, np.pi, 3*np.pi/2, 2*np.pi], 
+           [r"$-2\pi$", r'$-3\pi/2$', r'$-\pi',r'$-\pi/2', r'$0$', r'$\pi/2$', r'$\pi$', r'$3\pi/2$', r'$2\pi$'])
+
+# plot figure
+plt.plot(x, y)
+
+plt.show()
 
 
 ```
