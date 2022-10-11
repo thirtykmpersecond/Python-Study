@@ -854,7 +854,7 @@ plt.xlabel('试卷难度')
 plt.ylabel('试卷份数')
 
 plt.show()
-```
+ ```
 
 ## 3.6 直线堆积图、间断条形图和阶梯图
 ### 3.6.1 `stackplot()`绘制堆积折线图
@@ -1530,6 +1530,115 @@ plt.xticks([-2*np.pi, -3*np.pi/2, -1*np.pi, -1*(np.pi)/2, 0, (np.pi)/2, np.pi, 3
 plt.plot(x, y)
 
 plt.show()
-
-
 ```
+为了加强调整刻度范围和刻度标签前后变化的对比效果，我们将图中的正弦曲线保留，去掉余弦曲线。
+
+同时，我们调用子区函数`subplot()`，关于子区函数`subplot()`的具体用法，在[4.2.2](#4.2.2 函数`subplot()`)节里进行学习。图中上面的一幅图是正弦函数曲线，下面一幅图是改进后的正弦曲线。
+
+具体来讲，我们通过调用`xlim()`函数来改变x轴的刻度范围，使得绘图区域中的图形变得更加紧凑。
+
+我们又通过函数`xticks()`来改变刻度标签。具体而言，就是将刻度标签变成以圆周率为单位的刻度标签，使得图形内容更加便于理解和观察。
+
+同样，我们利用matplotlib的自带`TeX`的功能实现渲染文本内容的需要，通过使用`r"$$"`模式，将`LaTeX`的表达式`\pi`嵌入`r"$$"`中的美元符号之间。
+
+一般而言，对于在`r"$text\pi$"`中的非数学表达式文本text会以斜体形式输出，并且最终输出时就会呈现印刷级别的文档效果。
+
+在字符串`r"$text\pi$"`的开始之处有一个标记r，表示该字符串是`raw strings`，字符串按照`TeX规范`进行解析，通常情况下不可以省略。
+
+# 4.2.2 函数`subplot()`
+在代码实现部分我们调用了子区函数`subplot()`，这个函数专门用来绘制几何形状相同的网格区域，子区顾名思义就是将画布分成若干个子画布，这些子画布就构成了几何形状规则且对称的矩形绘图区域，然后在这些绘图区域上分别绘制图形。例如，子区函数subplot(211)和子区函数subplot(212)代表首先在画布上分隔出一个2行1列的画布格式，然后在一个2行1列的画布格式上分别绘制图形1和图形2。 
+
+在一般情况下，刻度标签的数值范围都是升序排列的，也就是说坐标轴的交点是(0,0)原点。但是，在很多科学实验或科学试验的情况中，收集到的原始数据进行可视化展示时，需要将刻度范围调整成降序排列，方便科研人员观测数据的规律和特征。接下来，我们就通过案例加以说明。
+
++ 在`matplotlib`下，一个`Figure`对象可以包含多个`子图(Axes)`，可以使用`subplot()`快速绘制
+```python
+subplot(numRows, numCols,plotNum)
+```
+图标的整个其绘图区域被分为`numRows行`和`numCols列`，然后按照**从左到右、从上到下**的顺序对每个区域进行编号。
+
+|       表格       |       分区       |       演示       |
+|:--------------:|:--------------:|:--------------:|
+| subplot(2,3,1) | subplot(2,3,2) | subplot(2,3,3) |
+| subplot(2,3,4) | subplot(2,3,5) | subplot(2,3,6) |
+
+**如果`numRows`、`numCols`、`plotNum`这三个数都小于10的话，可以把它们缩写为一个整数。例如`subplot(323)`与`subplot(3,2,3)`相同
+。**
+
+`subplot`在`plotNum`指定的区域中创建一个轴对象。如果新创建的轴和之前创建的轴重叠，之前的轴将被删除。
+
+在一般情况下，刻度标签的数值范围都是升序排列的，**也就是说坐标轴的交点是(0,0)原点**。但是，在很多科学实验或科学试验的情况中，收集到的原始数据进行可视化展示时，需要将刻度范围调整成降序排列，方便科研人员观测数据的规律和特征。接下来，我们就通过案例加以说明。
+
+### 4.2.3 案例：逆序设置坐标轴刻度标签
+通过调整函数`xlim()`参数内容来实现逆序展示刻度标签的可视化需求。
+
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+time = np.arange(1, 11, 0.5)
+machinePower = np.power(time, 2) + 0.7
+plt.plot(time, machinePower, ls='-', lw=2, color='r')
+
+plt.xlim(10, 1)
+plt.xlabel('使用年限')
+plt.ylabel('机器功率')
+plt.title('机器损耗曲线')
+
+plt.grid(ls=':', lw=1, color='gray', alpha=.5)
+plt.show()
+```
+
+通过使用函数`xlim()`实现将`使用年限`的刻度标签值降序排列，其中的关键是将函数`xlim(xmin,xmax)`的参数`xmin`和`xmax`调换顺序，进而变成`xlim(xmax,xmin)`实现的可视化效果。
+
+这样，就可以直观清晰地反映出机器的性能随着使用年限的推移而产生的下降情况。
+
+## 4.3 向统计图形添加表格
+通过使用matplotlib可以绘制精美的统计图形，数据可视化的主要作用就是直观地解释数据，以使观察者可以发现数据背后的规律或是趋势变化。但是，有时候为了更加全面地凸显数据的规律和特点，需要将统计图形和数据表格结合使用。例如，在第3章中，我们介绍了饼图的相关知识，但是饼图只是从数据的比例分布角度进行数据可视化展示，如果结合原始数据综合分析数据的特点和规律，那么对数据的可视化展示效果会更加使人印象深刻。这样，我们就从相对角度和绝对角度两方面来全面展示数据的内在特点和意义。 
+
+我们以前面讲过的饼图为例，进一步地向饼图中添加数据表格来全面展示数据的规律特征。 
+
+同时，从多元化分析的角度来看，通过添加数据表格可以借助其他统计图形来揭示数据的深层含义。从而更好地把握数据本身的结构特点、内在规律，进而更加客观地观察和理解数据。
+
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+labels = ['A难度水平', 'B难度水平', 'C难度水平', 'D难度水平']
+students = [0.35, 0.15, 0.20, 0.30]
+colors = ['#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
+explode = [0.1, 0.1, 0.1, 0.1]
+
+# exploded pie chart
+plt.pie(students, explode=explode, labels=labels, autopct='%3.1f%%', startangle=45, shadow=True, colors=colors)
+plt.title('选择难度不同测试试卷的学生百分比')
+
+# add tabel to pie figure
+colLabels = labels
+rowLabels = ['学生选择试卷人数']
+studentValues = [[350, 150, 200, 300]]
+colColors = colors
+
+plt.table(cellText = studentValues, cellLoc='center', colLabels=colLabels, colColours=colColors, rowLabels=rowLabels, rowLoc='center', loc='bottom')
+plt.show()
+```
+`tabel()`函数参数如下：
++ cellText：表格的数值，将源数据**按行分组**，每组数据放在列表里存储，所有组数据再放在列表里储存。
++ cellLoc：表格中数据对齐位置，可以左对齐、居中、右对齐
++ colWidth：表格的宽度
++ colColours：表格中每列列名称单元格的颜色
++ rowLabels：表格每行的行名称。 
++ rowLoc：表格每行的行名称对齐位置，可以左对齐、居中和右对齐。 
++ loc：表格在画布中的位置。 
+ 
+通过上面的表格，我们就可以清楚地知道学生选择不同难度试卷的实际人数，从相对和绝对角度分别考察试卷的难易程度对学生选择试卷的影响情况，使得后续的分析结论能够更加客观和全面地反映试卷的难度对学生考试的影响。
+
+---------
+
+# 5 统计图形绘制进阶：图形样式
