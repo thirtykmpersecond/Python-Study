@@ -1642,3 +1642,58 @@ plt.show()
 ---------
 
 # 5 统计图形绘制进阶：图形样式
+`刻度`作为统计图形的一部分，由`刻度标签`和`刻度线`组成。如果需要进一步设置刻度样式，需要知道`定位器(locator)`和`刻度格式器(formatter)`两个概念。
+
++ 刻度定位器用来设置刻度线的位置
++ 刻度格式器用来设置刻度标签的显示样式
+
+### 5.1.1 刻度定位器和刻度格式器的使用方法
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import AutoMinorLocator, MultipleLocator, FuncFormatter
+
+x = np.linspace(0.5, 3.5, 100)
+y = np.sin(x)
+
+fig = plt.figure(figsize=(8, 8))
+ax = fig.add_subplot(111)
+
+# set x,y-major_tick_locator
+ax.xaxis.set_major_locator(MultipleLocator(1.0))
+ax.yaxis.set_major_locator(MultipleLocator(1.0))
+
+# set x,y-minor_tick_locator
+ax.xaxis.set_minor_locator(MultipleLocator(4))
+ax.yaxis.set_minor_locator(MultipleLocator(4))
+
+# set x-minor_tick_formatter
+def minor_tick(x, pos):
+    if not x % 1.0 :
+        return "%.2f" % x
+ax.xaxis.set_minor_formatter(FuncFormatter(minor_tick))
+
+# change athe appearance of ticks and tick labels
+ax.tick_params('y', which='major', length=15, width=2.0, colors='r')
+ax.tick_params(which='minor', length=5, width=1.0, labelsize=10, labelcolor='0.25')
+
+# set x,y_axis_limit
+ax.set_xlim(0, 4)
+ax.set_ylim(0, 2)
+
+# plot subplot
+ax.plot(x, y, c=(0.25, 0.25, 1.00), lw=2, zorder=10)    #pair 0
+ax.plot(x, y, c=(0.25, 0.25, 0.25), lw=2, zorder=0)     #pair 1
+
+# set grid
+ax.grid(ls='-', lw=.5, color='r', zorder=0)     #pair 0
+#ax.grid(ls='-', lw=0.5, color='r', zorder=10)   #pair 1
+#ax.grid(ls='--', lw=.5, color='.25', zorder=0)  #only one
+
+plt.show()
+```
+我们需要先从模块`ticker`导入类`AutoMinorLocator`、`MultipleLocator`和`FuncFormatter`。
+
+接下来构建一个`Figure`画布对象，向画布中添加一个1行1列的子区，从而生成一个`Axes`实例`ax`，再分别设置x轴和y轴的主刻度线的位置，其中`ax.xaxis`和`ax.yaxis`分别获得x轴实例和y轴实例。 我们以x轴为例，讲一下主刻度线位置的设置。
+
+`ax.xaxis.set_major_locator(MultipleLocator(1.0))`语句会在x轴的一倍处分别设置主刻度线，其中参数
