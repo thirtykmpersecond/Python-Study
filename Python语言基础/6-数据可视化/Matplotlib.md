@@ -1696,4 +1696,4 @@ plt.show()
 
 接下来构建一个`Figure`画布对象，向画布中添加一个1行1列的子区，从而生成一个`Axes`实例`ax`，再分别设置x轴和y轴的主刻度线的位置，其中`ax.xaxis`和`ax.yaxis`分别获得x轴实例和y轴实例。 我们以x轴为例，讲一下主刻度线位置的设置。
 
-`ax.xaxis.set_major_locator(MultipleLocator(1.0))`语句会在x轴的一倍处分别设置主刻度线，其中参数
+`ax.xaxis.set_major_locator(MultipleLocator(1.0))`语句会在x轴的一倍处分别设置主刻度线，其中参数`MultipleLocator(1.0)`就是设置主刻度线的显示位置。
