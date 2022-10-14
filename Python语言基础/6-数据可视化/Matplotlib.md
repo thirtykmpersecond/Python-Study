@@ -1664,8 +1664,8 @@ ax.xaxis.set_major_locator(MultipleLocator(1.0))
 ax.yaxis.set_major_locator(MultipleLocator(1.0))
 
 # set x,y-minor_tick_locator
-ax.xaxis.set_minor_locator(MultipleLocator(4))
-ax.yaxis.set_minor_locator(MultipleLocator(4))
+ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax.yaxis.set_minor_locator(AutoMinorLocator(4))
 
 # set x-minor_tick_formatter
 def minor_tick(x, pos):
@@ -1696,4 +1696,42 @@ plt.show()
 
 接下来构建一个`Figure`画布对象，向画布中添加一个1行1列的子区，从而生成一个`Axes`实例`ax`，再分别设置x轴和y轴的主刻度线的位置，其中`ax.xaxis`和`ax.yaxis`分别获得x轴实例和y轴实例。 我们以x轴为例，讲一下主刻度线位置的设置。
 
-`ax.xaxis.set_major_locator(MultipleLocator(1.0))`语句会在x轴的一倍处分别设置主刻度线，其中参数`MultipleLocator(1.0)`就是设置主刻度线的显示位置。
+`ax.xaxis.set_major_locator(MultipleLocator(1.0))`语句会**在x轴的一倍处分别设置主刻度线**，其中参数`MultipleLocator(1.0)`就是设置主刻度线的显示位置。
+
+以x轴为例，设置次要刻度线的显示位置。`ax.xaxis.set_minor_locator(AutoMinorLocator(4))`语句中，`AutoMinorLocator(4)`语句标示**将每一份主刻度线区间等分为4份**。
+
+设置好刻度线的显示位置后要设置次要刻度线显示位置的精度，这个通过实例方法`set_minor_formatter()`完成，其中参数`FuncFormatter()`是用来控制**位置精度**的。
+
+这样我们就完成了刻度线的显示位置以及位置精度的设置，下面我们来讲解一下`刻度线`和`刻度标签样式`的设置方法。
+
+**主刻度样式**的设置主要通过`tick_param()`完成。`ax.tick_params('y', which='major', length=15, width=2.0, colors='r')
+`中参数：
++ which：设置主刻度样式
++ length：设置主刻度线长度
++ width：设置主刻度线宽度
++ colors：设置主刻度线和主刻度标签的颜色
+
+**次要刻度样式**设置主要通过`ax.tick_params(which='minor', length=5, width=1.0, labelsize=10, labelcolor='0.25')`，参数意义如下：
++ which：设置次要刻度样式
++ length：设置次要刻度线的长度
++ width：设置次要刻度线的宽度
++ labelsize：设置次要刻度标签的大小
++ labelcolor：设置次要刻度标签的颜色
+
+### 5.1.2 调用模块pyplot中的函数实现刻度样式设置
+语句`ax.tick_params()`是通过调用实例ax的实例方法进行刻度样式设置的。同时，通过调用模块`pyplot`中的函数也可以实现刻度样式的设置工作。
+
+具体而言，模块`pyplot`中的刻度样式的设置是通过函数`tick_params()`实现的，即可以执行语句`plt.tick_params()`来进行刻度样式的设置。
+
+前者是matplotlib的面向对象的操作方法，后者是调用模块pyplot的API的操作方法，这是两种不同思想的操作模式，虽然使用pyplot模块绘制图表非常方便，但是要想使图表有更多的调整和定制化展示，还是应该使用matplotlib的面向对象的操作方法。
+
+### 5.1.3 案例1：刻度标签和刻度线样式的定制化
+结合具体案例，分别通过调整x轴的刻度标签和y轴的刻度线样式，来讲解面向对象的操作方法。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# 新建一个画布对象，设置背景颜色
+fig = plt.figure(facecolor=(1, 1, 0.9412))
+
+```
