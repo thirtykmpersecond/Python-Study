@@ -1733,5 +1733,50 @@ import numpy as np
 
 # 新建一个画布对象，设置背景颜色
 fig = plt.figure(facecolor=(1, 1, 0.9412))
+# 第一个左右移动，第二个上下移动，第三个左右缩放，第四个上下缩放
+ax = fig.add_axes([0.1, 0.4, 0.5, 0.5])
 
+# 对每个ticklabel更改参数
+for ticklabel in ax.xaxis.get_ticklabels() :
+    ticklabel.set_color('slateblue')    # 字体颜色
+    ticklabel.set_fontsize(18)  # 字体大小
+    ticklabel.set_rotation(30)  # 角度
+
+for tickline in ax.yaxis.get_ticklines() :
+    tickline.set_color('lightgreen')    
+    tickline.set_markersize(20) # 刻度标记长度
+    tickline.set_markeredgewidth(2) #刻度标记宽度
+
+plt.show()
+```
+首先生成`Figure`实例`fig`，然后向**画布添加坐标轴生成实例**`ax`，其中`add_axes()`的参数是一个坐标轴位置和大小的四元列表。
+
+通过`ax.xaxis`实例获得x轴实例，调用方法`get_ticklabels()`获得`Text`实例列表，**使用for循环对实例元素`Text`进行不同属性的属性值设置**。
+
+同理通过`ax.yaxis`获得y轴实例，从而借助方法`get_ticklines()`获得`Line2D`实例表，也用for循环对其不同属性进行设置。最终完成设置。
+
+### 5.1.4 案例2：货币和时间序列样式的刻度标签
+通常时间序列数据是通过复杂的代码和方法实现的。然而，对于初学者而言，这种实现途径是有难度的。因此，我们介绍一种简便的展示时间序列数据的方法，以满足读者相应数据集的展示需求。同时，如果读者需要展示财务方面的数据，就需要标示数据的计量单位，这种实践需求也是可以通过调整刻度标签的样式获得实现的。下面我们来讲解货币和时间序列样式的刻度标签的设置方法。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from calendar import month_name, day_name
+from matplotlib.ticker import FormatStrFormatter
+
+fig = plt.figure()
+ax = fig.add_axes([0.2, 0.2, 0.7, 0.7])
+x = np.arange(1, 8, 1)
+y = 2*x
+
+ax.plot(x, y, ls='-', lw=2, color='orange', marker='o', ms=20, mfc='c', mec='c')
+
+# RMB ticklabel
+ax.yaxis.set_major_formatter(FormatStrFormatter(r'$\yen%1.1f$'))
+
+# dayName ticklabel
+plt.xticks(x, day_name[0:7], rotation=20)
+ax.set_xlim(0, 8)
+ax.set_ylim(0, 18)
+
+plt.show()
 ```
