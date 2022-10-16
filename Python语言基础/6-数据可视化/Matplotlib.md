@@ -1524,7 +1524,7 @@ plt.xlim(-2*np.pi, 2*np.pi)
 
 # set xticks
 plt.xticks([-2*np.pi, -3*np.pi/2, -1*np.pi, -1*(np.pi)/2, 0, (np.pi)/2, np.pi, 3*np.pi/2, 2*np.pi], 
-           [r"$-2\pi$", r'$-3\pi/2$', r'$-\pi',r'$-\pi/2', r'$0$', r'$\pi/2$', r'$\pi$', r'$3\pi/2$', r'$2\pi$'])
+           [r"$-2\pi$", r'$-3\pi/2$', r'$-\pi$',r'$-\pi/2$', r'$0$', r'$\pi/2$', r'$\pi$', r'$3\pi/2$', r'$2\pi$'])
 
 # plot figure
 plt.plot(x, y)
@@ -1774,9 +1774,19 @@ ax.plot(x, y, ls='-', lw=2, color='orange', marker='o', ms=20, mfc='c', mec='c')
 ax.yaxis.set_major_formatter(FormatStrFormatter(r'$\yen%1.1f$'))
 
 # dayName ticklabel
-plt.xticks(x, day_name[0:7], rotation=20)
+plt.xticks(x, day_name[0:7], rotation=20) # 位置、名称、角度
 ax.set_xlim(0, 8)
 ax.set_ylim(0, 18)
 
 plt.show()
 ```
+例子中，将x轴、y轴的刻度标签分别换为日期标签和货币标签。对于日期标签，通过导入标准库`calendar`中的`day_name`实例获得日期形式的刻度标签。
+
+对于货币标签，我们通过模块`ticker`中导入类`FormatStrFormatter`，将实例`FormatStrFormatter(r'$\yen%1.1f$')`作为参数带入实例方法`ax.yaxis.set_major_formatter()`实现格式化坐标轴标签。
+
+其中`r'$\yen%1.1f$'`生成保留两位有效数字的人民币计量的刻度标签。
+
+## 5.2 添加有指示注解和无指示注解
+当我们想对图形做出一些注释和说明时，可以使用注解`annotate`，相对应的面向对象的实例方法是`Axes.annotate()`。注解本身也有作用对象之分，有对细节做出标志的有指示注解和对整体做出说明的无指示注解两类。接下来，我们就逐一加以说明。
+
+`有指示注解`是通过箭头指示的方法对绘图区域中的内容进行解释的标注方法。`无指示注解`是单纯使用文本进行内容解释或是说明的标注方法。为了清楚地说明这两种注解的使用方法和应用场景，我们通过具体代码来讲解有指示注解和无指示注解的设置方法。
