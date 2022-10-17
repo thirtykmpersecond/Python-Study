@@ -1790,3 +1790,56 @@ plt.show()
 当我们想对图形做出一些注释和说明时，可以使用注解`annotate`，相对应的面向对象的实例方法是`Axes.annotate()`。注解本身也有作用对象之分，有对细节做出标志的有指示注解和对整体做出说明的无指示注解两类。接下来，我们就逐一加以说明。
 
 `有指示注解`是通过箭头指示的方法对绘图区域中的内容进行解释的标注方法。`无指示注解`是单纯使用文本进行内容解释或是说明的标注方法。为了清楚地说明这两种注解的使用方法和应用场景，我们通过具体代码来讲解有指示注解和无指示注解的设置方法。
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0.5, 3.5, 100)
+y = np.sin(x)
+
+fig = plt.figure(figsize=(8,8))
+ax = fig.add_subplot(111)
+
+# set subplot
+ax.plot(x, y, c='b', ls='--', lw=2)
+
+# annotate the point xy with text with the 'arrowsytle'
+ax.annotate('maximum', xy=(np.pi/2, 1.0), xycoords='data', xytext=((np.pi/2)+0.15, 0.8), textcoords='data', weight='bold', color='r', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='r'))
+
+# annotate the whole points with text without the 'arrowstyle'
+# add text to axes
+ax.text(2.8, 0.4, r'$y=\sin(x)$', fontsize=20, color='b', bbox=dict(facecolor='y', alpha=0.5))
+
+plt.show()
+```
+首先生成实例ax，然后`ax.plot()`绘制图形。借助`ax.annotate(s,(x,y),xycoords,xytext,textcoords,weight,color,arrowprops)`来指示指定位点。
++ s：注解内容
++ (x,y)：被解释内容的位置
++ xycoords：xy的坐标系统，参数值`data`标示与折线图使用相同的坐标系统
++ xytext：注释内容所在位置，如果把注释内容想象为一个矩形，`xytext`标记的是左上角顶点的位置
++ textcoords：xytext的坐标系统
++ weight：注解内容的风格
++ color：注解内容的颜色
++ arrowprops：指示箭头的风格
+
+对折线图的顶点进行详细的解释后，我们需要对折线图本身加以说明，告诉读者这是一条正弦函数曲线的局部，这时候就需要添加无指示注解。通过调用`ax.text(x,y,s,**kw)`实例方法来完成，其参数的含义如下所示。
++ x，y：注解的横纵坐标，如果把注释内容想象为一个矩形，标记的是左上角顶点的位置
++ s：注解内容
+值得注意的是，有指示注解和无指示注解的主要区别是有无箭头显示，也就是对被解释内容的精确定位。
+
+### 5.2.2 案例1：圆角文本框的设置
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0.0, 10, 40)
+y = np.random.randn(40)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.set_xlim(0,10)
+ax.set_ylim(-1.5,2.5)
+ax.plot(x, y, ls='-', lw=2, marker='o', ms=20, mfc='orange', alpha=.6)
+ax.grid(ls=':', color='gray', alpha=.5)
+ax.text(6,0, 'Matplotlib', size=30, rotation=30, bbox=dict(boxstyle='round', ec='#8968cd', fc='#ffe1ff'))
+plt.show()
+```
