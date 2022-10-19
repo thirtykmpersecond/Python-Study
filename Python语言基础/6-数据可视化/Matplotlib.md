@@ -1926,3 +1926,27 @@ plt.show()
 有指示注解不仅可以用来作为图形内容的注释，还可以抽象为一种图形。这种图形就是桑基图，桑基图是一种特定类型的流量图。
 
 在流量图中，指示箭头的宽度是与流量的大小成比例的。流量图的典型应用场景是可视化呈现能量、物质或是成本在流动过程中的转移情况。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+from matplotlib.sankey import Sankey
+
+mpl.rcParams['font.sans-serif'] = ['FangSong']
+mpl.rcParams['axes.unicode_minus'] = False
+
+flows = [0.2, 0.1, 0.4, 0.3, -0.6, -0.05, -0.15, -0.2]
+labels = ['', '', '', '', 'family', 'trip', 'education', 'sport']
+
+orientations = [1, 1, 0, -1, 1, -1, 1, 0]
+sankey = Sankey()
+sankey.add(flows=flows, labels=labels, orientations=orientations, color='c', fc='lightgreen', patchlabel='Life Cost', alpha=.7)
+
+digrams = sankey.finish()
+digrams[0].texts[4].set_color('r')
+digrams[0].texts[4].set_weight('bold')
+digrams[0].text.set_fontsize(20)
+digrams[0].text.set_fontweight('bold')
+plt.title('日常生活中成本开支的流量图')
+plt.show()
+```
