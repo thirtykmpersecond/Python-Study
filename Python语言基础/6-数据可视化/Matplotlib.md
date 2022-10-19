@@ -1786,6 +1786,10 @@ plt.show()
 
 其中`r'$\yen%1.1f$'`生成保留两位有效数字的人民币计量的刻度标签。
 
++ ms：marker size
++ mfc：marker face color
++ mec：marker edge color
+
 ## 5.2 添加有指示注解和无指示注解
 当我们想对图形做出一些注释和说明时，可以使用注解`annotate`，相对应的面向对象的实例方法是`Axes.annotate()`。注解本身也有作用对象之分，有对细节做出标志的有指示注解和对整体做出说明的无指示注解两类。接下来，我们就逐一加以说明。
 
@@ -1843,3 +1847,82 @@ ax.grid(ls=':', color='gray', alpha=.5)
 ax.text(6,0, 'Matplotlib', size=30, rotation=30, bbox=dict(boxstyle='round', ec='#8968cd', fc='#ffe1ff'))
 plt.show()
 ```
+圆角文本框的效果是通过`Rectangle`属性字典`bbox`实现的，具体是使用关键字参数`bbox`的字典参数值中的键值对`boxstyle="round"`实现的，其中的键值`round`还可以改成`square`，进而形成直角线框的效果。
+
+### 5.2.3 案例2：文本的水印效果
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0,10,40)
+y = np.random.randn(40)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+ax.plot(x, y, lw=2, ls='-', marker='o', ms=20, mfc='orange', mec='b', alpha=0.6)
+ax.grid(ls=':', color='gray', alpha=0.5)
+ax.text(1,2, 'matplotlib', fontsize=50, color='gray', alpha=.5)
+ax.set_xlim(0,10)
+ax.set_ylim(-2,3)
+
+plt.show()
+```
+文本的水印效果是通过函数`text()`中的关键字参数`alpha`的设定来实现的，关键字参数`alpha`的取值越小，文本的水印效果越明显。
+
+为了凸显文本的水印效果，最好也将图形的透明度调高，即将关键字参数`alpha`的数值调小。
+
+### 5.2.4 圆角线框的有弧度指示注解
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0,10,2000)
+y = np.sin(x)*np.cos(x)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(x, y, ls='-', lw=2)
+
+bbox = dict(boxstyle='round', fc='#7ec0ee', ec='#9b30ff')
+arrowprops = dict(arrowstyle='-|>', connectionstyle='angle, angleA=0, angleB=90,rad=10', color='r')
+
+ax.annotate('single point', (5, np.sin(5)*np.cos(5)), xytext=(2, np.sin(2)*np.cos(2)), fontsize=12, color='r', bbox=bbox, arrowprops=arrowprops)
+ax.grid(ls=':', color='gray', alpha=0.6)
+
+plt.show()
+```
+有弧度指示的注解主要是借助Axes的实例方法`annotate()`的关键字参数`arrowprops`中的键值对`connectionstyle="angle,angleA=0,angleB=90,rad=10"`来完成的
+
+圆角线框是通过关键字参数`bbox`的字典参数值`bbox = dict(boxstyle="round",fc="#7EC0EE",ec="#9B30FF")`来实现的，其中的键`boxstyle`的键值还可以选择`square`。
+
+### 5.2.5 案例4：有箭头指示的趋势线
+一方面，我们可以单一地展示指示箭头而将注解隐藏，从而产生只有指示箭头的展示效果，进而用这种没有文本的指示箭头作为趋势线来反映折线的趋势变化和周期规律。
+
+另一方面，我们也可以使用其他方法实现有指示箭头作为趋势线的可视化需求。下面，我们就分别讲解这两种趋势线的实现方法和样式特征。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0, 10, 2000)
+y = np.sin(x)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+ax.plot(x, y, ls='-', lw=2)
+ax.set_ylim(-1.5, 1.5)
+arrowprops = dict(arrowstyle='-|>', color='r')
+ax.annotate('', xy=(3*np.pi/2, np.sin(3*np.pi/2)), xytext=(np.pi/2, np.sin(np.pi/2)+0.05), color='r', arrowprops=arrowprops)
+ax.arrow(0.0, -0.4, np.pi/2, 1.2, head_width=0.05, head_length=.1, fc='g', ec='g')
+ax.grid(ls=':', color='gray', alpha=.6)
+
+plt.show()
+```
+借助Axes的实例方法`arrow()`绘制出绿色箭头，但是箭头**不是**正三角形。
+
+借助Axes的实例方法`annotate()`可以绘制出没有注解的指示箭头，而且箭头是正三角形的。
+
+实例方法`arrow(x,y,dx,dy)`中的参数`dx`是参数`x`的`水平增量`，对应的参数`dy`是参数`y`的`垂直增量`。
+
+### 5.2.6 案例5：桑基图
+有指示注解不仅可以用来作为图形内容的注释，还可以抽象为一种图形。这种图形就是桑基图，桑基图是一种特定类型的流量图。
+
+在流量图中，指示箭头的宽度是与流量的大小成比例的。流量图的典型应用场景是可视化呈现能量、物质或是成本在流动过程中的转移情况。
