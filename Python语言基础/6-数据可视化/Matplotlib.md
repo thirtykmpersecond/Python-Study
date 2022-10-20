@@ -1950,3 +1950,27 @@ digrams[0].text.set_fontweight('bold')
 plt.title('日常生活中成本开支的流量图')
 plt.show()
 ```
+首先，通过使用语句`from matplotlib.sankey import Sankey`，从matplotlib中的模块`sankey`导入类`Sankey`，调用语句`Sankey()`生成实例`sankey`。然后分别调用实例方法`add()`和`finish()`完成桑基图的基础绘制工作。
+
+列表`flows`中的负值表示**流出量**，正值表示**流入量**。
+
+列表`orientations`中的-1、0和1分别表示流量的显示位置在下方、水平和上方。最后调整流量图`diagrams[0]`的文本`List Cost`和`family`的显示样式、颜色等属性的属性值。
+
+## 5.3 实现标题和坐标轴标签的投影效果
+标题和坐标轴标签都是对绘图区域中的图形进行注释的文本内容，既然是文本内容，我们就可以对文本内容的样式进行设置。
+
+设置标题和坐标轴的投影效果就是调整文本内容样式的有力探索。下面，我们就分别完成设置标题和坐标轴标签的投影效果的工作。
+
+### 5.3.1 实现标题和坐标轴标签的投影效果的操作方法
+这里不能简单地通过调用函数来实现。需要引入一个新类`patheffects(路径效果)`从而完成后续的操作。
+```python
+import matplotlib.pyplot as plt
+import matplotlib.patheffects as pes
+import numpy as np
+
+x = np.linspace(0.5, 3.5, 100)
+y = np.sin(x)
+
+fontsize = 23
+
+```
