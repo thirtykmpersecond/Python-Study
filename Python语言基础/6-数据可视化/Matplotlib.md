@@ -1994,3 +1994,41 @@ yaxis_label_text_obj.set_path_effects([pe])
 
 plt.show()
 ```
+1. 引入一个新类`pathefects`路径效果,对标题和坐标轴内容进行添加，放入变量`title_text_obj`、`xaxis_label_text_obj`、`yaxis_label_text_obj`中。
+2. 设置文本内容投影：，这里主要通过调用`Artist.set_path_effetcs(path_effects)`来实现，其中`path_effects`是实例列表，列表中的实例就是调用`pes`类中`withSimplePatchShadow`类。
+3. 初始化函数`withSimplePatchShadow()`主要参数：
+   + offset：文本内容投影相对文本内容本身的偏移距离
+   + shadow_rgbFace：投影的颜色
+   + alpha：投影的透明度，范围是*0.0~1.0*，数字越大透明度越小
+
+通过上面的操作实现了文本内容的投影效果，通过前面所讲的坐标轴位置和样式的操作方法和本节介绍的操作方法，读者基本可以掌握对图画细节和定制化的操作方法，这些方法是具有泛化性的，读者可以根据自身的实际需求灵活地运用书中所讲的操作方法，从而满足自己的具体研究、工作和学习的需要。 
+
+除了可以给坐标轴标签添加投影效果，还可以给坐标轴标签添加文本框，以及调整文本框的位置，同样会实现强调文本内容的目的。
+
+### 5.3.2 案例：给坐标轴标签添加文本框
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0.5, 3.5, 100)
+y = np.sin(x)
+
+fig = plt.figure(figsize=(8, 8))
+ax = fig.add_subplot(111)
+box = dict(facecolor='#6959cd', pad=2, alpha=.4)
+ax.plot(x, y, c='b', ls='--', lw=2)
+
+# set text contents
+title = '$y=\sin({x})$'
+xaxis_label = '$x\_axis$'
+yaxis_label = '$y\_axis$'
+ax.set_xlabel(xaxis_label, fontsize=18, bbox=box)
+ax.set_ylabel(yaxis_label, fontsize=18, bbox=box)
+ax.set_title(title, fontsize=23, va='bottom')
+
+# axes coords
+ax.yaxis.set_label_coords(-0.08, 0.5)
+ax.xaxis.set_label_coords(1.0, -0.05)
+
+ax.grid(ls='-.', lw=1, color='gray', alpha=0.5)
+plt.show()
+```
