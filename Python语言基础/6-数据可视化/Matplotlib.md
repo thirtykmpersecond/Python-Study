@@ -2038,4 +2038,46 @@ plt.show()
 
 因此，有序数对`(a,b)`标示坐标轴移动至x轴长度a倍的距离，y轴的b倍距离。
 
-# 6 
+# 6 划分画布的主要函数
+本章我们专门讨论划分画布的相关函数。这里就需要引入一个概念：`子区`。子区顾名思义就是将画布分成若干子画布，这些子画布构成绘图区域，在这些绘图区域上分别绘制图形。因此，子区的本质就是在纵横交错的行列网格中，添加绘图坐标轴。这样就实现了一张画布多张图形分区域展示的效果。
+
+这也是组织子区相关代码的逻辑顺序。接下来，我们先来讲解子区相关函数。
+
+## 6.1 `subplot()`：绘制网格区域中的几何形状相同的子区布局
+这个函数专门用来绘制**网格区域中的几何形状相同**的子区布局。
+
+子区函数的调用签名可以是`subplot(numRows,numCols,plotNum)`，也可以是`subplot(CRN)`.
+
+### 6.1.1 函数`subplot()`的使用方法
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-2*np.pi, 2*np.pi, 200)
+y = np.sin(x)
+y1 = np.cos(x)
+
+# set figure#1
+plt.subplot(121)
+plt.plot(x, y)
+
+# set figure#2
+plt.subplot(122)
+plt.plot(x, y1)
+
+plt.show()
+```
+函数`subplot(121)`和函数`subplot(122)`代表在画布上分隔出一个1行2列的画布格式，实现在画布上绘制“1行2列”的图形1“正弦曲线”和图形2“余弦曲线”的绘图布局。
+
+### 6.1.2 案例1：在即坐标轴上绘制折线图
+在**极坐标**下也可以绘制折线图。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+radii = np.linspace(0, 1, 100)
+theta = 2*np.pi*radii
+
+ax = plt.subplot(111, polar=True)
+ax.plot(theta, radii, color='r', linestyle='-', lw=2)
+plt.show()
+```
