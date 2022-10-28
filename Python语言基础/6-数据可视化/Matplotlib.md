@@ -2081,3 +2081,6 @@ ax = plt.subplot(111, polar=True)
 ax.plot(theta, radii, color='r', linestyle='-', lw=2)
 plt.show()
 ```
+通过调用函数`subplot()`获得坐标轴实例`ax`，使用面向对象调用实例方法。
+
+其中极径和极角作为折线图的数量参数，同时依然可以设置折线图的线形、颜色和线宽等属性。
