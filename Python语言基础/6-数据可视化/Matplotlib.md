@@ -2178,3 +2178,26 @@ plt.title('折线图')
 plt.suptitle('subplot2grid()函数实例展示', fontsize=25)
 plt.show()
 ```
+通过调用函数`subplot2grid(shape, loc)`将参数`shape`划定的网格布局作为画图区域，实现在参数`loc`处绘制图形的目的。
+
+参数`shape`设置了一个**2行3列**的网格布局，参数`loc`标示元组的第一个和第二个数字的起点都是0。
+
+以`plt.subplot2grid((2,3),(0,0), colspan=2)`为例，参数`loc(0,0)`标示图形将第一行第一列作为位置起点，`colspan`标示向右延展两列。相应的，`plt.subplot2grid((2,3),(1,0), colspan=3)`标示从第二行第一列开始，向右延展3列。
+
+**注意**：图形位置的索引起点是从0开始的，并不是向`subplot()`子函数中图形位置从1开始。
+
+### 6.2.2 延伸阅读：模块`gridspec`中的`GridSpec`用法
+模块`gridspec`是一个可以指定画布中子区域位置或者说是布局的"分区"模块。
+
+在模块`gridspec`中，有一个类`GridSpec`。`GridSpec`可以指定网格的几何形状，也就是说，可以划定一个子区的网格状的几何结构。
+
+我们需要设定网格的**行数和列数**，以此确定子区的划分结构样式。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.gridspec import GridSpec
+
+fig = plt.figure()
+gs = GridSpec(2,2)
+box = dict(facecolor='lightgreen', pad=3, alpha)
+```
