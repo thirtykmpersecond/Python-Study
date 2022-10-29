@@ -2069,7 +2069,7 @@ plt.show()
 ```
 函数`subplot(121)`和函数`subplot(122)`代表在画布上分隔出一个1行2列的画布格式，实现在画布上绘制“1行2列”的图形1“正弦曲线”和图形2“余弦曲线”的绘图布局。
 
-### 6.1.2 案例1：在即坐标轴上绘制折线图
+### 6.1.2 案例1：在极坐标轴上绘制折线图
 在**极坐标**下也可以绘制折线图。
 ```python
 import matplotlib.pyplot as plt
@@ -2084,3 +2084,97 @@ plt.show()
 通过调用函数`subplot()`获得坐标轴实例`ax`，使用面向对象调用实例方法。
 
 其中极径和极角作为折线图的数量参数，同时依然可以设置折线图的线形、颜色和线宽等属性。
+
+### 6.1.3 案例2：在极坐标轴上绘制散点图
+在极坐标系下，我们可以将极径和极角作为一堆有序数对，实现绘制散点图的可视化目标。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+
+theta = 2*np.pi**np.random.rand(100)
+radii = 30*np.random.rand(100)
+colors = np.random.rand(100)
+size = 50*radii
+
+ax = plt.subplot(111,polar=True)
+ax.scatter(theta, radii, s=size, c=colors, cmap=mpl.cm.PuOr, marker='*')
+
+plt.show()
+```
+通过调用函数`subplot()`获得坐标轴实例`ax`，使用面向对象调用实例方法的技术完成在极坐标轴上绘制散点图的任务。
+
+其中极径和极角作为散点图的有序数对被标记在图中。同时，我们还设置了标记的样式、颜色和大小。
+
+对于标记颜色的设定，我们使用了颜色映射表`PuOr`为标记着色，关于颜色映射表的更多使用细节。
+
+### 6.1.4 案例3：在非等分画布的绘图区域上实现图形展示
+通常子区函数`subplot()`用来完成等分画布的绘图展示任务，如果在画布上需要进行非等分画布的图形展示时，我们可以多次调用函数`subplot()`来完成非等分画布的绘图准备任务。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure()
+x = np.linspace(0.0, 2*np.pi)
+y = np.cos(x)*np.sin(x)
+
+ax1 = fig.add_subplot(121)
+ax1.margins(0.03)
+ax1.plot(x, y, ls='-', lw=2, color='b')
+
+ax2 = fig.add_subplot(222)
+ax2.margins(0.7, 0.7)
+ax2.plot(x, y, ls='-', lw=2, color='r')
+
+ax3 = fig.add_subplot(224)
+ax3.margins(x=0.1, y=0.3)
+ax3.plot(x, y, ls='-', lw=2, color='g')
+
+plt.show()
+```
+使用实例方法`add_subplot()`绘制了非等分画布的绘图区域的多子区折线图，左侧图形是通过实例方法`add_subplot(121)`完成的。
+
+右侧上下两幅图形是通过实例方法`add_subplot(222)`和`add_subplot(224)`绘制完成的。完成非等分画布的任务的关键是`add_subplot(121)`和`add_subplot(222)`在网格上存在重叠子区域`subplot(122)`。
+
+实例方法`margins(m)`可以设置数据范围的空白区域，也就是说，m倍的数据区间会被添加到原来数据区间的两端，数据范围的空白区域的调整类型既包括x轴也包括y轴的数据区间，**参数m的取值范围是大于-0.5的任意浮点数。**
+margins – If a single positional argument is provided, it specifies both margins of the x-axis and y-axis limits.
+
+## 6.2 `subplot2grid()`：让子区跨固定的网格布局
+`subplot()`只能绘制等分画布形式的图形样式，要想按照绘图区域的不同展示目的，进行非等分画布形式的图形展示需要使用更高级的方法定制化网格区域。
+
+通过`subplot2grid()`，其中的`rowspan`和`colspan`参数可以让子区跨越固定的网格布局的多个行和列，实现不同的子区布局。
+
+### 6.2.1 函数`subplot2grid()`使用方法
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+# set subplot(23,1-2)
+plt.subplot2grid((2,3),(0,0), colspan=2)
+x = np.linspace(0.0, 4.0, 100)
+y = np.random.randn(100)
+
+plt.scatter(x, y, c='c')
+plt.title('散点图')
+
+# set subplot(233)
+plt.subplot2grid((2,3),(0,2))
+plt.title('空白区域')
+
+# set subplot(23,4-6)
+plt.subplot2grid((2,3),(1,0), colspan=3)
+x = np.linspace(0.0, 4.0, 100)
+y1 = np.sin(x)
+plt.plot(x, y1, lw=2, ls='-')
+
+plt.xlim(0,3)
+plt.grid(True, ls=':', c='r')
+plt.title('折线图')
+
+# set figure title
+plt.suptitle('subplot2grid()函数实例展示', fontsize=25)
+plt.show()
+```
