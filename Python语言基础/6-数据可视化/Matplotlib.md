@@ -965,6 +965,7 @@ plt.show()
 + label：图例内容
 + rwidth：柱体宽度
 + edgecolor='black': 柱体边缘的填充颜色
++ density：规范化/均一化`normed＝True`已经不再使用，推荐使用`density=True`。
 
 代码中`scoresT`代表人数是100人的班级考试成绩，`bins`用来确定每个柱体包含的数据范围。**除了最后一个柱体的范围是闭区间，其他柱体的数据范围都是左闭右开区间**。
 例如第一个柱体的数据范围是[0,10)，最后一个柱体的范围是[90,100]。直方图的颜色是蓝色，直方图类型是柱状类型。
@@ -2245,3 +2246,158 @@ plt.show()
 最后，为了使子区`gs[0,:]`和子区`gs[1,0]`的y轴坐标轴标签的位置对齐，调用实例方法`set_label_coords(x,y)`进行位置调整。
 
 `参数x`和`参数y`的默认坐标系统是`Axes坐标系统`。值得注意的是，在`matplotlib2.2.2`中，我们可以直接调用Figure的实例fig的实例方法`fig.align_labels()`，实现坐标轴标签位置的对齐，同理**也可以实现x轴和y轴的坐标轴标签位置的对齐**，即通过`fig.align_xlabels()`和`fig.align_ylabels()`语句实现。
+
+## 6.3 `subplots()`：创建一张画布带有多个子区的绘图模式
+`matplotlib.pyplot.subplots()`可以非常便捷地创建**1行1列**的网格布局的子区，而且同时创建一个画布对象。
+
+函数`subplots()`返回值是一个元组对象`(fix, axs)`，其中`fig`是Figure实例，`axs`可以是一个axis对象，如果**多个子区被创建，也可以是一个`axis对象数组`**。
+
+因此使用函数`subplots()`可以创建一张画布带有多个绘图模式的网格布局。
+
+### 6.3.1 案例1：创建一张画布和一个子区的绘图模式
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+font_style = dict(fontsize=18, weight='black')
+
+# create sample data
+x = np.linspace(0, 2*np.pi, 500)
+y = np.sin(x)*np.cos(x)
+
+# create just a figure and only one subplot
+fig, ax = plt.subplots(1,1, subplot_kw=dict(facecolor='cornflowerblue'))
+ax.plot(x, y, 'k--', lw=2)
+ax.set_xlabel('时间（秒）', **font_style)
+ax.set_ylabel('振幅', **font_style)
+ax.set_title('简单折线图', **font_style)
+ax.set_xlim(0, 2*np.pi)
+ax.set_ylim(-0.65, 0.65)
+ax.grid(ls=':', lw=1, color='gray', alpha=0.8)
+
+# show figure and subplot(s)
+plt.show()
+```
+调用函数`subplots(1,1)`等同于调用函数`subplots()`，因为`subplots()`的参数`nrows`和`ncols`默认值都是1。
+
+因此调用函数`subplots()`后，返回一个元组`(fig,ax)`，即***生成一个画布对象`fig`和一个坐标轴实例`ax`***。坐标轴实例ax可以绘制折线图，并设置坐标轴标题。函数`subplots()`的关键字参数`subplot_kw`设置坐标轴的背景色。
+
+### 6.3.2 案例2：创建一张画布和两个子区的绘图模式
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+font_style = dict(fontsize=18, weight='black')
+
+# create sample data
+x = np.linspace(0, 2*np.pi, 500)
+y = np.sin(x)*np.cos(x)
+
+# create just a figure and two subplot
+fig,ax = plt.subplots(1,2,sharey=True)
+
+# subplot(121)
+ax1 = ax[0]
+ax1.plot(x, y, 'k--', lw=2)
+ax1.set_title('折线图')
+ax1.grid(ls=':', lw=1, color='gray', alpha=.8)
+
+# subplot(122)
+ax2 = ax[1]
+ax2.scatter(x, y, s=10, c='skyblue', marker='o')
+ax2.set_title('散点图')
+
+# create a figure title
+plt.suptitle('创建一张画布和两个子区的绘图模式', **font_style)
+
+# show figure and subplot(s)
+plt.show()
+```
+通过函数`subplots(1,2)`生成一个`画布对象`和一个`坐标轴实例数组`。画布对象和实例数组分别存储在变量`fig`和`ax`中，然后分别在坐标轴`ax1`和`ax2`上绘制折线图和散点图。
+
+为了清楚地说明画布内容，调用了函数`plt.suptitle()`，同时调用实例方法`Axes.title()`解释每个子区的绘图区域内容。
+
+PS：如果我们想要改变**子区边缘相距画布边缘的距离**和**子区边缘之间的高度与宽度的距离**，可以调用函数`subplots_adjust(*agrs,**kwargs)`进行设置。
+
+其中的关键字参数`left`、`right`、`bottom`、`top`、`hspace`和`wspace`都有默认值，而且是使用`Axes坐标轴系统`度量的，即使用闭区间`[0,1]`的浮点数。
+
+关键字参数`left`、`right`、`bottom`、`top`可以调节子区距离画布的距离，关键字参数`wspace`控制子区之间的宽度距离，关键字参数`hspace`控制子区之间的高度距离。
+
+因此，借助函数`subplots_adjust()`可以有效实现子区的画布布局的空间位置的调整。
+
+### 6.3.3 案例3：多种统计图形的组合展示
+我们尝试将前面讲过的统计图形进行有效地组合，同时调用前面有关统计图形的操作方法，进而借助函数`subplots()`来创建多种统计图形的组合展示的可视化模式。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig,ax = plt.subplots(2,3)
+
+# subplot(231)
+colors = ['#8dd3c7', '#ffffb3', '#bebada']
+ax[0,0].bar([1,2,3], [0.6,0.2,0.8], color=colors, width=.5, hatch='///', align='center')
+ax[0,0].errorbar([1,2,3], [0.6,0.2,0.8], yerr=.1, capsize=0, ecolor='#377eb8', fmt='o:')
+ax[0,0].set_ylim(0,1.0)
+
+# subplot(232)
+ax[0,1].errorbar([1,2,3], [20,30,36], xerr=2, ecolor='#4daf4a', elinewidth=2, fmt='s', label='ETN')
+ax[0,1].legend(loc=3, fancybox=True, shadow=True, fontsize=10, borderaxespad=0.4)
+ax[0,1].set_ylim(10, 40)
+ax[0,1].set_xlim(-2, 6)
+ax[0,1].grid(ls=':', lw=1, color='grey', alpha=0.5)
+
+# subplot(233)
+x3 = np.arange(1, 10, 0.5)
+y3 = np.cos(x3)
+ax[0,2].stem(x3, y3, basefmt='r-', linefmt='b-.', markerfmt='bo', label='life signal')
+ax[0,2].legend(loc=2, fontsize=8, frameon=False, borderpad=0.0, borderaxespad=0.6)
+ax[0,2].set_xlim(0, 11)
+ax[0,2].set_ylim(-1.1, 1.1)
+
+# subplot(234)
+x4 = np.linspace(0, 2*np.pi, 500)
+x4_1 = np.linspace(0, 2*np.pi, 1000)
+y4 = np.cos(x4)*np.exp(-x4)
+y4_1 = np.sin(2*x4_1)
+line1,line2 = ax[1,0].plot(x4, y4, 'k--', x4_1, y4_1, 'r-', lw=2)
+ax[1,0].legend((line1,line2), ('energy', 'patience'), loc='upper center', fontsize=8,
+               ncol=2, framealpha=0.3, mode='expand', columnspacing=2, borderpad=0.1)
+ax[1,0].set_ylim(-2, 2)
+ax[1,0].set_xlim(0, 2*np.pi)
+
+# subplot(235)
+x5 = np.random.rand(100)
+ax[1,1].boxplot(x5, vert=False, showmeans=True, meanprops=dict(color='g'))
+ax[1,1].set_yticks([])
+ax[1,1].set_xlim(-1,1, 1,1)
+ax[1,1].set_ylabel('Micro SD card')
+ax[1,1].text(-1.0, 1.2, 'net weight', fontsize=20, style='italic', weight='black', family='monospace')
+
+# subplot(236)
+mu = 0.0
+sigma = 1.0
+
+x6 = np.random.randn(10000)
+n,bins,patches = ax[1,2].hist(x6, bins=30, histtype='stepfilled', cumulative=True,
+                              density=True, color='cornflowerblue', label='Test')
+y = ((1/(np.sqrt(2*np.pi)*sigma))*np.exp(-0.5*(1/sigma*(bins-mu))**2))
+y = y.cumsum()
+y/= y[-1]
+
+ax[1,2].plot(bins, y, 'r--', lw=1.5,label='Theory')
+ax[1,2].set_ylim(0.0, 1.1)
+ax[1,2].grid(ls=':', lw=1, color='grey', alpha=.5)
+ax[1,2].legend(loc='upper left', fontsize=8, shadow=True, fancybox=True, framealpha=0.8)
+
+#adjust subplots() layout
+plt.subplots_adjust()
+
+plt.show()
+```
+调用函数`subplots(2,3)`生成一个元组`(fig,ax)`，其中，`fig`是Figure的画布实例，`ax`是一个由axes组成的数组array。数组ax的形状`shape`是2行3列的，数组ax的索引是从0开始计数的。因此，我们先从`ax[0,1]`子区开始讲起，即子区`subplot(2,3,1)`。
+
+在子区`subplot(231)`中，我们绘制了包含误差棒的柱状图，而且柱状图带有“斜线”的几何图案。误差棒的方向是垂直x轴的，误差棒之间使用虚线连接。
