@@ -2425,5 +2425,39 @@ plt.show()
 因此，本节我们主要探讨将多张图形放在同一个绘图区域的方法，让读者全面掌握共享坐标轴在一个绘图区域绘制多幅图形的方法，从而应对今后实际的项目和工作任务。
 
 ```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
 
+fig,ax1 = plt.subplots()
+# ax1 = plt.subplot()
+t = np.arange(0.05, 10.0, 0.01)
+s1 = np.exp(t)
+
+ax1.plot(t, s1, c='b', ls='-')
+
+# set x-axis label
+ax1.set_xlabel('x坐标轴')
+# make the y-axis label, ticks and tick labels match the line color
+ax1.set_ylabel('以e为底指数函数', c='b')
+ax1.tick_params('y', colors='b')
+
+# ax1 shares x-axis with ax2
+ax2 = ax1.twinx()
+s2 = np.cos(t**2)
+ax2.plot(t,s2,c='r',ls=':')
+# make the y-axis label and tick labels match the line color
+ax2.set_ylabel('余弦函数',c='r')
+ax2.tick_params('y', colors='r')
+
+plt.show()
 ```
+使用函数`subplots()`生成坐标轴实例`ax1`，绘制折线图`ax1.plot()`，用`ax1.set_ylabel('以e为底指数函数', c='b')`和`ax1.tick_params('y', colors='b')`方法将**y轴标签、主刻度线、和刻度标签**都设置成蓝色
+
+调用实例方法`ax1.twinx()`生成实例`ax2`，此时实例`ax2`的x轴与实例`ax1`的轴是共享的，实例`ax2`的刻度线和刻度标签在右侧轴脊处绘制。使用`ax2.set_ylabel('余弦函数',c='r')`和`ax2.tick_params('y', colors='r')`将右侧y轴标签、主刻度线和刻度标签都设置成红色。
+
+这样实现将两幅图形绘制在同一个绘图区域。相应的我们也可以调用`Axes.twiny()`方法满足共享y轴的可视化需求。
+
+## 7.2 共享不同子区绘图区域的坐标轴
