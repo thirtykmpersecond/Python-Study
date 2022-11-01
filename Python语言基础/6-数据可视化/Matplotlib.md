@@ -779,7 +779,7 @@ mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
 mpl.rcParams['axes.unicode_minus'] = False
 
 # some simple data
-x = np.arange(5)
+x = np.arange(5)    #在给定的间隔内返回均匀间隔的值。
 y = [6, 10, 4, 5, 1]
 y1 = [2, 6, 3, 8, 5]
 
@@ -2461,3 +2461,37 @@ plt.show()
 这样实现将两幅图形绘制在同一个绘图区域。相应的我们也可以调用`Axes.twiny()`方法满足共享y轴的可视化需求。
 
 ## 7.2 共享不同子区绘图区域的坐标轴
+很多时候，我们需要共享不同子区的绘图区域的坐标轴，以求强化绘图区域的展示效果，实现精简绘图区域的目的。这时，我们通过调整函数`subplots()`中的参数`sharey`或是参数`sharex`的不同取值情况，从而实现共享不同子区的绘图区域的坐标轴的需求。
+
+下面，就让我们来全面掌握函数`subplots()`在共享不同子区的绘图区域的坐标轴的设置方法，以实现正确和灵活地使用函数`subplots()`。
+
+在6.1节中，介绍函数`subplots()`的使用方法时，调用签名使用了`subplots(1,2,sharey=True)`的形式，其中参数`sharey`表示`子区1`和`子区2`共享y坐标轴。
+
+相对应的，还可以设置参数`sharex`的取值形式。具体而言，参数`sharex`和参数`sharey`的取值形式有四种，分别是`row`、`col`、`all`和`none`，其中`all`和`none`分别等同于`True`和`False`。
+
+下面我们以参数`sharex`为例就四种参数取值形式分别进行讲解，参数`sharey`的取值形式与使用方法和参数`sharex`完全相同。
+
+### 7.2.1 设置方法
+下面我们就通过Python代码的形式，来讲解共享绘图区域的坐标轴的具体实现方法。为了增强参数`sharex`取值变化前后的图形展示效果，我们首先绘制没有使用参数`sharex`和`sharey`的调用签名形式的图形。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# create sample data
+x1 = np.linspace(0, 2*np.pi, 400)
+y1 = np.cos(x1**2)
+x2 = np.linspace(0.01, 10, 100)
+y2 = np.sin(x2)
+x3 = np.random.rand(100)
+y3 = np.linspace(0, 3, 100)
+x4 = np.arange(0, 6, 0.5)
+y4 = np.power(x4, 3)
+
+# set (2,2) subplots
+fig,ax = plt.subplots(2,2)
+# set chart of each subplot
+ax1 = ax[0,0]
+ax1.plot(x1, y1)
+ax2 = ax[0,1]
+ax2.plot(x2, y2)
+```
