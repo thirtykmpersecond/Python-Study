@@ -2494,4 +2494,15 @@ ax1 = ax[0,0]
 ax1.plot(x1, y1)
 ax2 = ax[0,1]
 ax2.plot(x2, y2)
+ax3 = ax[1,0]
+ax3.scatter(x3, y3)
+ax4 = ax[1,1]
+ax4.scatter(x4, y4)
+# show figure and plots
+plt.show()
 ```
+通过调用函数`subplots(2,2)`，生成一个2行2列的网格子区布局，可以看到4幅图形的x轴的范围和刻度标签都不相同。下面分为4中情况讨论参数`sharex`的取值情况参数。
+
+1. `sharex='all'`
+   + 只需要将语句`plt.subplots(2,2)`改成`plt.subplots(2,2,sharex='all')`，其他语句不变。
+   + 可以看到4幅图形
