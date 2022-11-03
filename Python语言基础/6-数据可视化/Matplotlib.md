@@ -2628,5 +2628,42 @@ plt.plot(np.arange(3), [0,1,0], color='b', lw=2, ls='-')
 
 # set #2 plot
 plt.axes([0.3, 0.4, .3, .3], frameon=True, fc='y', aspect='equal')
-plt.plot
+plt.plot(2+np.arange(3), [0,1,0], color='blue', lw=2, ls='-')
+
+# set #3 plot
+plt.axes([0.55, 0.1, .3, .3], frameon=True, fc='y', aspect='equal')
+plt.plot(4+np.arange(3), [0,1,0], c='b', lw=2, ls=':')
+
+plt.show()
+```
+上述代码试图通过多幅视图来展示函数plot()中的参数linestyle的不同属性值的图形效果。 不同于使用子区函数subplot()、subplot2grid()和模块matplotlib.gridspec构建子区的方法，这些方法都只能在规则网格内进行视图布局。也就是说，只能在横纵交错的网格区域绘制子区模式，无法完成子区的交错、覆盖和重叠等视图组合模式。
+函数`plt.axes(rect, frameon=True, fc='y', aspect='equal')`参数含义如下：
++ rect：`[left,bottom,width,height]`，列表`rect`中的`left`和`bottom`两个元素分别表示坐标轴的左侧边缘和底部边缘距离画布边缘的距离，`width`和`height`两个元素分别表示坐标轴的宽度和高度，`left`和`width`两个元素的数值都是画布宽度的归一化距离， `bottom`和`height`两个元素的数值都是画布高度的归一化距离。
++ frameon：如果`frameon=True`，则绘制坐标轴四条轴脊，否则不绘制。
++ fc：同`facecolor`，背景颜色
+
+### 8.1.2 案例2：调整已经确定的坐标轴的显示、隐藏与刻度范围问题
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# set #1 plot
+plt.axes([0.05, 0.7, .3, .3], frameon=True, facecolor='y', aspect='equal')
+plt.plot(np.arange(3), [0,1,0], color='b', lw=2, ls='--')
+plt.ylim(0, 1.5)
+plt.axis('image')
+
+# set #2 plot
+plt.axes([0.3, 0.4, .3, .3], frameon=True, fc='y', aspect='equal')
+plt.plot(2+np.arange(3), [0,1,0], color='blue', lw=2, ls='-')
+plt.ylim(0, 15)
+plt.axis([2.1, 3.9, 0.5, 1.9])
+
+# set #3 plot
+plt.axes([0.55, 0.1, .3, .3], frameon=True, fc='y', aspect='equal')
+plt.plot(4+np.arange(3), [0,1,0], c='b', lw=2, ls=':')
+plt.ylim(0, 1.5)
+plt.axis('off')
+
+plt.show()
 ```
