@@ -1546,8 +1546,9 @@ plt.show()
 
 在字符串`r"$text\pi$"`的开始之处有一个标记r，表示该字符串是`raw strings`，字符串按照`TeX规范`进行解析，通常情况下不可以省略。
 
+---
 # 4.2.2 函数`subplot()`
-在代码实现部分我们调用了子区函数`subplot()`，这个函数专门用来绘制几何形状相同的网格区域，子区顾名思义就是将画布分成若干个子画布，这些子画布就构成了几何形状规则且对称的矩形绘图区域，然后在这些绘图区域上分别绘制图形。例如，子区函数subplot(211)和子区函数subplot(212)代表首先在画布上分隔出一个2行1列的画布格式，然后在一个2行1列的画布格式上分别绘制图形1和图形2。 
+在代码实现部分我们调用了子区函数`subplot()`，这个函数专门用来绘制几何形状相同的网格区域，子区顾名思义就是将画布分成若干个子画布，这些**子画布就构成了几何形状规则且对称的矩形绘图区域**，然后在这些绘图区域上分别绘制图形。例如，子区函数subplot(211)和子区函数subplot(212)代表首先在画布上分隔出一个2行1列的画布格式，然后在一个2行1列的画布格式上分别绘制图形1和图形2。 
 
 在一般情况下，刻度标签的数值范围都是升序排列的，也就是说坐标轴的交点是(0,0)原点。但是，在很多科学实验或科学试验的情况中，收集到的原始数据进行可视化展示时，需要将刻度范围调整成降序排列，方便科研人员观测数据的规律和特征。接下来，我们就通过案例加以说明。
 
@@ -1637,7 +1638,7 @@ plt.show()
 + rowLabels：表格每行的行名称。 
 + rowLoc：表格每行的行名称对齐位置，可以左对齐、居中和右对齐。 
 + loc：表格在画布中的位置。 
- 
+
 通过上面的表格，我们就可以清楚地知道学生选择不同难度试卷的实际人数，从相对和绝对角度分别考察试卷的难易程度对学生选择试卷的影响情况，使得后续的分析结论能够更加客观和全面地反映试卷的难度对学生考试的影响。
 
 ---------
@@ -2666,4 +2667,126 @@ plt.ylim(0, 1.5)
 plt.axis('off')
 
 plt.show()
+```
+上述代码中，我们除了调用函数`ylim()`和函数`axis()`，其他部分与向画布中任意位置添加任意数量的坐标轴的代码相同，通过调用函数`axis()`，分别实现了将图形变得紧凑、调整坐标轴的刻度范围和隐藏坐标轴的显示。
+
+具体而言，左上角的图形通过调用`plt.axis("image")`语句使画面紧凑，中间图形利用函数`axis([xmin,xmax,ymin,ymax])`的参数，实现重新改变坐标轴范围的需求，右下角的视图使用`plt.axis(“off”)`语句将坐标轴完全隐藏而只显示函数`plot()`的绘制图形。
+
+### 8.1.3 使用`axis()`绘制坐标轴。
+上述两个案例的绘制原理，基本上都是首先调用函数`axes()`绘制坐标轴，然后调用函数`axis()`在原来坐标轴的基础上调整坐标轴的视图显示情况，包括可见性、范围和比例协调性等。 
+
+我们也可以通过调用函数`axis()`实现绘制坐标轴，再绘制图形的可视化需求。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.axis([3, 7, -0.5, 3])
+plt.plot(4+np.arange(3), [0,1,0], c='b', lw=4, ls='-')
+
+plt.show()
+```
+
+## 8.2 使用两种方法控制坐标轴刻度的显示
+面对不同Python数据可视化的应用场景的定制化需求，我们需要对坐标轴刻度的显示进行有效的控制，以满足视图展示效果的要求。前面讲过使用模块pyplot的API方法和调用matplotlib的面向对象的方法，并对比了两种操作模式的特点。
+
+接下来，就给大家讲解一下关于matplotlib中的控制坐标轴刻度显示的两种方法：一种方法是利用matploblib的面向对象的`Axes.set_xticks()`和`Axes.set_yticks()`实例方法，实现不画坐标轴刻度的需求；另一种方法是调用模块pyplot的API，使用函数`setp()`设置刻度元素`(ticklabel和tickline)`，更新显示属性的属性值为`False`。
+
+### 8.2.1 方法1：调用`Axes.set_xticks()`和`Axes.set_yticks()`方法
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+ax1 = plt.subplot(1,2,1)
+ax1.set_xticks(np.arange(0,251,50))
+plt.grid(True, axis='x')
+
+ax2 = plt.subplot(122)
+ax2.set_xticks([])
+plt.grid(True, axis='x')
+
+plt.show()
+```
+上述左图是有刻度元素的图，右图是没有刻度元素的图。值得注意的是，如果不设置坐标轴刻度，那么网格线也不会被设置。
+
+设置刻度，包括设置刻度标签和刻度线。刻度标签可以通过`Axes.set_xticklabels()`和`Axes.set_yticklabels()`实例方法进行有效的设置。
+
+### 8.2.2 方法2：调用函数`step()`
+```python
+import matplotlib.pyplot as plt
+ax1 = plt.subplot(221)
+plt.setp(ax1.get_xticklabels(), visible=True)
+plt.setp(ax1.get_xticklines(), visible=True)
+plt.grid(True, axis='x')
+
+ax2 = plt.subplot(222)
+plt.setp(ax2.get_xticklabels(), visible=True)
+plt.setp(ax2.get_xticklines(), visible=False)
+plt.grid(True, axis='x')
+
+ax3 = plt.subplot(223)
+plt.setp(ax3.get_xticklabels(), visible=False)
+plt.setp(ax3.get_xticklines(), visible=True)
+plt.grid(True, axis='x')
+
+ax4 = plt.subplot(224)
+plt.setp(ax4.get_xticklabels(), visible=False)
+plt.setp(ax4.get_xticklines(), visible=False)
+plt.grid(True, axis='x')
+
+plt.show()
+```
+首先，讲解一下pyplot.setp()的使用方法。例如，设置一条折线图的线型风格为破折线，你可以敲入以下代码：
+```python
+import matplotlib.pyplot as plt
+line, = plt.plot([1,2,3])
+plt.setp(line, ls='--')
+plt.show()
+```
+其中`setp()`中非关键字参数`line`代表`matplotlib.lines.Line2D`实例，关键字参数`linestyle`是`Line2D`的属性，参数为`--`，当然也可以用`plt.setp(line, 'linestyle', '--')`语句改变线条风格。
+
+回到代码本身，通过调用函数`setp()`可以分别设置刻度标签`ticklabel`和刻度线`tickline`的显示情况，通过将`Line2D`实例的属性`visible`的属性值设置为`True`或`False`，可以控制刻度元素的显示与隐藏。
+
+值得注意的是，最后一张图是将刻度标签和刻度线都设置为隐藏，但是，隐藏并不同于方法1中的操作，方法1中的操作是**不画刻度元素**，而方法2中的操作是**首先画出刻度元素，然后将其隐藏**。这从x轴上的参考线的隐藏和显示就可以看出两者的区别。也就是说，***不画刻度元素自然就没有参考线，但是画刻度元素后，又将其隐藏，参考线并不会消失***。
+
+本节我们探讨了坐标轴刻度显示设置的两种简易操作方法，虽然从可视化效果上来看，二者基本上可以实现相同的展示效果。但是，从运行机制上来看，二者还是有本质区别
+
+***PS***:8.2.2节中我们看到改变Line2D实例属性的方法是通过函数`setp()`来实现的。下面补充一下改变`matplotlib.lines.Line2D`实例的属性值的方法，还是以上面的代码`line,=plt.plot([1,2,3])`为例，我们可以通过`Line2D`实例的方法`set_attr(attrValue)`实现改变实例属性值的目标，其中，`attr`代表Line2D实例的属性，`attrValue`代表Line2D实例的`attr`属性的属性值。例如，`line.set_linestyle("-")`就将线条风格变为实线，`line.set_linewidth(2.5)`就将线条宽度变为2.5。前面已经讲过棉棒图的绘制原理和应用展示。下面，我们就结合本节中的相关知识进一步探索改变棉棒图的组成要素的属性值的方法。
+
+### 8.2.3 案例1：棉棒图的定制化展示
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0.5, 2*np.pi, 20)
+y = np.random.randn(20)
+markerline, stemlines, baseline = plt.stem(x,y)
+
+plt.setp(markerline, c='chartreuse', marker='D') # markerline.set_marker('D'),markerline.set_color('chartreuse')
+plt.setp(stemlines, ls='-.')# stemlines.set_linestyle('-.')
+baseline.set_linewidth(2)   # plt.setp(baseline, lw=2)
+
+plt.show()
+```
+通过调用函数`stem()`获得实例`markerline`、`stemlines`和`baseline`。我们可以应用本节所讲的改变实例属性值的方法对这些实例的属性值进行定制化设置，以求呈现更好的可视化效果。需要补充的是，`stemlines`是实例列表，改变实例属性值应该使用函数`setp()`来进行设置。
+
+### 8.2.4 案例2：坐标轴样式和位置的定制化展示
+通过这个案例，我们将掌握有关**设置刻度标签**和**刻度线样式**的实现方法，以及**调整轴脊的相对位置**的方法。这些方法既是前面讲过的技巧的运用，也是操作细节的延伸。而且，这些方面的展示效果都是基于面向对象的操作方法实现的。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from calendar import day_name
+from matplotlib.ticker import FormatStrFormatter
+
+fig = plt.figure()
+ax = fig.add_axes([0.2,0.2, 0.7,0.7])  # left, bottom, width, height
+
+ax.spines['bottom'].set_position(('outward', 10))
+ax.spines['left'].set_position(('outword', 10))
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none')
+
+x = np.arange(1, 8, 1)
+y = 2*x + 1
+
+ax.scatter(x, y, c='orange')
 ```
