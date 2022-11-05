@@ -2781,12 +2781,39 @@ fig = plt.figure()
 ax = fig.add_axes([0.2,0.2, 0.7,0.7])  # left, bottom, width, height
 
 ax.spines['bottom'].set_position(('outward', 10))
-ax.spines['left'].set_position(('outword', 10))
+ax.spines['left'].set_position(('outward', 10))
 ax.spines['top'].set_color('none')
 ax.spines['right'].set_color('none')
 
 x = np.arange(1, 8, 1)
 y = 2*x + 1
 
-ax.scatter(x, y, c='orange')
+ax.scatter(x, y, c='orange', s=50, ec='orange') #size=50, edgecolor='orange'
+
+for tickline in ax.xaxis.get_ticklines() :  # 设定tickline中的细节
+    tickline.set_color('blue')  # 不能显示
+    tickline.set_markersize(8)
+    tickline.set_markeredgewidth(5)
+for ticklabel in ax.get_xmajorticklabels() : # 设定ticklabel中的细节
+    ticklabel.set_color('slateblue')
+    ticklabel.set_fontsize(15)
+    ticklabel.set_rotation(20)
+
+ax.yaxis.set_major_formatter(FormatStrFormatter(r"$\yen%1.1f$"))
+
+plt.xticks(x, day_name[0:7], rotation=20)
+ax.yaxis.set_ticks_position('left')       # 'left', 'right', 'both', 'default', 'none'
+ax.xaxis.set_ticks_position('bottom')   # 'top', 'bottom', 'both', 'default', 'none'
+
+for tickline in ax.yaxis.get_ticklines() :
+    tickline.set_color('lightgreen')    # 不能显示
+    tickline.set_markersize(8)
+    tickline.set_markeredgewidth(5)
+for ticklabel in ax.get_ymajorticklabels() :
+    ticklabel.set_color('green')
+    ticklabel.set_fontsize(18)
+
+ax.grid(ls=':', lw=1, c='gray', alpha=.5)
+
+plt.show()
 ```
