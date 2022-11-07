@@ -2818,3 +2818,146 @@ ax.grid(ls=':', lw=1, c='gray', alpha=.5)
 plt.show()
 ```
 为了突出刻度标签的视觉效果，我们将刻度线的颜色设置成与刻度标签同样的颜色，而且刻度线的大小和宽度也都做了调整。更为重要的是，我们将左侧轴脊和底部轴脊分别向左和向下移动10个点的距离，即向数据区域之外移动一些距离，以突显数据本身的变化趋势和规律，如果移动距离是负数，则向数据区域内部移动负数绝对值个数的点的距离。
+
+## 8.3 控制坐标轴的显示
+控制坐标轴显示主要是通过控制坐标轴的载体`轴脊`的显示来实现的，在轴脊上有`刻度标签`和`刻度线`，它们共同组成了坐标轴。因此，控制坐标轴显示是综合通过控制轴脊和刻度线的显示来完成的。这样，进行轴脊和刻度线的显示方法的学习，就可以掌握坐标轴显示的方法。 
+
+在一个绘图区域中，有4条轴脊，分别是`顶边框`、`右边框`、`底边框`和`左边框`，这4条轴脊是4条坐标轴的载体，起到显示刻度标签和刻度线的作用。下面我们就通过Python代码的形式来讲解控制轴脊和坐标轴显示的方法。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-2*np.pi, 2*np.pi, 1000)
+y = np.sin(x)
+
+ax1 = plt.subplot(221)
+ax1.spines['right'].set_color('none')
+ax1.spines['top'].set_color('none')
+ax1.set_xlim(-2*np.pi, 2*np.pi)
+ax1.set_ylim(-1.0, 1.0)
+plt.title(r'$a$')
+plt.scatter(x, y, marker='+', c='b')
+
+ax2 = plt.subplot(222)
+ax2.spines['right'].set_color('none')
+ax2.spines['top'].set_color('none')
+ax2.xaxis.set_ticks_position('bottom')
+ax2.set_xlim(-2*np.pi, 2*np.pi)
+ax2.set_ylim(-1.0, 1.0)
+plt.scatter(x, y, marker='+', c='b')
+plt.title(r'$b$')
+
+ax3 = plt.subplot(223)
+ax3.spines['right'].set_color('none')
+ax3.spines['top'].set_color('none')
+ax3.yaxis.set_ticks_position('left')
+ax3.set_xlim(-2*np.pi, 2*np.pi)
+ax3.set_ylim(-1.0, 1.0)
+plt.title(r'$c$')
+plt.scatter(x, y, marker='+', c='b')
+
+ax4 = plt.subplot(224)
+ax4.spines['right'].set_color('none')
+ax4.spines['top'].set_color('none')
+ax4.xaxis.set_ticks_position('bottom')
+ax4.yaxis.set_ticks_position('left')
+ax4.set_xlim(-2*np.pi, 2*np.pi)
+ax4.set_ylim(-1.0, 1.0)
+plt.title(r'$d$')
+plt.scatter(x, y, marker='+', c='b')
+
+plt.show()
+```
+通过`ax2.spines['right'].set_color('none')`和`ax2.spines['top'].set_color('none')`语句将顶边框和有边框去掉，但刻度线还是被保留。
+
+通过`ax2.xaxis.set_ticks_position('bottom')`语句，将顶边框上的刻度线去掉。同理`ax3.yaxis.set_ticks_position('left')`将有边框的刻度线去掉展示效果。
+
+`ax1 = plt.subplot(221)`和`plt.setp(ax1.get_xticklabels(), visible=True)`和`plt.setp(ax1.get_xticklines(),visible=True)`语句也可以实现刻度标签和刻度线的显示需求，但是却不能改变刻度标签和刻度线的显示位置。
+
+## 8.4 移动坐标轴的位置
+在学习了控制坐标轴显示的方法之后，我们就可以对坐标轴显示进行进一步操作，即移动坐标轴的位置。 移动坐标轴的位置的操作是以控制坐标轴显示作为方法和知识基础的。
+
+所谓移动坐标轴的位置就是移动坐标轴的载体（轴脊）的位置，进而设置刻度线的位置，从而完成移动坐标轴的位置的任务。前面讲过调整刻度范围和刻度标签、控制坐标轴显示的方法。
+
+如果可以将左侧和底端的坐标轴移动位置，变成可以清楚地显示出曲线周期的特点和数值变化的规律的图形，那就更完美了。接下来，我们就讲解如何移动坐标轴的位置。 
+
+下面就通过Python代码的形式，结合前面调整刻度范围和刻度标签、控制坐标轴显示的方法的代码部分，移动坐标轴位置。
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.linspace(-2*np.pi, 2*np.pi, 200)
+y = np.sin(x)
+y1 = np.cos(x)
+
+ax = plt.subplot(111)
+ax.plot(x, y, ls='-', lw=2, label=r'$\sin(x)$')
+ax.plot(x, y1, ls='-', lw=2, label=r'$\cos(x)$')
+ax.legend(loc='lower left')
+plt.title('$\sin(x)$'+"和"+"$\cos(x)$"+'函数')
+
+# set xlimit
+ax.set_xlim(-2*np.pi, 2*np.pi)
+# set ticks
+plt.xticks([-2*np.pi, -3*np.pi/2, -1*np.pi, -np.pi/2, 0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], [r"$-2\pi$", r'$-3\pi/2$', r'$-\pi$',r'$-\pi/2$', r'$0$', r'$\pi/2$', r'$\pi$', r'$3\pi/2$', r'$2\pi$'])
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.spines['left'].set_position(('data', 0))
+ax.spines['bottom'].set_position(('data', 0))
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+
+plt.show()
+```
+代码的主体部分基础上，添加了两条关键代码：
++ `ax.spines['bottom'].set_position(('data', 0))`
++ `ax.spines['left'].set_position(('data', 0))`
+
+`as.spines`会调用轴脊字典，其中的`key`是`轴脊位置`，`top`、`right`、`bottom`、`left`键值是`matplotlib.spines.Spine`对象，实例方法`set_position`就是就是对轴脊位置的控制方法。其中参数`data`说明控制轴脊的`坐标值`与`折线图`的坐标系统一致。因此`参数0`就表示将**底端轴脊移动到左侧轴脊的零点处，同理将左侧轴脊移动到底端轴脊的零点处**。
+
+在`matplotlib`元素组成结构中，已经说明轴脊是刻度线和坐标轴标签的载体。这样当左侧和低端轴脊移动位置时，刻度线和刻度标签也会相应地移动位置。
+
+我们将x轴刻度线放在底端轴脊上，将y轴刻度线放在左侧轴脊上。从而，完成移动坐标轴位置的工作。
+
+# 9 设置线条类型和标及类型的显示样式
+在matplotlib的大量实践中，会频繁地进行折线图的线条类型和标记类型的设置工作。更加重要的是，线条类型和标记类型的显示样式的美观与否会极大地影响Python数据可视化的效果。因此，我们需要重点进行这方面的操作技巧和设置方法的讲解。这部分会涉及字典数据结构作为关键字参数的使用方法、线条类型的设置方法和标记类型的设置方法。
+
+这部分会涉及字典数据结构作为关键字参数的使用方法、线条类型的设置方法和标记类型的设置方法。
+
+## 9.1 不同签名形式的字典使用方法
+在Python数据可视化的代码实现中，大量运用了字典数据结构。在函数或是实例方法的调用签名中，字典数据结构经常作为关键字参数值进行调用而传入代码块中。
+
+通过使用字典设置相应属性的属性值，大大提高了代码的简洁程度，并减少了重复设置的烦琐工作。这里以文本属性和相应的属性值为例，构造字典font存储文本属性和属性值，同时使用关键字参数`fontdict`作为设置方法的代表参数。
+
+### 9.1.1 调用签名中的关键字参数的设置形式`fontdict=font`
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+font = {'family':'monospace', 'color':'maroon', 'weight':'bold', 'size':16}
+
+x = np.linspace(0.0, 2*np.pi, 500)
+y = np.cos(x)*np.sin(x)
+
+ax.plot(x, y, c='k', ls='-', lw=2)
+ax.set_title("keyword mode is 'fontdict=font'", fontdict=font)
+ax.text(1.5, 0.4, 'cos(x)*sin(x)', fontdict=font)
+ax.set_xlabel('time(h)', **font)
+ax.set_ylabel(r'$\Delta$height(cm)', **font)
+ax.set_xlim(0, 2*np.pi)
+
+plt.show()
+```
+首先将文本属性和属性值都放在字典`font`中，然后分别在实例方法`plot()`,`set_title()`,`set_xlabel()`,`set_ylabel()`,`set_xlim()`中，作为关键字参数`fontdict`的参数值传递到实例方法的调用签名中。
+
+### 9.1.2 方法2：关键字参数的设置形式`**font`
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+```
