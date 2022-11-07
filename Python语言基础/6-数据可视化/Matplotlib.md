@@ -2960,4 +2960,33 @@ plt.show()
 import matplotlib.pyplot as plt
 import numpy as np
 
+x = np.linspace(0.0, 2*np.pi, 500)
+y = np.cos(2*x)*np.sin(2*x)
+font = {'family':'monospace', 'color':'maroon', 'weight':'bold', 'size':16}
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+ax.plot(x, y, color='k', lw=2, ls='-')
+ax.set_title("keyword mode is '**font'", **font)
+ax.text(1.5, 0.52, 'cos(2*x)*sin(2*x)', **font)
+ax.set_xlabel('time(h)', **font)
+ax.set_ylabel(r'$\Delta$height(cm)', **font)
+ax.set_xlim(0, 2*np.pi)
+
+plt.show()
+```
+这里我们将字典`font`直接作为关键字参数传入实例方法的调用签名中。在调用签名中，我们使用`**font`方法将字典变为关键字参数，使调用签名形式变得非常简洁。
+
+值得注意的是，字典`font`的定义方法还可以是：`font=dict(family="serif",color="navy",weight="black",size=16)`
+
+## 9.2 线条类型的显示样式设置方法
+在折线图中，我们通过函数或是实例方法`plot()`的关键字参数`linestyle(ls)`设置线条类型的显示样式。不同的线条类型可以产生不同的视图效果，同时也有各自更为适用的应用领域和场景。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+font = dict(family='serif', c='navy', weight='black', size=16)
+color = 'skyblue'
+linewidth = 3
+
 ```
