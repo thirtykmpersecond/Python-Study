@@ -2988,5 +2988,30 @@ import numpy as np
 font = dict(family='serif', c='navy', weight='black', size=16)
 color = 'skyblue'
 linewidth = 3
+linestyleList = ['-', '--', '-.', ':']
 
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+x = np.arange(1, 11, 1)
+y = np.linspace(1, 1, 10)
+
+ax.text(4,4.0, 'line styles', **font)
+
+for i,ls in enumerate(linestyleList) :
+    ax.text(0, i+0.5, "'{}'".format(ls), **font)
+    ax.plot(x, (i+0.5)*y, linestyle=ls, color=color, linewidth=linewidth)
+
+ax.set_xlim(-1, 11)
+ax.set_ylim(0, 4.5)
+ax.margins(0.2)
+ax.set_xticks([])
+ax.set_yticks([])
+
+plt.show()
 ```
+我们对列表`linestyleList`中的线条样式元素进行了循环显示，每种线条样式的视图效果都有各自的特点。
+
+值得注意的是，我们对在for循环中调用的实例方法`text()`的显示文本的字符串做了格式化处理，有关格式化字符串的内容和语法，读者可以参考Python书籍的有关字符串的章节。
+
+## 9.3 标及类型的显示样式设置方法
