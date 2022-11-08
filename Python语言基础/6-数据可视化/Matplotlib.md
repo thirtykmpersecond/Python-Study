@@ -3015,3 +3015,83 @@ plt.show()
 值得注意的是，我们对在for循环中调用的实例方法`text()`的显示文本的字符串做了格式化处理，有关格式化字符串的内容和语法，读者可以参考Python书籍的有关字符串的章节。
 
 ## 9.3 标及类型的显示样式设置方法
+
+### 9.3.1 方法1：单一字符模式
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+font_style = dict(family='serif', color='navy', weight='black', size=12)
+line_marker_style = dict(linestyle=':', linewidth=2, color='maroon', markersize=10)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+msNameList = ["'.'--point marker","','--pixel marker", "'o'--circle marker", "'v'--triangle_down marker", "'^'--triangle_up marker","'<'--triangle_left marker", "'>'--triangle_right marker", "'1'--tri_down marker", "'2'--tri_up marker", "'3'--tri_left marker", "'4'--tri_right marker", "'s'--square marker", "'p'--pentagon marker", "'*'--star marker", "'h'--hexagon1 marker", "'H'--hexagon2 marker", "'+'--plus marker", "'x'--x marker", "'D'--diamond marker", "'d'--thin_diamond marker", "'|'--vline marker", "'_'--hline marker"]
+markerstyleList = ['.',',','o','v','^','<','>','1','2','3','4','s','p', '*','h','H','+','x','D','d','|','_']
+
+x = np.arange(5, 11, 1)
+y = np.linspace(1, 1, 6)
+
+ax.text(4,23, "marker styles", **font_style)
+for i,ms in enumerate(markerstyleList) :
+    ax.text(0, i+0.5, msNameList[i], **font_style)
+    ax.plot(x, (i+0.5)*y, marker=ms, **line_marker_style)
+
+ax.set_xlim(-1, 11)
+ax.set_ylim(0, 24)
+ax.margins(0.3)
+ax.set_xticks([])
+ax.set_yticks([])
+
+plt.show()
+```
+我们将全部标记类型的样式都展示出来了，同时，每种标记类型的英文注释也附加在标记类型之后，方便读者对标记类型的样式进行理解和掌握。
+
+标记样式不仅可以使用上面介绍的标记样式，还可以使用`mathtext`模式的标记样式，即关键字参数`marker`取值是原始字符串（raw strings）`r"$text\text$"`模式。
+
+### 9.3.3 方法2：`mathtext`模式
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+x = np.arange(1, 13, 1)
+y = np.array([12,34,22,30,18,13,15,19,24,28,23,27])
+
+fig, ax = plt.subplots(2,2)
+
+# subplot(221)
+ax[0,0].scatter(x, y*1.5, marker=r'$\clubsuit$', c='#fb8072', s=500)
+ax[0,0].locator_params(axis='x', tight=True, nbins=11)
+ax[0,0].set_xlim(0, 13)
+ax[0,0].set_xticks(x)
+ax[0,0].set_title('显示样式"%s"的散点图' % r'$\clubsuit$')
+
+# subplot(222)
+ax[0,1].scatter(x, y-2, marker=r'$\heartsuit$', s=500)
+ax[0,1].locator_params(axis='x', tight=True, nbins=11)
+ax[0,1].set_xlim(0, 13)
+ax[0,1].set_xticks(x)
+ax[0,1].set_title('显示样式"%s"的散点图'% r'$\heartsuit$')
+
+# subplot(223) 
+ax[1,0].scatter(x, y+7, marker=r'$\diamondsuit$', s=500)
+ax[1,0].locator_params(axis='x', tight=True, nbins=11)
+ax[1,0].set_xlim(0, 13)
+ax[1,0].set_xticks(x)
+ax[1,0].set_title('显示样式"%s"的散点图'% r'$\diamondsuit$')
+
+# subplot(224)
+ax[1,1].scatter(x, y-9, marker=r'$\spadesuit$', s=500)
+ax[1,1].locator_params(axis='x', tight=True, nbins=11)
+ax[1,1].set_xlim(0, 13)
+ax[1,1].set_xticks(x)
+ax[1,1].set_title('显示样式"%s"的散点图'% r'$\spadesuit$')
+
+plt.suptitle('不同原始字符串作为标及类型的展示效果', fontsize=16, weight='black')
+```
+我们使用原始字符串（raw strings）作为标记类型，即关键字参数`marker`的取值是`r"$\text$"`模式的原始字符串，通过使用2行2列的子区进行不同标记类型的显示样式的效果展示，这些标记类型是常规字符串的标记类型无法实现的样式。
+
+因此，标记类型使用原始字符串模式极大地拓展了我们的标记类型的种类和样式，同时也使可视化效果给人以审美般的视觉享受。
