@@ -3095,3 +3095,34 @@ plt.suptitle('不同原始字符串作为标及类型的展示效果', fontsize=
 我们使用原始字符串（raw strings）作为标记类型，即关键字参数`marker`的取值是`r"$\text$"`模式的原始字符串，通过使用2行2列的子区进行不同标记类型的显示样式的效果展示，这些标记类型是常规字符串的标记类型无法实现的样式。
 
 因此，标记类型使用原始字符串模式极大地拓展了我们的标记类型的种类和样式，同时也使可视化效果给人以审美般的视觉享受。
+
+## 9.4 延伸阅读
+### 9.4.1 案例1：破折号样式的不同展现形式的设置方法
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+font_style = dict(family='serif', weight='black', size=12)
+line_marker_style1 = dict(linestyle='--', lw=2, color='maroon', markersize=10)
+line_marker_style2 = dict(linestyle='--', lw=2, color='cornflowerblue', markersize=10)
+line_marker_style3 = dict(linestyle='--', lw=2, color='turquoise', markersize=10)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, facecolor='honeydew')
+x = np.linspace(0, 2*np.pi, 500)
+y = np.sin(x)*np.cos(x)
+ax.plot(x, y, dashes=[10,2], label='dashes=[10,2]', **line_marker_style1)
+ax.plot(x, y+0.2, dashes=[3,1], label='dashes=[3,1]', **line_marker_style2)
+ax.plot(x, y+0.4, dashes=[2,2,8,2], label='dashes=[2,2,8,2]', **line_marker_sytle3)
+
+ax.axis([0, 2*np.pi, -0.7, 1.2])
+ax.legend(ncol=3, bbox_to_anchor=(0, 0.95, 1, 0.05), mode='expand', fancybox=True, shadow=True, prop=font_style)
+
+plt.show()
+```
+线条类型是“破折号”样式的折线呈现多种展现形式，实现多种展现形式的关键是关键字参数`dashes`的使用。折线是由若干个数据点所组成的，如果我们将这些数据点中的一些数据点有规律地抹掉，就会出现“破折号”样式的折线。因此，控制数据点的抹去模式就可以实现“破折号”样式的折线的多种展现形式。
+
++ `ax.plot(x, y, dashes=[10,2], label='dashes=[10,2]', **line_marker_style1)`中参数`dashes`的取值含义：折线组成单元是由线段长度为10个数据点、线段之间间隔2个数据点的单元样式组成。
++ `ax.plot(x, y+0.2, dashes=[3,1], label='dashes=[3,1]', **line_marker_style2)`中参数`dashes`的取值含义：折线组成单元是由线段长度为10个数据点、线段之间间隔1个数据点的单元样式组成。
++ `line_marker_style3 = dict(linestyle='--', lw=2, color='turquoise', markersize=10)`中`dashes`的取值含义：折线组成单元是由线段长度为2个数据点、线段之间间隔2个数据点的单元样式、折线组成单元是由线段长度为8个数据点、线段之间间隔2个数据点的单元样式组成。
+
+这样，通过使用关键字参数`dashes`我们实现了“破折号”样式的线条类型的定制化展示的需求。借助关键字参数`dashes`的丰富组合模式，我们可以极大地丰富线条类型`--`的展现形式，让折线图的可视化效果呈现出多样性和定制化的特点。
