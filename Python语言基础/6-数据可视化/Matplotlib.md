@@ -3238,3 +3238,89 @@ mpl.rc('lines', linewidth=2, color='c', linestyle='--')
 line = {'linewidth':2, 'color':'c', 'linestyle':'--'}
 mpl.rc('lines', **line)
 ```
+通过调用函数`matplotlib.rc()`，我们可以将`lines`的相关属性以关键字参数的形式进行赋值，从而改变`matplotlib`的相关属性值。
+
+也可以将属性和属性值放在一个字典中，将字典作为关键字参数，以`**line`形式进行参数调用，最终改变`matplotlib`的相关属性值。
+
+### 10.1.2 方法2：调用属性字典`matplotlib.rcParams`
+```python
+import matplotlib as mpl
+
+# usage of package matplotlib
+mpl.rcParams['lines.linewidth'] = 2
+mpl.rcParams['lines.color'] = c
+mpl.rcParams['lines.linestyle'] = '--'
+```
+通过调用属性字典`matplotlib.rcParams`，利用属性字典的属性名、属性值的对应关系与更新字典键值的方法，就可以改变`matplotlib`的相关属性值。
+
+## 10.2 修改项目层面的`matplotlib`配置
+通过修改配置文件`matplotlibrc`，完成修改matplotlib的相关属性值的工作。通过这种方法，我们可以在没有其他定制化需求的情况下，始终使用我们配置好的`matplotlibrc`文件中的相关属性值，而不必每次在具体项目中进行相关属性值的设置。
+
+### 10.2.1 配置文件路径
+在`10.1`节中，我们讲解的关于修改matplotlib配置的设置方法是基于**代码层面**展开的。如果在每次编写新的代码时，都进行同样的matplotlib配置的设置，就显得没有必要，而且极大地降低了项目执行进度。例如，在一个项目中，通常会由很多个子项目组成，如果在每个子项目中都进行相同的matplotlib配置的设置，则会严重影响项目的进展速度和项目之间的协同配合。这时就可以在项目中使用一个独立于项目本身的matplotlib配置的设置方法，也就是在项目中使用matplotlibrc文件进行matplotlib配置的设置。这种设置方式可以使得matplotlib配置与代码分离，从而使代码更加简洁，很容易在项目间分享配置模板，提高协同工作的效率。
+
+在项目层面修改matplotlib配置时，主要基于配置文件`matplotlibrc`所在的位置。配置文件主要存在于以下三种路径中，不同的路径决定了配置文件的调用顺序，下面就是配置文件`matplotlibrc`的使用先后顺序。
+
+1. 项目所在路径：`matplotlibrc`文件在当前运行代码所在的目录中。
+2. 配置文件的默认路径：
+   + Windows：`$HOME/.matplotlib/`
+   + Linux：如果`$HOME/.matplotlib/`存在，则在其中；若`$XDG_CONFIG_HOME`被定义，则在其中；或在`$HOME/.config`中。
+   + 通过`matplotlib.get_configdir()`寻找
+
+每次重新安装matplotlib时，matplotlibrc配置文件都会被覆盖。因此，当需要matplotlibrc配置文件被持久有效保存时，就需要将matplotlibrc配置文件移动到配置文件的默认目录中。
+
+通过调用函数`matplotlib.matplotlib_fname()`，可以输出系统在项目本身包含配置文件matplotlibrc之外的调用配置文件的搜索路径。简单来讲，如果项目包含配置文件，那么就优先使用项目中的配置文件。
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# normal plot
+plt.axes([0.1, 0.7, .3, .3], frameon=True, facecolor='y', aspect='equal')
+plt.plot(np.arange(3), [0,1,0])
+plt.cla()
+plt.plot(np.arange(3), [0,1,0])
+
+# no-plot
+plt.axes([0.4, 0.4, .3, .3], frameon=True, facecolor='y', aspect='equal')
+plt.plot(2+np.arange(3), [0,1,0])
+
+# no-axes
+plt.axes([0.7, 0.1, .3, .3], frameon=True, facecolor='y', aspect='equal')
+plt.plot(4+np.arange(3), [0,1,0])
+plt.axes('off')
+
+plt.show()
+```
+
+# 11 文本属性设置
+第10章讲解了配置文件`matplotlibrc`的配置要素的设置方法，其中配置要素`font`主要是控制字体属性的字体类别`family`、字体风格`style`、字体粗细`weight`、字体大小`size`、字体拉伸`stretch`和字体变体`variant`。接下来，我们就探讨字体属性的设置方法。
+
+字体属性支持`matplotlib.text.Text`实例的属性，也支持函数`matplotlib.pyplot.text()`和实例方法`matplotlib.axes._axes.Axes.text()`的关键字参数。
+
+| matplotlib.pyplot API  |     Matplotlib Object Oriented API      | 
+|:----------------------:|:---------------------------------------:|
+|         text()         |    matplotlib.axes._axes.Axes.text()    |
+|        xlabel()        | matplotlib.axes._axes.Axes.set_xlabel() |
+|        ylabel()        | matplotlib.axes._axes.Axes.set_ylabel() |
+|         title()| matplotlib.axes._axes.Axes.set_title()  |
+|suptitle()|matplotlib.figure.Figure.suptitle()|
+
+如表所示为配置要素font的字体属性和对应的字体属性值。值得注意的是，字体属性`weight`中的属性值`a numeric value in range 0-1000`和字体属性`size`中的属性值`size in points`都表示实际数值，因此，在代码中作为参数值使用时**不需要添加双引号**，而其他的字体属性值也包括其他字体属性对应的字体属性值，在代码中以参数值形式使用时都需要添加双引号，如`family="serif"`。
+
+|字体属性|字体属性值|
+|:---:|:---:|
+|family|serif</br>sans-serif</br>cursive</br>fantasy</br>monospace|
+|style|normal</br>italic</br>oblique|
+|weight|a numeric value in range 0-1000</br>ultralight</br>light</br>normal</br>regular</br>book</br>medium</br>roman</br>semibold</br>demibold</br>demi</br>bold</br>heavy</br>extra bold</br>black|
+|size|size in points</br>xx-small</br>x-small</br>small</br>medium</br>large</br>x-large</br>xxlarge|
+|variant|normal</br>small-caps|
+
+下面就通过3种方法来探索改变这些配置要素值的视图效果，这3种方法分别是:
++ 改变配置文件matplotlibrc的字体属性值
++ 改变配置文件matplotlibrc的字体文本属性值
++ 调用属性字典rcParams及通过关键字参数进行设置。
+
+**_值得注意的是_**，字体库`fonts`中应该包括需要配置的字体，例如字体库中应该包含`New Century Schoolbook`字体。
+
+### 11.1.1 方法1：改变配置文件`matplotlibrc`的字体属性值和文本属性值
