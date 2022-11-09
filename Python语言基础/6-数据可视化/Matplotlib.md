@@ -3126,3 +3126,115 @@ plt.show()
 + `line_marker_style3 = dict(linestyle='--', lw=2, color='turquoise', markersize=10)`中`dashes`的取值含义：折线组成单元是由线段长度为2个数据点、线段之间间隔2个数据点的单元样式、折线组成单元是由线段长度为8个数据点、线段之间间隔2个数据点的单元样式组成。
 
 这样，通过使用关键字参数`dashes`我们实现了“破折号”样式的线条类型的定制化展示的需求。借助关键字参数`dashes`的丰富组合模式，我们可以极大地丰富线条类型`--`的展现形式，让折线图的可视化效果呈现出多样性和定制化的特点。
+
+### 9.4.2 案例2：标记填充样式的设置方法
+前面已经介绍过有关标记类型的显示样式的相关内容。现在，再进一步考虑标记样式能否通过标记填充样式得以展现，也就是说，借助标记填充样式的选择也可以同样实现标记显示样式的设置需求，而且同种标记类型会由于标记填充样式的不同而呈现出更加丰富的展示效果，这就极大地丰富了标记展示样式的内容。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+font_style = dict(family='Arial Unicode MS', color='saddlebrown', weight='semibold', size=16)
+line_marker_style = dict(linestyle=':', lw=2, color='cornflowerblue', markerfacecoloralt='lightgrey', marker='o', markersize=18)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+fillstyleList = ['full', 'left', 'right', 'bottom', 'top', 'none']
+x = np.arange(3, 11, 1)
+y = np.linspace(1, 1, 8)
+ax.text(4, 6.5, 'fill style', **font_style)
+for i,fs in enumerate(fillstyleList) :
+    ax.text(0, i+0.4, "'{}'".format(fs), **font_style)
+    ax.plot(x, (i+0.5)*y, fillstyle=fs, **line_marker_style)
+
+ax.set_xlim(-1, 11)
+ax.set_ylim(0, 7)
+ax.margins(0.3)
+ax.set_xticks([])
+ax.set_yticks([])
+
+plt.show()
+```
+通过上面的代码和运行结果，可以知道标记填充样式的实现是借助关键字参数`fillstyle`实现的，关键字参数`fillstyle`的取值共有6种标记填充样式。我们现在也已经明白这6种标记填充样式，正如填充名称本身所定义的内容一样，填充名称用来指示填充颜色在标记类型中的位置，例如，关键字参数`fillstyle`取值是`left`，那么标记类型`o`的填充颜色就覆盖在标记类型`o`的左半边中，其他取值的含义与`left`的含义相类似，这里就不再介绍了。值得注意的是，标记颜色的关键字参数`markerfacecolor`用关键字参数`markerfacecoloralt`代替了，只有这样才能将***填充名称***`none`的展现形式有效地表现出来。
+
+### 9.4.3 案例3：`plot()`的设置方法
+函数plot()用来绘制有序数对的折线和标记的绘图函数。典型调用如下：
+
+```python
+plot([x], y, [fmt], **kwargs)
+
+plot([x], y, [fmt], [x2], y2, [fmt2], ..., **kwargs)
+```
+参数`x`和`y`是输入值，然而参数`x`是选择输入值，如果省略`x`输入值，`x`输入值就是列表`[0,1,…,N-1]`，其中`N`是输入值`y`的**元素个数**。**_一般x和y输入值是长度N的数组，也可以是常数值组成的列表_**。
+
+对于参数`fmt`，我们可以使用参数`fmt`控制线条颜色、标记样式和线条风格，也就是说， `fmt=[color][marker][linestyle]`。对于参数`fmt`的使用而言，这是格式化折线图的基本方式。对于线条颜色、标记样式和线条风格而言，我们可以选择其中的一种格式化方式或是多种格式化方式。因此，参数`fmt`是**一种便捷的字符串式注释**。例如，下面几种调用签名格式：
+```python
+plot(x, y)
+plot(x, y, 'k') # black markers with default shape
+plot(y)
+plot(y, 'ro')   # red circles
+```
+
+折线图`plot()`的关键参数是`(keyword arguments)`，是`Line2D`实例。`Line2D`的属性可以作为关键字参数用来控制折线图的展现样式。例如，线条`label`、线条宽度`linewidth`、标记样式`linestyle`、标记颜色`markerfacecolor`等。
+
+实例具有的属性是生成实例的类、函数或方法的关键字参数。因此，查找实例具有的属性工作就可以通过遍历实例对应的类、函数或方法的关键字参数来完成。而且实例`Line2D`的属性作为关键字参数经常和参数`fmt`混合使用，共同完成控制折线图的展示效果任务。
+
++ 实例`Line2D`可以通过下面的方法获得：
+```python
+line, = plt.plot(x, y, label='circles')
+```
++ 对实例`Line2D`的属性(折线图的关键参数)控制就可以通过下面的语句实现：
+```python
+line.set_linewidth(2)
+line.set_linestyle('--')
+line.set_dashes([10, 2, 5, 2])
+```
+使用下面的调用签名所绘制的折线图是相同的：
+```python
+plot(x, y, 'ro:', linewidth=3, markersize=16, label='example1')
+plot(x, y, color='r', linestyle=':', marker='o', linewidth=3, markersize=16, label='example1')
+```
+值的注意的是，在参数`fmt`和关键字参数存在冲突时，关键字参数优先执行绘图样式。我们在同一个坐标轴内可以绘制多条折线图，实现这一绘图模式的语句有以下两种做法。
+```python
+plot(x1, y1, 'ro');plot(x2, y2, 'b--')
+
+plot(x1, y1, 'ro', x2, y2, 'b--')
+```
+如果`x`和`y`是`(N,M)`形状的数组，那么对于以上的实现语句就可以写成以下形式：
+```python
+plot(x[a], y[a], 'ro', x[b], y[b], 'b--')   # x, y is a (N,M) shaped array.
+```
+在`5.1.4`节中，我们讲过设置时间格式的刻度线标签的方法，这是设置时间序列图的简便方法。时间序列图可以理解成折线图的一种变形或是特例。也就是说，时间序列图是将x轴或是y轴用日期`date`标示，反映数据随时间延伸的趋势变化或是规律。在matplotlib中，时间序列图是包含日期的折线图，实现函数是`plot_date()`，函数`plot_date()`的参数和函数`plot()`的参数类似，只是坐标轴的刻度标签被格式化为日期数据。实例Line2D的属性依然可以作为函数`plot_date()`中的关键字参数`kwargs`，绘图格式化参数`fmt`依然可以使用，如果关键字参数`xdate`或是`ydate`取值是`True`，那么`参数x`和`参数y`的取值就会被理解成`matplotlib`中的日期。使用函数`plot_date()`实现的时间跨度可以任意设定，应用范围远远大于`5.1.4`节中所介绍的方法，但是，代码实现的复杂程度也较高。
+
+
+# 10 `matplotlib`的配置
+修改matplotlib的配置，可以满足定制化的展示需求，通过修改配置中的相关属性值可以使得可视化效果更理想，从而满足展示或印刷的质量要求。修改matplotlib的配置有两种途径：
+
++ 通过代码进行修改
++ 通过修改配置文件`matplotlibrc`实现
+
+这两种设置方法可以分别理解成：一种是局部调整；另一种是全局修改。会在10.1节和10.2节分别讲解这两种实现方法的配置要点和相关技巧。
+
+## 10.1 修改代码层面的`matplotlib`的配置
+在本节中，我们讲解在代码层面进行matplotlib配置的实现方法。进行代码层面的属性值的设置，主要是解决个性化的项目需求，从而完成定制化的展示工作。通过代码层面的配置，我们可以按照具体项目的需求，灵活地进行matplotlib的相关属性值的设置，从而不必拘泥于系统默认的相关属性值的配置内容。这样，我们就可以非常方便地实现定制化的局部的matplotlib配置的设置需求。
+
+绘图库matplotlib提供了很好的绘图功能，是Python中使用最多的数据可视化包。本节会介绍通过修改运行脚本的代码实现改变`matplotlib`的相关属性值的目的。
+
+在代码实现方面，有两种方法实现改变`matplotlib`的相关属性值：
++ 调用属性字典`matplotlib.rcParams`或是属性字典`matplotlib.pyplot.rcParams`
++ 调用函数`matplotlib.rc()`或是函数`matplotlib.pyplot.rc()`。
+
+如果需要恢复标准的`matplotlib`默认设置，则可以调用函数`matplotlib.rcdefaults()`或是函数`matplotlib.pyplot.rcdefaults()`。
+
+分别以`matplotlib.rcParams`和`matplotlib.rc()`为例对两种设置方法进行讲解，`matplotlib.pyplot.rcParams`和`matplotlib.pyplot.rc()`的参数的设置方法与此完全相同。
+
+### 10.1.1 方法1：调用函数`matplotlib.rc()`
+```python
+import matplotlib as mpl
+
+# usage of package matplotlib
+## method1 of setting attribution
+mpl.rc('lines', linewidth=2, color='c', linestyle='--')
+
+## method2 of setting attribution
+line = {'linewidth':2, 'color':'c', 'linestyle':'--'}
+mpl.rc('lines', **line)
+```
