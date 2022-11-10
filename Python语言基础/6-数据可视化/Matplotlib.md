@@ -3493,3 +3493,55 @@ plt.show()
 在关键字参数`color`中，我们使用`模式1`、`模式2`和`模式3`中的颜色定义方法进行饼片颜色的设定。
 
 在函数`bar()`中，参数`theta`和参数`radii`分别用来确定饼片的角度和半径，饼片颜色由关键字参数`color`确定，全部饼片的半径起点是极径`0.0`，即由关键字参数`bottom`确定。
+
+### 12.1.2 颜色映射表的使用
+Matplotlib提供很多颜色映射表，可以通过`matplotlib.cm.register_cmap()`函数将新的颜色映射表添加到matplotlib中；可以通过`matplotlib.pyplot.colormaps()`函数获得全部可用的颜色映射表；可以在`image`、`pcolor`和`scatter`上设置颜色映射表。目前，主要有两种使用颜色映射表的方法，具体如下所示.
++ 方法1：使用关键字参数
+
+```python
+import matplotlib.pyplot
+
+matplotlib.pyplot.imshow(X, cmap=matplotlib.cm.hot)
+
+matplotlib.pyplot.scatter(X,Y,c=numpy.random.rand(10),cmap=matplotlib.cm.jet)
+```
++ 方法2：使用`matplotlib.pyplot.set_cmap()`函数
+
+```python
+import matplotlib.pyplot
+
+matplotlib.pyplot.imshow(X)
+matplotlib.pyplot.set_cmap('hot')
+matplotlib.pyplot.set_cmap('jet')
+```
+**值得注意的是，全部内置的颜色映射表都可以通过增加后缀`_r`的方式进行反转，例如`jet_r`就是`jet`的反向循环颜色映射表**。
+
++ 最常用的颜色映射表：`autumn、bone、cool、copper、flag、gray、hot、hsv、jet、pink、prism、spring、summer、winter`
++ 其他映射表基本分为以下三类：
+  1. sequential：统一颜色从低饱和度过渡到高饱和度的单色颜色映射表
+  2. diverging：颜色从中间的明亮颜色开始，然后过渡到两个不同颜色范围的方向上
+  3. qualitative：让不同种类的数据可以彼此之间轻易地区分出来
++ 另外还可以使用以下映射表：`afmhot、brg、bwr、coolwarm、CMRmap、gnuplot、ocean、rainbow、seismic、terrain`等
++ 根据[ColorBrewer](https://colorbrewer2.org)的颜色界定有以下三种映射类型：
+  1. ColorBrewer Diverging:BrBG、PiYG、PRGn、PuOr等
+  2. ColorBrewer Sequential:Blues、BuGn、BuPu、GnBu等
+  3. ColorBrewer Qualitative:Accent、Dark2、Paired、Set1等
+
+展示`RdYIBu`颜色映射表绘制：
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+# ColorBrewer Diverging: RdYIBu
+hexHtml = ['#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4']
+
+sample = 10000
+fig,ax = plt.subplots(1,1)
+for j in range(len(hexHtml)) :
+    y = np.random.normal(0, 0.1, size=sample).cumsum()
+    x = np.arange(sample)
+    ax.scatter(x,y, label=str(j), lw=.2, edgecolors='grey', facecolor=hexHtml[j])
+
+ax.legend()
+plt.show()
+```
+将`ColorBrewer Diverging`类型中的`RdYlBu`颜色映射表或是颜色模式，用`HTML十六进制字符串`进行描述，数据种类`data class`是9种，因此，列表`red_yellow_blue`中共存储9个HEX形式的字符串。通过散点图的形式将每种HEX字符串所表示的颜色进行展示，为了加以区分给每组散点图都添加标签进行注释，最后展示绘制结果。
