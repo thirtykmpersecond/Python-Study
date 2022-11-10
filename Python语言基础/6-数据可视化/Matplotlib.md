@@ -3324,3 +3324,172 @@ plt.show()
 **_值得注意的是_**，字体库`fonts`中应该包括需要配置的字体，例如字体库中应该包含`New Century Schoolbook`字体。
 
 ### 11.1.1 方法1：改变配置文件`matplotlibrc`的字体属性值和文本属性值
+
+配置文件`matplotlibrc`：
+```editorconfig
+font.family         : serif
+font.serif          : New Century Schoolbook
+font.style          : normal
+font.variant        : small-caps
+font.weight         : black
+#font.stretch        :normal
+# note that font.size controls default text sizes. To configure
+# special text sizes tick labels, axes, labels, title, etc, see the rc
+# settings for axes and ticks. Special text sizes can be defined
+# relative to font.size, using the following values: xx-small, x-small,
+# small, medium, large, x-large, xx-large, larger, or smaller
+font.size           : 12.0
+#font.serif          : Bitstream Vera Serif, New Century Schoolbook, Century Schoolbook L, Utopia, 
+text.color          : blue
+```
+
+### 11.1.2 方法2：通过属性字典`rcParams`调整字体属性值和文本属性值
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+# line properties in change
+plt.rcParams['lines.linewidth'] = 8.0
+plt.rcParams['lines.linestyle'] = '--'
+# font properties in change
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.serif'] = 'Arial Unicode MS'
+plt.rcParams['font.style'] = 'normal'
+plt.rcParams['font.variant'] = 'small-caps'
+plt.rcParams['font.weight'] = 'black'
+plt.rcParams['font.size'] = 12.0
+# text properties in change
+plt.rcParams['text.color'] = 'blue'
+plt.axes([0.1, 0.1, .8, .8], frameon=True, facecolor='y', aspect='equal')
+plt.plot(2+np.arange(3), [0,1,0])
+plt.title("Line Chart")
+# Add text in string 'Text instance' to axis at location 'x', 'y', data
+# coordinates
+plt.text(2.25, .8, 'FONT')
+plt.show()
+```
+通过使用属性字典`rcParams`，同样完成了对`font`的字体属性值和`text`的文本属性值的设置，视图效果与方法1中的视图效果完全一致。`rcParams["font.serif"]`的键值以已经添加的字体文件在打开字体文件后出现的字体名称作为选择依据，键值`New Century Schoolbook`就是按照这一原则获取到的，而且尽量清除`matplotlib`文件夹中的文件`fontlist.cache`和文件夹`tex.cache`。
+
+### 11.1.3 方法3：通过设置函数的关键字参数
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+plt.axes([0.1, 0.1, .8, .8], frameon=True, facecolor='y', aspect='equal')
+# line properties in change 
+plt.plot(2+np.arange(3), [0,1,0], linewidth=8.0, linestyle='--')
+plt.title('Line Chart', color='red', family='New Century Schoolbook', style='normal', variant='small-caps', weight='black', size=18)
+# Add text in string 'Text isntance' to axis at locathyion 'x', 'y' data
+# coordinates
+# font properties and text properties in change
+plt.text(2.25, .8, 'FONT', color='blue', fontdict={'family':'New Century Schoolbook', 'style':'normal', 'variant':'small-caps', 'weight':'black', 'size':2})
+
+plt.show()
+```
+通过在函数`matplotlib.pyplot.text()`和`matplotlib.pyplot.title()`中设置关键字参数，实现控制配置要素`font`的字体属性值和配置要素`text`的文本属性值。
+
+这里将标题`title()`的文本颜色设置为红色，注释文本`text()`的文本颜色设置为蓝色。这与上面的两种情况将文本颜色统一设置为蓝色有所区别。
+
+## 11.2 手动添加字体
+
+## 11.3 案例：字体主要属性可视化展示
+我们在11.1节介绍了配置要素`font`的字体属性和对应的字体属性值，以及支持字体属性的函数`text()`。下面我们就看看通过函数`text()`展示配置要素`font`的字体属性和对应的字体属性值的实际效果，方便读者对配置要素font的字体属性和对应的字体属性值的内容进行深入理解。 
+
+字体属性主要包括`family`（字体类别）、`style`（字体风格）、`size`（字体大小）、`variant`（字体变体）以及`weight`（字体粗细）等属性。这些字体属性是实例Text的属性，这些属性可以作为函数text()的关键字参数，这些属性对应的属性值可以作为参数值。因此，我们可以通过函数text()展示每种属性的属性值。
+
+```python
+import matplotlib.pyplot as plt
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+# viewing family options
+families = ['serif', 'sans-serif', 'fantasy', 'monospace']
+
+ax.text(-1,1, 'family', fontsize=18, horizontalalignment='center')
+
+pi = [.9, .8, .7, .6, .5, .4, .3, .2, .1]
+
+for i,family in enumerate(families) :
+    ax.text(-1, pi[i], family, family=family, horizontalalignment='center')
+
+# viewing size options
+sizes = ['xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large']
+ax.text(-0.5, 1, 'size', fontsize=18, horizontalalignment='center')
+
+for i,size in enumerate(sizes) :
+    ax.text(-0.5, pi[i], size, size=size, horizontalalignment='center')
+
+# viewing style options
+styles = ['normal', 'italic', 'oblique']
+ax.text(0,1, 'style', fontsize=18, horizontalalignment='center')
+
+for i,style in enumerate(styles) :
+    ax.text(0, pi[i], style, family='sans-serif', style=style, horizontalalignment='center')
+
+# viewing variant options
+variants = ['normal', 'small-caps']
+
+ax.text(0.5,1, 'variant', fontsize=18, horizontalalignment='center')
+for i, variant in enumerate(variants) :
+    ax.text(0.5, pi[i], variant, family='serif', variant=variant, horizontalalignment='center')
+
+# viewing weight options
+weights = ['light', 'normal', 'semibold', 'bold', 'black']
+ax.text(1,1, 'weight', fontsize=18, horizontalalignment='center')
+
+for i,weight in enumerate(weights) :
+    ax.text(1, pi[i], weight,weight=weight, horizontalalignment='center')
+
+ax.axis([-1.5, 1.5, 0.1, 1.1])
+ax.set_xticks([])
+ax.set_yticks([])
+
+plt.show()
+```
+我们对配置要素`font`的字体属性和对应的字体属性值进行了**迭代输出**，输出效果清晰直观地以`family`、`size`、`style`、`variant`和`weight`的顺序进行排列，对应的属性值也相应地展示出来，方便根据具体项目需要采用合适的字体属性和对应的字体属性值。
+
+其中反复使用语句`for i,j in enumerate()`，内置函数`enumerate()`是将列表中的元素和元素所对应的索引分别赋给变量`j`和`i`,从而使for循环将索引和元素通过调用`Axes`的实例方法`text()`逐一进行输出展示。
+
+# 12 颜色使用
+## 12.1 使用颜色参数和颜色映射表
+### 12.1.1 颜色参数的使用
+在需要使用颜色参数的方法或是函数中，例如函数title(),`title(" a color map and color model",color="colorName")`，颜色参数color有以下几种使用模式。
++ 模式一：英文缩写模式的基本颜色
+
+|缩写|颜色|缩写| 颜色  | 缩写  | 颜色  | 缩写  | 颜色  |
+|---|---|---|-----|-----|-----|-----|-----|
+|b|蓝色|g| 绿色  | r   | 红色  | c   | 青色  |
+|m|泽红|y| 黄色  | k   | 黑色  | w   | 白色  |
+
++ 模式二：`Hex`模式的`#RRGGBB`字符串
+```python
+color = '#E0FFFF'
+color = '#4682B4'
+```
++ 模式三：`HTML/CSS`模式的颜色名
+```python
+color = 'lightgreen'
+color = 'burlywood'
+color = 'skyblue'
+```
++ 模式四：`Decimal`模式的归一化到[0,1]的`(R,G,B)`元组
+```python
+color = (0.5294, 0.8078, 0.9216)
+```
+通过在极坐标系统下绘制柱状图的探索，展示颜色关键字参数的不同模式的参数值的使用方法。在极坐标轴上绘制的柱状图称为极区图，因为它既有饼图的样式又是借助函数bar()实现的。极区图由若干饼图中的饼片呈放射状投射在极坐标轴上，每一个饼片都是有一定角度的，同时饼片的半径类似于柱状图中柱体的高度，这也就解释了为什么可以通过函数bar()绘制极区图的原因。每一个饼片的颜色可以使用一种颜色来填充，颜色值可以使用模式1、模式2和模式3中的颜色定义方法来确定。
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+barSlices = 12
+theta = np.linspace(0, 2*np.pi, barSlices, endpoint=False)
+radii = 30*np.random.rand(barSlices)
+width = 2*np.pi/barSlices
+colors = np.array(['c','m','y','b','#C67171', '#c1cdcd', '#ffec8b', '#a0522d', 'red', 'burlywood', 'chartreuse', 'green'])
+fig = plt.figure()
+ax = fig.add_subplot(111, polar=True)
+bars = ax.bar(theta, radii, width=width, color=colors, bottom=0.0)
+plt.show()
+```
+在关键字参数`color`中，我们使用`模式1`、`模式2`和`模式3`中的颜色定义方法进行饼片颜色的设定。
+
+在函数`bar()`中，参数`theta`和参数`radii`分别用来确定饼片的角度和半径，饼片颜色由关键字参数`color`确定，全部饼片的半径起点是极径`0.0`，即由关键字参数`bottom`确定。
