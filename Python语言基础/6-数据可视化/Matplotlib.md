@@ -3600,3 +3600,120 @@ plt.show()
 在子区1中，函数scatter()中使用了参数`c的n维数组`的模式，如果n维数组的元素是浮点数，那么n维数组就会被映射成相应的颜色，具体颜色模式是根据关键字参数`cmap`所使用的颜色映射表来决定的。因此，参数c和关键字参数cmap是相互配合使用的一组参数。
 
 另外，子区1中的标记大小是由参数a和参数b共同决定的，从而子区1中的散点图呈现出气泡图的视图效果。子区3中的标记大小是定值，标记大小都是相同的。子区2使用统一大小的蓝色标记呈现散点图。
+
+### 12.2.3 案例3：极区图的颜色使用模式
+借助颜色映射表将柱状图投射到极坐标后，柱状图的可视化效果
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+barSlices = 12
+theta = np.linspace(0.0, 2*np.pi, barSlices, endpoint=False)
+radii = 30*np.random.rand(barSlices)
+width = np.pi/4*np.random.rand(barSlices)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, polar=True)
+bars = ax.bar(theta, radii, width=width, bottom=0.0)
+for r,bar in zip(radii, bars) :
+    bar.set_facecolor(mpl.cm.Accent(r/30.))
+    bar.set_alpha(r/30.)
+
+plt.show()
+```
+通过函数figure()生成一个Figure对象，从而向Figure对象中添加子区，子区形状是1行1列，同时将坐标轴投射在极坐标系上。通过调用函数bar()获得在极坐标系统下的全部柱体的返回值。最后，使用函数zip()获得元组列表返回值，从而完成迭代过程。
+
+在迭代过程中，完成了柱体上色和透明度选择的工作。其中，柱体上色是通过实例方法`set_facecolor()`完成的，透明度选择是通过实例方法`set_alpha()`实现的，实例方法`set_facecolor()`的参数赋值`mpl.cm.Accent(r/30.)`是通过Accent颜色映射函数实现的，这是将**0至1的数值映射成为Accent颜色映射表中的颜色**。
+
+### 12.2.4 案例4：等高线图的颜色使用模式
+函数`contour()`是用来绘制等高线图的。等高线图是三维图形z轴的投影图，既然是投影图就需要刻画三维图形z轴的趋势变化，这就是等值线的作用。等值线是将z轴上函数值相等的点连接起来的。函数值是通过二元函数计算得出的。不同的等值线需要不同的颜色映射表，等值线也很类似于气象图中的等压线。因此，等高线图也是颜色主题的应用场景之一。
+
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+s = np.linspace(-0.5, 0.5, 1000)
+x,y = np.meshgrid(s, s)
+
+fig,ax = plt.subplots(1,1)
+z = x**2 + y**2 + np.power(x**2+y**2,2)
+
+# a ContourSet object returned by contour 
+cs = plt.contour(x,y,z,cmap=mpl.cm.hot)
+# add label to contour
+plt.clabel(cs, fmt='%3.2f')
+# mappable is ContourSet object
+plt.colorbar(cs)
+
+plt.show()
+```
+通过调用函数`contour()`获得一个`ContourSet`实例，我们可以将`ContourSet`实例作为参数代入函数`clabel()`中，为等高线添加标签以此标示出每条等高线的数值大小。
+
+我们再将`ContourSet`实例传入函数`colorbar()`中为等高线图配置颜色标尺，用来呈现每条等高线的颜色所代表的在z轴上的实际投影位置。同时，我们在函数`contour()`里传入的关键字参数`cmap`的颜色参数值是常用颜色映射表中的`hot`颜色映射表。
+
+### 12.2.5 案例5：颜色标尺的颜色使用模式
+使用函数`colorbar()`可以对展示图形的颜色做出定量映射，也就是说，使用函数`colorbar()`可以生成颜色标尺将图形中的颜色和具体数值的映射关系进行可视化展示，从而帮助我们对图形中的颜色变化和颜色种类进行定量的分析和研究。帮助我们选择和使用合适的颜色映射表或颜色模式。
+```python
+import scipy.misc
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+ascent = scipy.misc.ascent()
+
+# display an image on the axes
+plt.imshow(ascent, cmap=mpl.cm.gray)
+# add colorbar to a plot
+plt.colorbar()
+
+plt.show()
+```
+首先导入包`scipy`，再导入子包`misc`，从而通过语句`scipy.misc.ascent()`获得图形示例，这个图形示例是以数组数据结构进行存储的。**图像都可以被表示成为NumPy多维度数组**。我们调用函数`imshow()`，将以数组形式存储的图像作为参数值导入，关键字参数`cmap`使用`gray`颜色映射表，从而将图像加载到坐标轴上。 
+
+最后，使用颜色标尺函数`colorbar()`对图像中的颜色进行量化标示，反应颜色映射表的颜色和数值的映射关系，同时也凸显颜色变化和颜色类型的特点。因此，颜色标尺函数`colorbar()`尽量与颜色参数、颜色映射表之间相互配合使用。
+
+# 13 输出图形的展示和保存
+## 13.1 运行命令展示输出图形
+当我们需要进行图形展示时，有两种方式：
++ 将代码放在文档中进行统一执行
++ 使用命令行展示图形。 
+  + 在命令行模式下，我们有两种方法：一种是在Python shell模式下执行；一种是在IPython shell模式下执行。
+
+### 方法1：Python Shell模式
+### 方法2：Ipython Shell模式
+
+## 13.2 保存输出图形
+### 13.2.1 方法1：使用保存按钮进行存储
+### 13.2.2 方法2：通过执行代码语句进行保存
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+mpl.rcParams['axes.unicode_minus'] = False
+
+fig,ax1 = plt.subplots()
+# ax1 = plt.subplot()
+t = np.arange(0.05, 10.0, 0.01)
+s1 = np.exp(t)
+
+ax1.plot(t, s1, c='b', ls='-')
+
+# set x-axis label
+ax1.set_xlabel('x坐标轴')
+# make the y-axis label, ticks and tick labels match the line color
+ax1.set_ylabel('以e为底指数函数', c='b')
+ax1.tick_params('y', colors='b')
+
+# ax1 shares x-axis with ax2
+ax2 = ax1.twinx()
+s2 = np.cos(t**2)
+ax2.plot(t,s2,c='r',ls=':')
+# make the y-axis label and tick labels match the line color
+ax2.set_ylabel('余弦函数',c='r')
+ax2.tick_params('y', colors='r')
+
+plt.savefig("/Users/pain/desktop/a.pdf")    # 绝对路径
+
+plt.show()
+```
