@@ -3545,3 +3545,58 @@ ax.legend()
 plt.show()
 ```
 将`ColorBrewer Diverging`类型中的`RdYlBu`颜色映射表或是颜色模式，用`HTML十六进制字符串`进行描述，数据种类`data class`是9种，因此，列表`red_yellow_blue`中共存储9个HEX形式的字符串。通过散点图的形式将每种HEX字符串所表示的颜色进行展示，为了加以区分给每组散点图都添加标签进行注释，最后展示绘制结果。
+
+## 12.2 综合案例
+本节讲解颜色参数和颜色映射表的使用方法。
+### 12.2.1 案例1：模拟图的颜色使用模式
+函数`pcolor()`用来生成二位的模拟颜色图，通过在函数`pcolor()`中使用颜色映射表，可以生成多种颜色模式的二位模拟颜色图。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+rd = np.random.rand(10, 10) #10*10矩阵
+plt.pcolor(rd, cmap='BuPu')
+plt.colorbar()
+
+plt.show()
+```
+在函数`pcolor(rd,cmap="BuPu")`中，关键字参数`cmap`的参数值是`BuPu`，这个参数值是根据`ColorBrewer`的颜色界定的，使用的颜色映射表类型是`ColorBrewer Sequential`。
+
+参数rd是生成一个10行10列的数组，如图所示，出现10行10列的彩色格子阵，**每个颜色格子代表一个0到1之间的随机数**。为了清楚地标示每个格子所代表的具体随机数值的大小，在彩色格子阵的右侧添加了一个颜色标尺，这个颜色标尺是通过函数`colorbar()`绘制出来的，解释每个格子颜色所代表的实际数值。
+
+### 12.2.2 案例2：散点图的颜色使用模式
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
+a = np.random.randn(100)
+b = np.random.randn(100)
+exponent = 2
+
+plt.subplot(131)
+# colormap:jet
+plt.scatter(a, b, np.sqrt(np.power(a,exponent)+np.power(b,exponent))*100,
+            c=np.random.rand(100),
+            cmap=mpl.cm.jet,
+            marker='o',
+            zorder=1)
+
+plt.subplot(132)
+plt.scatter(a, b, 50, marker='o', zorder=10)
+
+plt.subplot(133)
+# colormap:BuPu
+plt.scatter(a, b, s=50,
+            c=np.random.rand(100),
+            cmap=mpl.cm.BuPu,
+            marker='+',
+            zorder=100)
+
+plt.show()
+```
+在子区1和子区3中，我们分别使用了颜色映射表`jet`和`BuPu`。这一次我们是通过调用matplotlib中的模块`cm`中的颜色映射表来实现图形的颜色渲染的。
+
+在子区1中，函数scatter()中使用了参数`c的n维数组`的模式，如果n维数组的元素是浮点数，那么n维数组就会被映射成相应的颜色，具体颜色模式是根据关键字参数`cmap`所使用的颜色映射表来决定的。因此，参数c和关键字参数cmap是相互配合使用的一组参数。
+
+另外，子区1中的标记大小是由参数a和参数b共同决定的，从而子区1中的散点图呈现出气泡图的视图效果。子区3中的标记大小是定值，标记大小都是相同的。子区2使用统一大小的蓝色标记呈现散点图。
