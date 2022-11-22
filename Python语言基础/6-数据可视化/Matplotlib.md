@@ -346,7 +346,7 @@ plt.plot(x, y, ls='--', lw=2, label='plot figure')
 ####
 # some clean up(remove chartjunk)
 # turn the top spine and the right spine off
-for spine in plt.gca().spines.keys() :
+for spine in plt.gca().spines.keys() :  # get_current_axes()
   if spine == 'top' or spine == 'right' :
     plt.gca().spines[spine].set_color('none')
 
